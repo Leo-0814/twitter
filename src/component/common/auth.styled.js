@@ -6,19 +6,15 @@ const StyledContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 65px;
+  margin: 65px auto;
+  width: 356px;
+  position: relative;
 `
 
 const StyledTitle = styled.h1`
   font-weight: 700;
   font-size: 28px;
   line-height: 26px;
-`
-
-const StyledAuthInputContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20px
 `
 
 const StyledAuthButton = styled.button`
@@ -32,6 +28,7 @@ const StyledAuthButton = styled.button`
   margin-top: 40px;
   font-size: 20px;
   font-weight: 400;
+  cursor: pointer;
 `
 const StyledLinkContainer = styled.div`
   display: flex;
@@ -41,7 +38,8 @@ const StyledLinkContainer = styled.div`
 const StyledLinkText = styled.div`
   font-weight: 400;
   line-height: 24px;
-  padding: 0 12px;
+  padding: 0px 12px;
+  color: rgba(0, 98, 255, 1);
 `
 
 const StyledLinkSpan = styled.span`
@@ -52,7 +50,6 @@ const StyledLinkSpan = styled.span`
 
 export {
   StyledContainer as AuthContainer,
-  StyledAuthInputContainer as AuthInputContainer,
   StyledAuthButton as AuthButton,
   StyledLinkContainer as AuthLinkContainer,
   StyledLinkText as AuthLinkText,

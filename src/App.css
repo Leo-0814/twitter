@@ -1,4 +1,22 @@
 html,
 body {
   font-family: "Lato", "Noto Sans TC", sans-serif;
+}
+
+input::-moz-placeholder {
+  color: rgb(181, 181, 190);
+}
+
+input::placeholder {
+  color: rgb(181, 181, 190);
+}
+
+a:visited {
+  color: rgb(0, 98, 255);
+}
+
+.login-linkContainer {
+  position: absolute;
+  right: 0px;
+  bottom: -50px;
 }/*# sourceMappingURL=App.css.map */
