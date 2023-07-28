@@ -1,6 +1,7 @@
 html,
 body {
   font-family: 'Lato', 'Noto Sans TC', sans-serif;
+  height: 100%;
 }
 
 input::placeholder {
@@ -11,8 +12,68 @@ a:visited {
   color: rgba(0, 98, 255, 1);
 }
 
+.authBtn {
+  margin-top: 40px;
+  font-size: 20px;
+  width: 356px;
+  height: 46px;
+}
+
 .login-linkContainer {
   position: absolute;
   right: 0px;
   bottom: -50px;
+}
+
+.mainContainer {
+  width: 80%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 178px 1fr 273px;
+  height: 100vh;
+
+  .leftContainer {
+    margin-top: 8px;
+    position: relative;
+    height: 100%;
+
+    .leftContainer-list {
+
+      .leftContainer-list-item {
+        display: flex;
+        margin: 32px 0;
+        cursor: pointer;
+
+        .leftContainer-list-icon {
+          width: 24px;
+          height: 24px;
+          padding: 0 10px;
+        }
+        .leftContainer-list-text {
+          font-size: 18px;
+          font-weight: 700;
+          line-height: 26px;
+        }
+      }
+      .leftContainer-list-postBtn {
+        width: 100%;
+        height: 46px;
+        font-size: 20px;
+        line-height: 30px;
+        font-weight: 400;
+      }
+      .leftContainer-list-logOut {
+        position: absolute;
+        bottom: 0;
+      }
+    }
+  }
+  .centerContainer {
+    border: 1px solid black;
+    margin: 0 20px;
+  }
+  .rightContainer {
+    margin-top: 8px;
+  }
+  
 }

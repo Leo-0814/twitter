@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 import AuthInput from '../component/AuthInput'
 import Logo from '../images/Logo.png'
-import { AuthButton, AuthContainer, AuthLinkContainer, AuthLinkText, AuthTitle } from '../component/common/auth.styled'
+import { AuthContainer, AuthLinkContainer, AuthLinkText, AuthTitle } from '../component/common/auth.styled'
 import { LogoIcon } from '../component/common/logo.styled'
+import Button from '../component/Button'
 
 
 const SignUpPage = () => {
@@ -26,7 +27,7 @@ const SignUpPage = () => {
           value='' name='prePassword' placeholder='請再次輸入密碼' label='密碼確認' type='number'
         />
 
-      <AuthButton>註冊</AuthButton>
+      <Button className='authBtn'>註冊</Button>
 
       <AuthLinkContainer>
         <Link to='/login'>
