@@ -2,6 +2,7 @@ html,
 body {
   font-family: 'Lato', 'Noto Sans TC', sans-serif;
   height: 100%;
+  overflow-y: hidden;
 }
 
 input::placeholder {
@@ -25,6 +26,7 @@ a:visited {
   bottom: -50px;
 }
 
+//Home頁
 .mainContainer {
   width: 80%;
   margin: 0 auto;
@@ -32,6 +34,7 @@ a:visited {
   grid-template-columns: 178px 1fr 273px;
   height: 100vh;
 
+  //左container
   .leftContainer {
     margin-top: 8px;
     position: relative;
@@ -68,9 +71,128 @@ a:visited {
       }
     }
   }
+
+  //中間container
   .centerContainer {
-    border: 1px solid black;
     margin: 0 20px;
+    padding-right: 30px;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100vh;
+    scroll-padding: 20px;
+
+    //卷軸底部
+    &::-webkit-scrollbar-track {
+      background-color: rgba(240, 240, 240, 1);
+    }
+
+    //卷軸整體
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    //卷軸本身
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(193, 193, 193, 1);
+      border-radius: 4px;
+    }
+
+    .centerContainer-title {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 26px;
+      padding: 24px;
+      padding-right: 0;
+      border: 1px solid rgba(230, 236, 240, 1);
+      width: 100%;
+    }
+    .centerContainer-posting {
+      display: flex;
+      align-items: center;
+      padding: 6px 5px 86px 19px;
+      border-left: 1px solid rgba(230, 236, 240, 1);
+      border-right: 1px solid rgba(230, 236, 240, 1);
+      border-bottom: 10px solid rgba(230, 236, 240, 1);
+      width: 100%;
+      position: relative;
+
+      .posting-content {
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 26px;
+        color: rgba(108, 117, 125, 1);
+      }
+      .posting-btn {
+        position: absolute;
+        bottom: 6px;
+        right: 24px;
+        width: 64.5px;
+        height: 40px;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        padding: 0;
+        cursor: pointer;
+      }
+    }
+    .centerContainer-post {
+
+      .post-card {
+        width: 100%;
+        padding: 6px 5px 6px 19px;
+        border-left: 1px solid rgba(230, 236, 240, 1);
+        border-right: 1px solid rgba(230, 236, 240, 1);
+        border-bottom: 1px solid rgba(230, 236, 240, 1);
+        display: flex;
+
+        .post-card-data {
+          margin-left: 3px;
+          margin-top: 5px;
+
+          .card-data-header {
+            display: flex;
+            align-items: center;
+        
+            .data-header-userName {
+              font-weight: 700;
+              font-size: 16px;
+              line-height: 26px;
+              margin-right: 5px;
+            }
+            .data-header-account, .data-header-dot, .data-header-time{
+              color: rgba(108, 117, 125, 1);
+              font-weight: 400;
+              font-size: 14px;
+              line-height: 22px;
+            }
+          }
+          .card-data-content {
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 26px;
+            margin: 5px 0;
+          }
+          .card-data-footer {
+            display: flex;
+            align-items: center;
+
+            .data-footer-item {
+              display: flex;
+              align-items: center;
+              margin-right: 30px;
+
+              .footer-item-icon {
+                width: 16px;
+                height: 16px;
+                margin-right: 3px;
+                cursor: pointer;
+              }
+            }
+          }
+        }
+      }
+    }
   }
   .rightContainer {
     margin-top: 8px;
