@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import AuthInput from '../component/AuthInput'
-import Logo from '../images/Logo.png'
+import logo from '../images/logo.png'
 import { AuthContainer, AuthLinkContainer, AuthLinkText, AuthTitle } from '../component/common/auth.styled'
 import { LogoIcon } from '../component/common/logo.styled'
 import Button from '../component/Button'
@@ -9,7 +9,7 @@ import Button from '../component/Button'
 const SignUpPage = () => {
   return (
     <AuthContainer>
-      <LogoIcon src={Logo} alt="logo"/>
+      <LogoIcon src={logo} alt="logo"/>
       <AuthTitle>建立你的帳號</AuthTitle>
         <AuthInput 
           value='' name='account' placeholder='請輸入帳號' label='帳號'

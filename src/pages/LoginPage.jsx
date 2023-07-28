@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import AuthInput from '../component/AuthInput'
-import logo from '../images/Logo.png'
+import logo from '../images/logo.png'
 import { AuthContainer, AuthLinkContainer, AuthLinkSpan, AuthLinkText, AuthTitle } from '../component/common/auth.styled'
 import { LogoIcon } from '../component/common/logo.styled'
 import Button from '../component/Button'

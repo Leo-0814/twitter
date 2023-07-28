@@ -1,8 +1,11 @@
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
   font-family: 'Lato', 'Noto Sans TC', sans-serif;
   height: 100%;
-  overflow-y: hidden;
 }
 
 input::placeholder {
@@ -28,7 +31,7 @@ a:visited {
 
 //Home頁
 .mainContainer {
-  width: 80%;
+  width: 1140px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 178px minmax(300px,1fr) 273px;
@@ -41,6 +44,9 @@ a:visited {
     height: 100%;
     margin-right: 20px;
 
+    .leftContainer-logo {
+      margin: 0 10px;
+    }
     .leftContainer-list {
 
       .leftContainer-list-item {
@@ -51,7 +57,7 @@ a:visited {
         .leftContainer-list-icon {
           width: 24px;
           height: 24px;
-          padding: 0 10px;
+          margin: 0 16px;
         }
         .leftContainer-list-text {
           font-size: 18px;
@@ -75,29 +81,25 @@ a:visited {
 
   //中間container
   .centerContainer {
-    padding-right: 30px;
-    width: 95%;
+    padding-right: 5px;
+    width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
     height: 100vh;
-    scroll-padding: 20px;
 
     //卷軸底部
     &::-webkit-scrollbar-track {
       background-color: rgba(240, 240, 240, 1);
     }
-
     //卷軸整體
     &::-webkit-scrollbar {
       width: 8px;
     }
-
     //卷軸本身
     &::-webkit-scrollbar-thumb {
       background-color: rgba(193, 193, 193, 1);
       border-radius: 4px;
     }
-
     .centerContainer-title {
       font-size: 24px;
       font-weight: 700;
@@ -140,72 +142,17 @@ a:visited {
         cursor: pointer;
       }
     }
-    .centerContainer-post {
-
-      .post-card {
-        width: 100%;
-        padding: 6px 5px 6px 19px;
-        border-left: 1px solid rgba(230, 236, 240, 1);
-        border-right: 1px solid rgba(230, 236, 240, 1);
-        border-bottom: 1px solid rgba(230, 236, 240, 1);
-        display: flex;
-
-        .post-card-data {
-          margin-left: 3px;
-          margin-top: 5px;
-
-          .card-data-header {
-            display: flex;
-            align-items: center;
-        
-            .data-header-userName {
-              font-weight: 700;
-              font-size: 16px;
-              line-height: 26px;
-              margin-right: 5px;
-            }
-            .data-header-account, .data-header-dot, .data-header-time{
-              color: rgba(108, 117, 125, 1);
-              font-weight: 400;
-              font-size: 14px;
-              line-height: 22px;
-            }
-          }
-          .card-data-content {
-            font-weight: 400;
-            font-size: 16px;
-            line-height: 26px;
-            margin: 5px 0;
-          }
-          .card-data-footer {
-            display: flex;
-            align-items: center;
-
-            .data-footer-item {
-              display: flex;
-              align-items: center;
-              margin-right: 30px;
-
-              .footer-item-icon {
-                width: 16px;
-                height: 16px;
-                margin-right: 3px;
-                cursor: pointer;
-              }
-            }
-          }
-        }
-      }
-    }
   }
 
   //右邊container
   .rightContainer {
     margin-top: 16px;
+    margin-left: 24px;
 
     .rightContainer-area {
       width: 100%;
       background-color: rgba(250, 250, 251, 1);
+      border-radius: 16px;
 
       .rightContainer-area-title {
         font-size: 24px;
@@ -246,5 +193,145 @@ a:visited {
       }
     }
   }
-  
+  //Information頁
+  .informationContainer {
+  width: 100%;
+
+    .informationContainer-header {
+      display: flex;
+      align-items: center;
+      border-left: 1px solid rgba(230, 236, 240, 1);
+      border-right: 1px solid rgba(230, 236, 240, 1);
+
+      .header-back {
+        width: 24px;
+        height: 24px;
+        margin: 0 24px;
+        cursor: pointer;
+      }
+      .header-content {
+        margin: 16px 0px;
+
+        .header-content-username {
+          font-weight: 700;
+          font-size: 18px;
+          line-height: 26px;
+        }
+        .header-content-postCount {
+          color: rgba(108, 117, 125, 1);
+          font-weight: 500;
+          font-size: 13px;
+          line-height: 12px;
+        }
+      }
+    }
+    .information-self {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border-left: 1px solid rgba(230, 236, 240, 1);
+      border-right: 1px solid rgba(230, 236, 240, 1);
+
+      .self-background {
+        width: 100%;
+        height: auto;
+      }
+      .self-photo {
+        width: 140px;
+        height: 140px;
+        position: absolute;
+        left: 16px;
+        top: 140px;
+      }
+      .self-btn {
+        position: absolute;
+        right: 16px;
+        top: 240px;
+      }
+      .self-content {
+        margin: 70px 16px 16px 16px;
+
+        .self-content-username {
+          font-weight: 700;
+          font-size: 18px;
+          line-height: 26px;
+        }
+        .self-content-account {
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 22px;
+          color: rgba(108, 117, 125, 1);
+        }
+        .self-content-text {
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 22px;
+        }
+        .self-content-footer {
+          display: flex;
+          align-items: center;
+
+          .content-footer-following {
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 22px;
+            margin-right: 16px;
+
+            .footer-following-span {
+              color: rgba(108, 117, 125, 1);
+            }
+          }
+        }
+      }
+    }
+    .information-content {
+      width: 100%;
+
+      .content-tabs {
+        display: flex;
+        align-items: center;
+        border-left: 1px solid rgba(230, 236, 240, 1);
+        border-right: 1px solid rgba(230, 236, 240, 1);
+        border-bottom: 1px solid rgba(230, 236, 240, 1);
+
+        .content-tab {
+          width: 130px;
+          height: 52px;
+          text-align: center;
+          font-weight: 700;
+          font-size: 15px;
+          line-height: 52px;
+          color: rgba(101, 119, 134, 1);
+          
+          cursor: pointer;
+        }
+        .content-tab-active {
+          color: rgba(255, 102, 0, 1);
+          border-bottom: 2px solid rgba(255, 102, 0, 1);
+        }
+      }
+      .content-post {
+        overflow-y: auto;
+        overflow-x: hidden;
+        height: 400px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .mainContainer {
+    width: 960px;
+
+    .informationContainer {
+
+      .information-content {
+        
+        .content-post {
+          height: 450px;
+        }
+      }
+    }
+  }
 }
