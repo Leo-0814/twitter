@@ -1,11 +1,12 @@
 import AuthInput from "../component/AuthInput"
 import Button from "../component/Button"
 import LeftContainer from "../component/LeftContainer"
+import settingActive from '../images/_base/settingActive.png'
 
 const SettingPage = () => {
   return (
     <div className="mainContainer">
-      <LeftContainer></LeftContainer>
+      <LeftContainer setting={settingActive}></LeftContainer>
         <div className="settingContainer">
           <div className="setting-title">帳戶設定</div>
           <div className="setting-form">

@@ -30,7 +30,7 @@ const StyledInput = styled.input`
 const AuthInput = ({type, name, value, placeholder, label, className, onChange}) => {
   return (
     <StyledContainer>
-      <StyledLabel for={name}>{label}</StyledLabel>
+      <StyledLabel htmlFor={name}>{label}</StyledLabel>
       <StyledInput id={name} type={type || 'text'} value={value} placeholder={placeholder || ''} className={className} onChange={(e) => onChange?.(e.target.value)} />
     </StyledContainer>
   )

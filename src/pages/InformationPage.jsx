@@ -5,11 +5,12 @@ import RightContainer from "../component/RightContainer"
 import leftArrow from '../images/_base/leftArrow.png'
 import photo from '../images/photo.png'
 import background from '../images/background.png'
+import informationActive from '../images/_base/informationActive.png'
 
 const InformationPage = () => {
   return (
     <div className="mainContainer">
-      <LeftContainer></LeftContainer>
+      <LeftContainer information={informationActive}></LeftContainer>
 
       <div className="informationContainer">
         <div className="informationContainer-header">
@@ -20,9 +21,11 @@ const InformationPage = () => {
           </div>
         </div>
         <div className="information-self">
-          <img src={background} alt="background" className="self-background" />
-          <img src={photo} alt="photo1" className="self-photo" />
-          <ButtonHollow className='self-btn'>編輯個人資料</ButtonHollow>
+          <div className="self-q">
+            <img src={background} alt="background" className="self-background" />
+            <img src={photo} alt="photo1" className="self-photo" />
+            <ButtonHollow className='self-btn'>編輯個人資料</ButtonHollow>
+          </div>
           <div className="self-content">
             <div className="self-content-username">John Doe</div>
             <div className="self-content-account">@heyjohn</div>

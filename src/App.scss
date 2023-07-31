@@ -6,10 +6,15 @@ html,
 body {
   font-family: 'Lato', 'Noto Sans TC', sans-serif;
   height: 100%;
+  overflow: hidden;
 }
 
 input::placeholder {
   color: rgba(181, 181, 190, 1)
+}
+
+textarea::placeholder {
+  color: rgba(108, 117, 125, 1)
 }
 
 a:visited {
@@ -35,11 +40,12 @@ a:visited {
 
 //Home頁
 .mainContainer {
-  width: 1140px;
+  width: 80%;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 178px minmax(300px,1fr) 273px;
   height: 100vh;
+  position: relative;
 
   //左container
   .leftContainer {
@@ -236,26 +242,36 @@ a:visited {
       width: 100%;
       display: flex;
       flex-direction: column;
-      position: relative;
+      
       border-left: 1px solid rgba(230, 236, 240, 1);
       border-right: 1px solid rgba(230, 236, 240, 1);
 
-      .self-background {
-        width: 100%;
-        height: auto;
+      .self-q {
+        position: relative;
+
+        .self-background {
+          width: 100%;
+          height: auto;
+        }
+      
+        .self-photo {
+          width: 140px;
+          height: 140px;
+          position: absolute;
+          left: 16px;
+          bottom: -60px;
+        }
+      
+        .self-btn {
+          width: 128px;
+          height: 40px;
+          padding: 0;
+          position: absolute;
+          right: 16px;
+          bottom: -60px;
+        }
       }
-      .self-photo {
-        width: 140px;
-        height: 140px;
-        position: absolute;
-        left: 16px;
-        top: 140px;
-      }
-      .self-btn {
-        position: absolute;
-        right: 16px;
-        top: 240px;
-      }
+      
       .self-content {
         margin: 70px 16px 16px 16px;
 
@@ -356,21 +372,61 @@ a:visited {
   }
 }
 
+//Modal
+.modalContainer {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  .modal {
+    // display: none;
+    width: 634px;
+    height: 300px;
+    border-radius: 14px;
+    position: absolute;
+    top: 56px;
+    left: 336px;
+    background-color: white;
+
+    .modal-cancel {
+      width: 24px;
+      height: 24px;
+      margin: 16px;
+    }
+    .modal-posting {
+      border-top: 1px solid rgba(230, 236, 240, 1);
+      padding: 6px 24px;
+
+      .modal-posting-content {
+        border: none;
+        resize: none;
+      }
+      .modal-posting-btn {
+        position: absolute;
+        bottom: 16px;
+        right: 16px;
+        width: 64px;
+        height: 40px;
+        padding: 0;
+        font-weight: 400;
+        line-height: 24px;
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+
+
+
 @media screen and (max-width: 1200px) {
   .mainContainer {
-    width: 960px;
 
     .informationContainer {
 
-      .information-self {
-
-        .self-photo {
-          top: 80px;
-        }
-        .self-btn {
-          top: 180px
-        }
-      }
       .information-content {
         
         .content-post {

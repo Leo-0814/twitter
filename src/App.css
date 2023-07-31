@@ -6,6 +6,7 @@ html,
 body {
   font-family: "Lato", "Noto Sans TC", sans-serif;
   height: 100%;
+  overflow: hidden;
 }
 
 input::-moz-placeholder {
@@ -14,6 +15,14 @@ input::-moz-placeholder {
 
 input::placeholder {
   color: rgb(181, 181, 190);
+}
+
+textarea::-moz-placeholder {
+  color: rgb(108, 117, 125);
+}
+
+textarea::placeholder {
+  color: rgb(108, 117, 125);
 }
 
 a:visited {
@@ -38,11 +47,12 @@ a:visited {
 }
 
 .mainContainer {
-  width: 1140px;
+  width: 80%;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 178px minmax(300px, 1fr) 273px;
   height: 100vh;
+  position: relative;
 }
 .mainContainer .leftContainer {
   margin-top: 8px;
@@ -217,25 +227,30 @@ a:visited {
   width: 100%;
   display: flex;
   flex-direction: column;
-  position: relative;
   border-left: 1px solid rgb(230, 236, 240);
   border-right: 1px solid rgb(230, 236, 240);
 }
-.mainContainer .informationContainer .information-self .self-background {
+.mainContainer .informationContainer .information-self .self-q {
+  position: relative;
+}
+.mainContainer .informationContainer .information-self .self-q .self-background {
   width: 100%;
   height: auto;
 }
-.mainContainer .informationContainer .information-self .self-photo {
+.mainContainer .informationContainer .information-self .self-q .self-photo {
   width: 140px;
   height: 140px;
   position: absolute;
   left: 16px;
-  top: 140px;
+  bottom: -60px;
 }
-.mainContainer .informationContainer .information-self .self-btn {
+.mainContainer .informationContainer .information-self .self-q .self-btn {
+  width: 128px;
+  height: 40px;
+  padding: 0;
   position: absolute;
   right: 16px;
-  top: 240px;
+  bottom: -60px;
 }
 .mainContainer .informationContainer .information-self .self-content {
   margin: 70px 16px 16px 16px;
@@ -325,16 +340,49 @@ a:visited {
   line-height: 30px;
 }
 
+.modalContainer {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.modalContainer .modal {
+  width: 634px;
+  height: 300px;
+  border-radius: 14px;
+  position: absolute;
+  top: 56px;
+  left: 336px;
+  background-color: white;
+}
+.modalContainer .modal .modal-cancel {
+  width: 24px;
+  height: 24px;
+  margin: 16px;
+}
+.modalContainer .modal .modal-posting {
+  border-top: 1px solid rgb(230, 236, 240);
+  padding: 6px 24px;
+}
+.modalContainer .modal .modal-posting .modal-posting-content {
+  border: none;
+  resize: none;
+}
+.modalContainer .modal .modal-posting .modal-posting-btn {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  width: 64px;
+  height: 40px;
+  padding: 0;
+  font-weight: 400;
+  line-height: 24px;
+  font-size: 16px;
+}
+
 @media screen and (max-width: 1200px) {
-  .mainContainer {
-    width: 960px;
-  }
-  .mainContainer .informationContainer .information-self .self-photo {
-    top: 80px;
-  }
-  .mainContainer .informationContainer .information-self .self-btn {
-    top: 180px;
-  }
   .mainContainer .informationContainer .information-content .content-post {
     height: 450px;
   }

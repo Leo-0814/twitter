@@ -6,6 +6,7 @@ import { Link } from "react-router-dom"
 import baseHome from '../images/_base/home.png'
 import baseInformation from '../images/_base/information.png'
 import baseSetting from '../images/_base/setting.png'
+import { clsx } from "clsx"
 
 const LeftContainer = ({home, information, setting}) => {
   return (
@@ -14,15 +15,15 @@ const LeftContainer = ({home, information, setting}) => {
       <div className="leftContainer-list">
         <Link to='/home'className="leftContainer-list-item">
           <img src={home || baseHome} alt="home" className="leftContainer-list-icon" />
-          <div className={{home}?"leftContainer-list-text active" : 'leftContainer-list-text'}>首頁</div>
+          <div className={clsx('leftContainer-list-text', { active: home })}>首頁</div>
         </Link>
         <Link to='/information' className="leftContainer-list-item">
           <img src={information || baseInformation} alt="information" className="leftContainer-list-icon" />
-          <div className={{information}?"leftContainer-list-text active" : 'leftContainer-list-text'}>個人資料</div>
+          <div className={clsx('leftContainer-list-text', { active: information })}>個人資料</div>
         </Link>
         <Link to='/setting' className="leftContainer-list-item">
           <img src={setting || baseSetting} alt="setting" className="leftContainer-list-icon" />
-          <div className={{setting}?"leftContainer-list-text active" : 'leftContainer-list-text'}>設定</div>
+          <div className={clsx('leftContainer-list-text', { active: setting })}>設定</div>
         </Link>
         <Button className="leftContainer-list-postBtn">推文</Button>
 
