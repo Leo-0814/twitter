@@ -68,6 +68,9 @@ a:visited {
   font-weight: 700;
   line-height: 26px;
 }
+.mainContainer .leftContainer .leftContainer-list .leftContainer-list-item .active {
+  color: rgb(255, 102, 0);
+}
 .mainContainer .leftContainer .leftContainer-list .leftContainer-list-postBtn {
   width: 100%;
   height: 46px;
@@ -328,6 +331,9 @@ a:visited {
   }
   .mainContainer .informationContainer .information-self .self-photo {
     top: 80px;
+  }
+  .mainContainer .informationContainer .information-self .self-btn {
+    top: 180px;
   }
   .mainContainer .informationContainer .information-content .content-post {
     height: 450px;

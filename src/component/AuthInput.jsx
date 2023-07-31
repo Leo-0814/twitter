@@ -27,11 +27,11 @@ const StyledInput = styled.input`
   font-weight: 400;
 `
 
-const AuthInput = ({type, name, value, placeholder, label, className}) => {
+const AuthInput = ({type, name, value, placeholder, label, className, onChange}) => {
   return (
     <StyledContainer>
       <StyledLabel for={name}>{label}</StyledLabel>
-      <StyledInput id={name} type={type || 'text'} value={value} placeholder={placeholder || ''} className={className} />
+      <StyledInput id={name} type={type || 'text'} value={value} placeholder={placeholder || ''} className={className} onChange={(e) => onChange?.(e.target.value)} />
     </StyledContainer>
   )
 }

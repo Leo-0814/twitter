@@ -68,6 +68,9 @@ a:visited {
           font-weight: 700;
           line-height: 26px;
         }
+        .active {
+          color: rgba(255, 102, 0, 1)
+        }
       }
       .leftContainer-list-postBtn {
         width: 100%;
@@ -363,6 +366,9 @@ a:visited {
 
         .self-photo {
           top: 80px;
+        }
+        .self-btn {
+          top: 180px
         }
       }
       .information-content {

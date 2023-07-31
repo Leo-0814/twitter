@@ -4,18 +4,22 @@ import logo from '../images/logo.png'
 import { AuthContainer, AuthLinkContainer, AuthLinkSpan, AuthLinkText, AuthTitle } from '../component/common/auth.styled'
 import { LogoIcon } from '../component/common/logo.styled'
 import Button from '../component/Button'
+import { useState } from 'react'
 
 
 const LoginPage = () => {
+  const [account, setAccount] = useState('')
+  const [password, setPassword] = useState('')
+
   return (
     <AuthContainer>
       <LogoIcon src={logo} alt="logo"/>
       <AuthTitle>登入 Alphitter</AuthTitle>
         <AuthInput 
-          value='' name='account' placeholder='請輸入帳號' label='帳號' className='authInput' 
+          value={account} name='account' placeholder='請輸入帳號' label='帳號' className='authInput' onChange={(accountInputValue) => setAccount(accountInputValue)}
         />
         <AuthInput 
-          value='' name='password' placeholder='請輸入密碼' label='密碼' type='number' className='authInput' 
+          value={password} name='password' placeholder='請輸入密碼' label='密碼' type='number' className='authInput' onChange={(passwordInputValue) => setPassword(passwordInputValue)}
         />
 
       <Button className='authBtn'>登入</Button>

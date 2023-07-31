@@ -4,11 +4,12 @@ import Button from '../component/Button'
 import LeftContainer from '../component/LeftContainer'
 import RightContainer from '../component/RightContainer'
 import PostCard from '../component/PostCard'
+import homeActive from '../images/_base/homeActive.png'
 
 const HomePage = () => {
   return (
     <div className="mainContainer">
-      <LeftContainer></LeftContainer>
+      <LeftContainer home={homeActive} >'</LeftContainer>
 
       <div className="centerContainer">
         <div className="centerContainer-title">首頁</div>
