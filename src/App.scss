@@ -23,6 +23,10 @@ a:visited {
   height: 46px;
 }
 
+.authInput {
+  width: 356px;
+}
+
 .login-linkContainer {
   position: absolute;
   right: 0px;
@@ -195,7 +199,7 @@ a:visited {
   }
   //Information頁
   .informationContainer {
-  width: 100%;
+    width: 100%;
 
     .informationContainer-header {
       display: flex;
@@ -318,6 +322,35 @@ a:visited {
       }
     }
   }
+
+  //Setting頁
+  .settingContainer {
+    width: 100%;
+    border-left: 1px solid rgba(230, 236, 240, 1);
+    border-right: 1px solid rgba(230, 236, 240, 1);
+    position: relative;
+
+    .setting-title {
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 26px;
+      padding: 24px;
+      border-bottom: 1px solid rgba(230, 236, 240, 1);
+    }
+    .setting-form {
+      padding: 0 24px;
+    }
+    .settingBtn {
+      width: 88px;
+      height: 46px;
+      margin-top: 36px;
+      position: absolute;
+      right: 24px;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 30px;
+    }
+  }
 }
 
 @media screen and (max-width: 1200px) {
@@ -326,6 +359,12 @@ a:visited {
 
     .informationContainer {
 
+      .information-self {
+
+        .self-photo {
+          top: 80px;
+        }
+      }
       .information-content {
         
         .content-post {

@@ -12,19 +12,19 @@ const SignUpPage = () => {
       <LogoIcon src={logo} alt="logo"/>
       <AuthTitle>建立你的帳號</AuthTitle>
         <AuthInput 
-          value='' name='account' placeholder='請輸入帳號' label='帳號'
+          value='' name='account' placeholder='請輸入帳號' label='帳號' className='authInput' 
         />
         <AuthInput 
-          value='' name='username' placeholder='請輸入使用者名稱' label='名稱'
+          value='' name='username' placeholder='請輸入使用者名稱' label='名稱' className='authInput' 
         />
         <AuthInput 
-          value='' name='email' placeholder='請輸入Email' label='Email' type='email'
+          value='' name='email' placeholder='請輸入Email' label='Email' type='email' className='authInput' 
         />
         <AuthInput 
-          value='' name='password' placeholder='請設定密碼' label='密碼' type='number'
+          value='' name='password' placeholder='請設定密碼' label='密碼' type='number' className='authInput' 
         />
         <AuthInput 
-          value='' name='prePassword' placeholder='請再次輸入密碼' label='密碼確認' type='number'
+          value='' name='prePassword' placeholder='請再次輸入密碼' label='密碼確認' type='number' className='authInput' 
         />
 
       <Button className='authBtn'>註冊</Button>

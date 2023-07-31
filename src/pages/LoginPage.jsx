@@ -12,10 +12,10 @@ const LoginPage = () => {
       <LogoIcon src={logo} alt="logo"/>
       <AuthTitle>登入 Alphitter</AuthTitle>
         <AuthInput 
-          value='' name='account' placeholder='請輸入帳號' label='帳號'  
+          value='' name='account' placeholder='請輸入帳號' label='帳號' className='authInput' 
         />
         <AuthInput 
-          value='' name='password' placeholder='請輸入密碼' label='密碼' type='number' 
+          value='' name='password' placeholder='請輸入密碼' label='密碼' type='number' className='authInput' 
         />
 
       <Button className='authBtn'>登入</Button>
@@ -27,6 +27,9 @@ const LoginPage = () => {
         <AuthLinkSpan >． </AuthLinkSpan>
         <Link to='/admin'>
           <AuthLinkText>後台登入</AuthLinkText>
+        </Link>
+        <Link to='/home'>
+          <AuthLinkText>進入主頁(以後要拔除)</AuthLinkText>
         </Link>
       </AuthLinkContainer>
     </AuthContainer>

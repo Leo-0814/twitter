@@ -16,7 +16,6 @@ const StyledLabel = styled.label`
 `
 
 const StyledInput = styled.input`
-  width: 356px;
   height: 30px;
   border-radius: 0px 0px 4px 4px;
   background-color: rgba(245, 248, 250, 1);
@@ -28,11 +27,11 @@ const StyledInput = styled.input`
   font-weight: 400;
 `
 
-const AuthInput = ({type, name, value, placeholder, label}) => {
+const AuthInput = ({type, name, value, placeholder, label, className}) => {
   return (
     <StyledContainer>
       <StyledLabel for={name}>{label}</StyledLabel>
-      <StyledInput id={name} type={type || 'text'} value={value} placeholder={placeholder || ''}/>
+      <StyledInput id={name} type={type || 'text'} value={value} placeholder={placeholder || ''} className={className} />
     </StyledContainer>
   )
 }
