@@ -13,8 +13,14 @@ input::placeholder {
   color: rgba(181, 181, 190, 1)
 }
 
-textarea::placeholder {
-  color: rgba(108, 117, 125, 1)
+textarea {
+  border: none;
+  resize: none;
+  outline: none;
+
+  &::placeholder {
+    color: rgba(108, 117, 125, 1)
+  }
 }
 
 a:visited {
@@ -43,7 +49,7 @@ a:visited {
   width: 80%;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 178px minmax(300px,1fr) 273px;
+  grid-template-columns: 178px minmax(400px,1fr) 273px;
   height: 100vh;
 
   //左container
@@ -124,8 +130,8 @@ a:visited {
     }
     .centerContainer-posting {
       display: flex;
-      align-items: center;
-      padding: 6px 5px 86px 19px;
+      align-items: start;
+      padding: 6px 5px 60px 19px;
       border-left: 1px solid rgba(230, 236, 240, 1);
       border-right: 1px solid rgba(230, 236, 240, 1);
       border-bottom: 10px solid rgba(230, 236, 240, 1);
@@ -135,12 +141,12 @@ a:visited {
       .posting-img {
        margin-top: 5px; 
       }
-      .posting-content {
+      .posting-textarea {
         font-weight: 700;
         font-size: 18px;
         line-height: 26px;
         color: rgba(108, 117, 125, 1);
-        padding-top: 10px;
+        margin-top: 16px;
       }
       .posting-btn {
         position: absolute;
@@ -154,6 +160,120 @@ a:visited {
         padding: 0;
         cursor: pointer;
       }
+    }
+    &.reply {
+      display: none;
+    }
+  }
+  
+  .replyListContainer {
+    border: 1px solid rgba(230, 236, 240, 1);
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+
+    .replyList-header {
+      display: flex;
+      align-content: center;
+      padding: 24px;
+      border-bottom: 1px solid rgba(230, 236, 240, 1);
+
+      .replyList-header-back {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+      }
+      .replyList-header-title {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 26px;
+        margin-left: 10px;
+      }
+    }
+    .replyList-content {
+      margin: 10px;
+      border-bottom: 1px solid rgba(230, 236, 240, 1);
+      // max-height: 100px;
+
+      .replyList-content-header {
+        display: flex;
+        align-items: center;
+
+        .content-header-data {
+          margin-left: 3px;
+
+          .header-data-username {
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 26px;
+          }
+          .header-data-account {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 22px;
+            color: rgba(108, 117, 125, 1);
+          }
+        }
+      }
+      .replyList-content-text {
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 36px;
+        margin: 5px;
+      }
+      .replyList-content-footer {
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 22px;
+        margin: 5px;
+        color: rgba(108, 117, 125, 1);
+      }
+    }
+    .replyList-actionCount {
+      display: flex;
+      align-content: center;
+      border-bottom: 1px solid rgba(230, 236, 240, 1);
+      margin: 10px;
+      padding-bottom: 10px;
+
+      .replyList-actionCount-item {
+        font-size: 19px;
+        margin: 5px;
+
+        .actionCount-item-count {
+          font-weight: 700;
+          line-height: 23px;
+
+          .actionCount-item-span {
+            font-weight: 400;
+            line-height: 27.5px;
+            color: rgba(108, 117, 125, 1);
+            margin-left: 3px;
+          }
+        }
+      }
+    }
+    .replyList-action {
+      padding: 0 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(230, 236, 240, 1);
+      display: flex;
+      align-items: center;
+
+      .replyList-action-icon {
+        width: 30px;
+        height: 30px;
+        margin: 5px;
+        margin-right: 100px;
+        cursor: pointer;
+      }
+    }
+    .replyList-reply {
+      overflow-y: auto;
+    }
+    &.reply {
+      display: flex;
     }
   }
 

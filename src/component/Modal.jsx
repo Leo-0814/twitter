@@ -37,6 +37,11 @@ const StyledModalContainer = styled.div`
       height: 24px;
       margin: 16px;
       cursor: pointer;
+      opacity: .5;
+
+      &:hover {
+        opacity: 1;
+      }
     }
 
     .modal-posting {
@@ -46,8 +51,6 @@ const StyledModalContainer = styled.div`
       align-items: start;
 
       .modal-posting-textarea {
-        border: none;
-        resize: none;
         margin-top: 10px;
         font-size: 16px;
         font-weight: 400;
@@ -57,10 +60,6 @@ const StyledModalContainer = styled.div`
           font-size: 16px;
           font-weight: 400;
           line-height: 26px;
-        }
-
-        &:focus {
-          outline: none;
         }
       }
 
@@ -82,11 +81,11 @@ const StyledModalContainer = styled.div`
   }
 `
 
-const Modal = ({active, onCancel}) => {
+const Modal = ({active, onClickModalCancel, children}) => {
   return (
     <StyledModalContainer>
       <div className={clsx('modal', { active: active })}>
-        <img src={modalCancel} alt='modalCancel' className="modal-cancel" onClick={() => onCancel?.()}/>
+        <img src={modalCancel} alt='modalCancel' className="modal-cancel" onClick={() => onClickModalCancel?.()}/>
         <div className="modal-posting">
             <LogoIcon src={logo} alt="logo" className="modal-posting-img" />
             <textarea rows='6' cols='100' className="modal-posting-textarea" placeholder='有什麼新鮮事?'></textarea>
