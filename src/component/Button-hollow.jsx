@@ -8,6 +8,11 @@ const StyledButtonHollow = styled.button`
   cursor: pointer;
   border: 1px solid rgba(255, 102, 0, 1);
   background-color: rgba(255, 255, 255, 1);
+
+  &:hover {
+    border: 1px solid rgba(255, 102, 0, .6);
+    color: rgba(255, 102, 0, .8);
+  }
 `
 
 const ButtonHollow = ({children, className}) => {

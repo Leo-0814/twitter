@@ -25,6 +25,10 @@ const StyledInput = styled.input`
   font-size: 16px;
   line-height: 26px;
   font-weight: 400;
+
+  &:focus {
+    outline: none;
+  }
 `
 
 const AuthInput = ({type, name, value, placeholder, label, className, onChange}) => {

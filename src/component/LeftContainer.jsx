@@ -8,7 +8,7 @@ import baseInformation from '../images/_base/information.png'
 import baseSetting from '../images/_base/setting.png'
 import { clsx } from "clsx"
 
-const LeftContainer = ({home, information, setting}) => {
+const LeftContainer = ({home, information, setting, onClick}) => {
   return (
     <div className="leftContainer">
       <LogoIcon src={logo} alt="" className="leftContainer-logo" />
@@ -25,7 +25,7 @@ const LeftContainer = ({home, information, setting}) => {
           <img src={setting || baseSetting} alt="setting" className="leftContainer-list-icon" />
           <div className={clsx('leftContainer-list-text', { active: setting })}>設定</div>
         </Link>
-        <Button className="leftContainer-list-postBtn">推文</Button>
+        <Button className="leftContainer-list-postBtn" onClick={() => onClick?.()}>推文</Button>
 
         {/* 登出以後要改回來 */}
         <Link to='/login' className="leftContainer-list-item leftContainer-list-logOut">

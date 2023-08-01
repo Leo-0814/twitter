@@ -7,11 +7,15 @@ const StyledButton = styled.button`
   color: white;
   border: none;
   cursor: pointer;
+
+  &:hover {
+    background-color: rgba(255, 102, 0, .9);
+  }
 `
 
-const Button = ({children, className}) => {
+const Button = ({children, className, onClick}) => {
   return (
-    <StyledButton className={className}>
+    <StyledButton className={className} onClick={() => onClick?.()}>
       {children}
     </StyledButton>
   )

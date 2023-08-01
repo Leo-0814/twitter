@@ -45,7 +45,6 @@ a:visited {
   display: grid;
   grid-template-columns: 178px minmax(300px,1fr) 273px;
   height: 100vh;
-  position: relative;
 
   //左container
   .leftContainer {
@@ -97,8 +96,9 @@ a:visited {
     padding-right: 5px;
     width: 100%;
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
     height: 100vh;
+    position: relative;
 
     //卷軸底部
     &::-webkit-scrollbar-track {
@@ -372,52 +372,10 @@ a:visited {
   }
 }
 
-//Modal
-.modalContainer {
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.3);
-  position: absolute;
-  top: 0;
-  left: 0;
 
-  .modal {
-    // display: none;
-    width: 634px;
-    height: 300px;
-    border-radius: 14px;
-    position: absolute;
-    top: 56px;
-    left: 336px;
-    background-color: white;
 
-    .modal-cancel {
-      width: 24px;
-      height: 24px;
-      margin: 16px;
-    }
-    .modal-posting {
-      border-top: 1px solid rgba(230, 236, 240, 1);
-      padding: 6px 24px;
 
-      .modal-posting-content {
-        border: none;
-        resize: none;
-      }
-      .modal-posting-btn {
-        position: absolute;
-        bottom: 16px;
-        right: 16px;
-        width: 64px;
-        height: 40px;
-        padding: 0;
-        font-weight: 400;
-        line-height: 24px;
-        font-size: 16px;
-      }
-    }
-  }
-}
+
 
 
 
