@@ -4,7 +4,7 @@ import { styled } from 'styled-components'
 
 const StyledReplyCard = styled.div`
   width: 100%;
-  padding: 6px 5px 6px 19px;
+  padding: 6px 5px 6px 24px;
   border-bottom: 1px solid rgba(230, 236, 240, 1);
   display: flex;
 
@@ -48,7 +48,7 @@ const StyledReplyCard = styled.div`
       font-weight: 400;
       line-height: 22px;
       color: rgba(108, 117, 125, 1);
-      margin: 3px 0;
+      margin: 5px 0;
 
       .data-target-span {
         color: rgba(255, 102, 0, 1);
@@ -66,22 +66,40 @@ const StyledReplyCard = styled.div`
 `
 
 
-const ReplyCard = () => {
-  return (
-    <StyledReplyCard>
-      <LogoIcon src={logo} alt="" />
-      <div className='reply-card-data' >
-        <div className='card-data-header' >
-          <div className='data-header-username' >Devon Lane</div>
-          <div className='data-header-account' >@devon_lane</div>
-          <span className='data-header-dot'>．</span>
-          <div className='data-header-time'>3小時</div>
+const ReplyCard = ({type, className}) => {
+  if (type === 'typeA') {
+    return (
+      <StyledReplyCard className={className}>
+        <LogoIcon src={logo} alt="" />
+        <div className='reply-card-data' >
+          <div className='card-data-header' >
+            <div className='data-header-username' >Devon Lane</div>
+            <div className='data-header-account' >@devon_lane</div>
+            <span className='data-header-dot'>．</span>
+            <div className='data-header-time'>3小時</div>
+          </div>
+          <div className="card-data-target">回覆<span className='data-target-span'>@apply</span></div>
+          <div className='card-data-content' >Lorem Ipsum is simply dummy text of the printing and typesetting industry. </div>
         </div>
-        <div className="card-data-target">回覆<span className='data-target-span'>@apply</span></div>
-        <div className='card-data-content' >Lorem Ipsum is simply dummy text of the printing and typesetting industry. </div>
-      </div>
-    </StyledReplyCard>
-  )
+      </StyledReplyCard>
+    )
+  } else {
+    return (
+      <StyledReplyCard className={className}>
+        <LogoIcon src={logo} alt="" />
+        <div className='reply-card-data' >
+          <div className='card-data-header' >
+            <div className='data-header-username' >Devon Lane</div>
+            <div className='data-header-account' >@devon_lane</div>
+            <span className='data-header-dot'>．</span>
+            <div className='data-header-time'>3小時</div>
+          </div>
+          <div className='card-data-content' >Lorem Ipsum is simply dummy text of the printing and typesetting industry. </div>
+          <div className="card-data-target">回覆給<span className='data-target-span'>@apply</span></div>
+        </div>
+      </StyledReplyCard>
+    )
+  }
 }
 
 export default ReplyCard

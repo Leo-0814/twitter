@@ -145,7 +145,6 @@ a:visited {
         font-weight: 700;
         font-size: 18px;
         line-height: 26px;
-        color: rgba(108, 117, 125, 1);
         margin-top: 16px;
       }
       .posting-btn {
@@ -161,17 +160,42 @@ a:visited {
         cursor: pointer;
       }
     }
+    .centerContainer-posting-modal {
+      width: 100%;
+      height: 300px;
+
+      .posting-modal-content {
+        padding: 6px 6px;
+        display: flex;
+        align-items: start;
+    
+        .modal-content-textarea {
+          margin-top: 10px;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 26px;
+    
+          &::placeholder {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 26px;
+          }
+        }
+      }
+    }
     &.reply {
       display: none;
     }
   }
   
+  //Home頁回覆列表
   .replyListContainer {
     border: 1px solid rgba(230, 236, 240, 1);
     display: none;
     flex-direction: column;
     width: 100%;
     height: 100vh;
+    position: relative;
 
     .replyList-header {
       display: flex;
@@ -272,6 +296,69 @@ a:visited {
     .replyList-reply {
       overflow-y: auto;
     }
+    .replyList-posting-modal {
+      width: 100%;
+      height: 300px;
+
+      .posting-modal-content {
+        padding: 6px 6px;
+        display: flex;
+        align-items: start;
+
+        .modal-content-textarea {
+          margin-top: 10px;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 26px;
+
+          &::placeholder {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 26px;
+            color: #9197A3;
+          }
+        }
+      }
+    }
+    .replyList-reply-modal {
+      width: 100%;
+      height: 500px;
+
+      .reply-modal-replyCard {
+        border-bottom: none;
+        height: auto;
+      }
+      .reply-modal-ownReply {
+        padding: 6px 24px;
+        display: flex;
+        align-items: start;
+
+        &::before {
+          content: '';
+          width: 2px;
+          height: 40px;
+          background-color: #B5B5BE;
+          position: absolute;
+          left: 48px;
+          top: 130px;
+        }
+
+        .modal-ownReply-textarea {
+          margin-top: 10px;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 26px;
+
+          &::placeholder {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 26px;
+            color: #6C757D;
+          }
+        }
+      }
+    }
+
     &.reply {
       display: flex;
     }
