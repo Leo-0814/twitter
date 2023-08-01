@@ -1,6 +1,4 @@
 import logo from '../images/logo.png'
-import reply from '../images/_base/reply.png'
-import like from '../images/_base/like.png'
 import { LogoIcon } from "./common/logo.styled"
 import { styled } from 'styled-components'
 
