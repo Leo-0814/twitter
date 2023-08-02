@@ -16,15 +16,19 @@ import reply from '../images/_base/reply.png'
 import like from '../images/_base/like.png'
 import ReplyCard from "../component/ReplyCard"
 import AuthInput from "../component/AuthInput"
+import FollowCard from "../component/FollowCard"
 
 const InformationPage = () => {
   const [postingModal, setPostingModal] = useState(false)
   const [replyPage, setReplyPage] = useState(false)
+  const [followPage, setFollowPage] = useState(false)
   const [replyModal, setReplyModal] = useState(false)
   const [editInfoModal, setEditInfoModal] = useState(false)
-  const [tabControl, setTabControl] = useState(0)
-  const [username, setUsername] =useState('John Doe')
-  const [introduction, setIntroduction] =useState('')
+  const [infoTabControl, setInfoTabControl] = useState(0)
+  const [followTabControl, setFollowTabControl] = useState(0)
+  const [username, setUsername] = useState('John Doe')
+  const [introduction, setIntroduction] = useState('')
+  const [isFollow, setIsFollow] = useState(false)
   
   return (
     <>
@@ -32,7 +36,7 @@ const InformationPage = () => {
         <LeftContainer information={informationActive} onClickPost={() => setPostingModal(true)}></LeftContainer>
 
         {/* informationContainer */}
-        <div className={clsx("informationContainer", { reply: replyPage})}>
+        <div className={clsx("informationContainer", { reply: replyPage, follow: followPage})}>
           <div className="informationContainer-header">
             <Link to='/home'><img src={leftArrow} alt="leftArrow" className="header-back" /></Link>
             <div className="header-content">
@@ -51,43 +55,49 @@ const InformationPage = () => {
               <div className="self-content-account">@heyjohn</div>
               <div className="self-content-text">Ipsum is simply dummy text of the printing and typesetting industry.</div>
               <div className="self-content-footer">
-                <div className="content-footer-following">34個<span className="footer-following-span">跟隨中</span></div>
-                <div className="content-footer-following">59位<span className="footer-following-span">跟隨者</span></div>
+                <div className="content-footer-following" onClick={() => {
+                  setFollowPage(true)
+                  setFollowTabControl(0)}}>34個<span className="footer-following-span">跟隨中</span></div>
+                <div className="content-footer-following" onClick={() => {
+                  setFollowPage(true) 
+                  setFollowTabControl(1)}}>59位<span className="footer-following-span">跟隨者</span></div>
               </div>
             </div>
           </div>
           <div className="informationContainer-tabs">
-            <div className={clsx('tabs-tab', {active: tabControl === 0})} onClick={() => setTabControl(0)}>推文</div>
-            <div className={clsx('tabs-tab', {active: tabControl === 1})} onClick={() => setTabControl(1)}>回覆</div>
-            <div className={clsx('tabs-tab', {active: tabControl === 2})} onClick={() => setTabControl(2)}>喜歡的內容</div>
+            <div className={clsx('tabs-tab', {active: infoTabControl === 0})} onClick={() => setInfoTabControl(0)}>推文</div>
+            <div className={clsx('tabs-tab', {active: infoTabControl === 1})} onClick={() => setInfoTabControl(1)}>回覆</div>
+            <div className={clsx('tabs-tab', {active: infoTabControl === 2})} onClick={() => setInfoTabControl(2)}>喜歡的內容</div>
           </div>
-          <div className={clsx('informationContainer-post', {active: tabControl === 0})}>
+          <div className={clsx('informationContainer-post', {active: infoTabControl === 0})}>
             <PostCard onClickReply={() => setReplyPage(true)} isLike={false}></PostCard>
             <PostCard onClickReply={() => setReplyPage(true)} isLike={false}></PostCard>
             <PostCard onClickReply={() => setReplyPage(true)} isLike={false}></PostCard>
             <PostCard onClickReply={() => setReplyPage(true)} isLike={false}></PostCard>
             <PostCard onClickReply={() => setReplyPage(true)} isLike={false}></PostCard>
           </div>
-          <div className={clsx('informationContainer-reply', {active: tabControl === 1})}>
+          <div className={clsx('informationContainer-reply', {active: infoTabControl === 1})}>
             <ReplyCard type='typeA'></ReplyCard>
             <ReplyCard type='typeA'></ReplyCard>
             <ReplyCard type='typeA'></ReplyCard>
             <ReplyCard type='typeA'></ReplyCard>
             <ReplyCard type='typeA'></ReplyCard>
           </div>
-          <div className={clsx('informationContainer-like', {active: tabControl === 2})}>
+          <div className={clsx('informationContainer-like', {active: infoTabControl === 2})}>
             <PostCard onClickReply={() => setReplyPage(true)} isLike={true}></PostCard>
             <PostCard onClickReply={() => setReplyPage(true)} isLike={true}></PostCard>
             <PostCard onClickReply={() => setReplyPage(true)} isLike={true}></PostCard>
             <PostCard onClickReply={() => setReplyPage(true)} isLike={true}></PostCard>
             <PostCard onClickReply={() => setReplyPage(true)} isLike={true}></PostCard>
           </div>
+          {/* 推文modal */}
           <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='informationContainer-posting-modal' btnText='推文' type='typeA'>
             <div className="posting-modal-content">
               <LogoIcon src={logo} alt="logo" className="modal-content-img" />
               <textarea rows='6' cols='100' className="modal-content-textarea" placeholder='有什麼新鮮事?'></textarea>
             </div>
           </Modal>
+          {/* 編輯個人資料modal */}
           <Modal active={editInfoModal} onClickModalCancel={() => setEditInfoModal(false)} className='informationContainer-editInfo-modal' btnText='儲存' title='編輯個人資料' type='typeB'>
             <div className="editInfo-modal-picture">
               <img src={background} alt="background" className="modal-picture-background" />
@@ -160,6 +170,46 @@ const InformationPage = () => {
             <div className="reply-modal-ownReply">
               <LogoIcon src={logo} alt="logo" className="modal-ownReply-img" />
               <textarea rows='8' cols='100' className="modal-ownReply-textarea" placeholder='推你的回覆'></textarea>
+            </div>
+          </Modal>
+        </div>
+
+        {/* followListContainer */}
+        <div className={clsx("followListContainer", { follow: followPage})}>
+          <div className="followListContainer-header">
+            <img src={leftArrow} alt="leftArrow" className="header-back" onClick={() => setFollowPage(false)}/>
+            <div className="header-content">
+              <div className="header-content-username">John Doe</div>
+              <div className="header-content-postCount">25 推文</div>
+            </div>
+          </div>
+          <div className="followListContainer-tabs">
+            <div className={clsx('tabs-tab', {active: followTabControl === 0})} onClick={() => setFollowTabControl(0)}>追隨者</div>
+            <div className={clsx('tabs-tab', {active: followTabControl === 1})} onClick={() => setFollowTabControl(1)}>正在追隨</div>
+          </div>
+          <div className={clsx('followListContainer-follower', {active: followTabControl === 0})}>
+            <FollowCard isFollow={isFollow} onClick={() => setIsFollow(!isFollow)}></FollowCard>
+            <FollowCard isFollow={true}></FollowCard>
+            <FollowCard isFollow={false}></FollowCard>
+            <FollowCard isFollow={false}></FollowCard>
+            <FollowCard isFollow={false}></FollowCard>
+            <FollowCard isFollow={false}></FollowCard>
+            <FollowCard isFollow={false}></FollowCard>
+          </div>
+          <div className={clsx('followListContainer-following', {active: followTabControl === 1})}>
+            <FollowCard isFollow={true} onClick={() => setIsFollow(false)}></FollowCard>
+            <FollowCard isFollow={true} onClick={() => setIsFollow(false)}></FollowCard>
+            <FollowCard isFollow={true} onClick={() => setIsFollow(false)}></FollowCard>
+            <FollowCard isFollow={true} onClick={() => setIsFollow(false)}></FollowCard>
+            <FollowCard isFollow={true} onClick={() => setIsFollow(false)}></FollowCard>
+            <FollowCard isFollow={true} onClick={() => setIsFollow(false)}></FollowCard>
+            <FollowCard isFollow={true} onClick={() => setIsFollow(false)}></FollowCard>
+          </div>
+          {/* 推文modal */}
+          <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='followListContainer-posting-modal' btnText='推文' type='typeA'>
+            <div className="posting-modal-content">
+              <LogoIcon src={logo} alt="logo" className="modal-content-img" />
+              <textarea rows='6' cols='100' className="modal-content-textarea" placeholder='有什麼新鮮事?'></textarea>
             </div>
           </Modal>
         </div>
