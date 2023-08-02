@@ -9,14 +9,14 @@ import informationActive from '../images/_base/informationActive.png'
 import { Link } from "react-router-dom"
 import { useState } from "react"
 import { Modal, ModalBackground } from "../component/Modal"
-import { LogoIcon } from "../component/common/logo.styled"
-import logo from '../images/logo.png'
+import userPhoto from '../images/userPhoto.png'
 import clsx from "clsx"
 import reply from '../images/_base/reply.png'
 import like from '../images/_base/like.png'
 import ReplyCard from "../component/ReplyCard"
 import AuthInput from "../component/AuthInput"
 import FollowCard from "../component/FollowCard"
+import { Photo } from "../component/common/photo.styled"
 
 const InformationPage = () => {
   const [postingModal, setPostingModal] = useState(false)
@@ -33,7 +33,10 @@ const InformationPage = () => {
   return (
     <>
       <div className="mainContainer">
-        <LeftContainer information={informationActive} onClickPost={() => setPostingModal(true)}></LeftContainer>
+        <LeftContainer information={informationActive} onClickPost={() => {
+          setPostingModal(true)
+          setReplyPage(false)
+          setFollowPage(false)}}></LeftContainer>
 
         {/* informationContainer */}
         <div className={clsx("informationContainer", { reply: replyPage, follow: followPage})}>
@@ -93,7 +96,7 @@ const InformationPage = () => {
           {/* 推文modal */}
           <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='informationContainer-posting-modal' btnText='推文' type='typeA'>
             <div className="posting-modal-content">
-              <LogoIcon src={logo} alt="logo" className="modal-content-img" />
+              <Photo src={userPhoto} alt="logo" className="modal-content-img" />
               <textarea rows='6' cols='100' className="modal-content-textarea" placeholder='有什麼新鮮事?'></textarea>
             </div>
           </Modal>
@@ -129,7 +132,7 @@ const InformationPage = () => {
           </div>
           <div className="replyList-content">
             <div className="replyList-content-header">
-              <LogoIcon src={logo} alt="" className="content-header-photo" />
+              <Photo src={userPhoto} alt="" className="content-header-photo" />
               <div className="content-header-data">
                 <div className="header-data-username">Apple</div>
                 <div className="header-data-account">@apple</div>
@@ -159,16 +162,10 @@ const InformationPage = () => {
             <ReplyCard type='typeA'></ReplyCard>
             <ReplyCard type='typeA'></ReplyCard>
           </div>
-          <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='replyList-posting-modal' btnText='推文' type='typeA'>
-            <div className="posting-modal-content">
-              <LogoIcon src={logo} alt="logo" className="modal-content-img" />
-              <textarea rows='6' cols='100' className="modal-content-textarea" placeholder='有什麼新鮮事?'></textarea>
-            </div>
-          </Modal>
           <Modal active={replyModal} onClickModalCancel={() => setReplyModal(false)} className='replyList-reply-modal' btnText='回覆' type='typeA'>
             <ReplyCard className='reply-modal-replyCard'></ReplyCard>
             <div className="reply-modal-ownReply">
-              <LogoIcon src={logo} alt="logo" className="modal-ownReply-img" />
+              <Photo src={userPhoto} alt="logo" className="modal-ownReply-img" />
               <textarea rows='8' cols='100' className="modal-ownReply-textarea" placeholder='推你的回覆'></textarea>
             </div>
           </Modal>
@@ -205,13 +202,6 @@ const InformationPage = () => {
             <FollowCard isFollow={true} onClick={() => setIsFollow(false)}></FollowCard>
             <FollowCard isFollow={true} onClick={() => setIsFollow(false)}></FollowCard>
           </div>
-          {/* 推文modal */}
-          <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='followListContainer-posting-modal' btnText='推文' type='typeA'>
-            <div className="posting-modal-content">
-              <LogoIcon src={logo} alt="logo" className="modal-content-img" />
-              <textarea rows='6' cols='100' className="modal-content-textarea" placeholder='有什麼新鮮事?'></textarea>
-            </div>
-          </Modal>
         </div>
 
         <RightContainer></RightContainer>

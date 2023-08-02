@@ -1,5 +1,4 @@
-import logo from '../images/logo.png'
-import { LogoIcon } from '../component/common/logo.styled'
+import userPhoto from '../images/userPhoto.png'
 import Button from '../component/Button'
 import LeftContainer from '../component/LeftContainer'
 import RightContainer from '../component/RightContainer'
@@ -12,6 +11,7 @@ import leftArrow from '../images/_base/leftArrow.png'
 import reply from '../images/_base/reply.png'
 import like from '../images/_base/like.png'
 import clsx from 'clsx'
+import { Photo } from '../component/common/photo.styled'
 
 const HomePage = () => {
   const [postingModal, setPostingModal] = useState(false)
@@ -21,13 +21,15 @@ const HomePage = () => {
   return (
     <>
       <div className="mainContainer">
-        <LeftContainer home={homeActive} onClickPost={() => setPostingModal(true)}>'</LeftContainer>
+        <LeftContainer home={homeActive} onClickPost={() => {
+          setPostingModal(true)
+          setReplyPage(false)}}>'</LeftContainer>
 
         {/* centerContainer */}
         <div className={clsx("centerContainer", { reply: replyPage})}>
           <div className="centerContainer-title">首頁</div>
           <div className="centerContainer-posting">
-            <LogoIcon src={logo} alt="logo" className="posting-img" />
+            <Photo src={userPhoto} alt="logo" className="posting-img" />
             <textarea rows='3' cols='100' className="posting-textarea" placeholder='有什麼新鮮事?'></textarea>
             <Button className='posting-btn'>推文</Button>
           </div>
@@ -40,7 +42,7 @@ const HomePage = () => {
           </div>
           <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='centerContainer-posting-modal' btnText='推文' type='typeA'>
             <div className="posting-modal-content">
-                <LogoIcon src={logo} alt="logo" className="modal-content-img" />
+                <Photo src={userPhoto} alt="logo" className="modal-content-img" />
                 <textarea rows='6' cols='100' className="modal-content-textarea" placeholder='有什麼新鮮事?'></textarea>
             </div>
           </Modal>
@@ -54,7 +56,7 @@ const HomePage = () => {
           </div>
           <div className="replyList-content">
             <div className="replyList-content-header">
-              <LogoIcon src={logo} alt="" className="content-header-photo" />
+              <Photo src={userPhoto} alt="" className="content-header-photo" />
               <div className="content-header-data">
                 <div className="header-data-username">Apple</div>
                 <div className="header-data-account">@apple</div>
@@ -84,16 +86,10 @@ const HomePage = () => {
             <ReplyCard type='typeA'></ReplyCard>
             <ReplyCard type='typeA'></ReplyCard>
           </div>
-          <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='replyList-posting-modal' btnText='推文'  type='typeA'>
-            <div className="posting-modal-content">
-              <LogoIcon src={logo} alt="logo" className="modal-content-img" />
-              <textarea rows='6' cols='100' className="modal-content-textarea" placeholder='有什麼新鮮事?'></textarea>
-            </div>
-          </Modal>
           <Modal active={replyModal} onClickModalCancel={() => setReplyModal(false)} className='replyList-reply-modal' btnText='回覆'  type='typeA'>
             <ReplyCard className='reply-modal-replyCard'></ReplyCard>
             <div className="reply-modal-ownReply">
-              <LogoIcon src={logo} alt="logo" className="modal-ownReply-img" />
+              <Photo src={userPhoto} alt="logo" className="modal-ownReply-img" />
               <textarea rows='8' cols='100' className="modal-ownReply-textarea" placeholder='推你的回覆'></textarea>
             </div>
           </Modal>

@@ -1,6 +1,6 @@
-import logo from '../images/logo.png'
-import { LogoIcon } from "./common/logo.styled"
+import userPhoto from '../images/userPhoto.png'
 import { styled } from 'styled-components'
+import { Photo } from './common/photo.styled'
 
 const StyledReplyCard = styled.div`
   width: 100%;
@@ -70,7 +70,7 @@ const ReplyCard = ({type, className}) => {
   if (type === 'typeA') {
     return (
       <StyledReplyCard className={className}>
-        <LogoIcon src={logo} alt="" />
+        <Photo src={userPhoto} alt="" />
         <div className='reply-card-data' >
           <div className='card-data-header' >
             <div className='data-header-username' >Devon Lane</div>
@@ -86,7 +86,7 @@ const ReplyCard = ({type, className}) => {
   } else {
     return (
       <StyledReplyCard className={className}>
-        <LogoIcon src={logo} alt="" />
+        <Photo src={userPhoto} alt="" />
         <div className='reply-card-data' >
           <div className='card-data-header' >
             <div className='data-header-username' >Devon Lane</div>

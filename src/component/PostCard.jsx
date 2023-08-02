@@ -1,9 +1,9 @@
-import logo from '../images/logo.png'
+import userPhoto from '../images/userPhoto.png'
 import reply from '../images/_base/reply.png'
 import like from '../images/_base/like.png'
 import likeActive from '../images/_base/likeActive.png'
-import { LogoIcon } from "./common/logo.styled"
 import { styled } from 'styled-components'
+import { Photo } from './common/photo.styled'
 
 const StyledPostCard = styled.div`
   width: 100%;
@@ -81,7 +81,7 @@ const StyledPostCard = styled.div`
 const PostCard = ({onClickReply, isLike}) => {
   return (
     <StyledPostCard>
-      <LogoIcon src={logo} alt="" />
+      <Photo src={userPhoto} alt="" />
       <div className='post-card-data' >
         <div className='card-data-header' >
           <div className='data-header-username' >Apple</div>

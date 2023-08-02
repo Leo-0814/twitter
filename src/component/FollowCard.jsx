@@ -1,9 +1,9 @@
 import clsx from 'clsx'
-import logo from '../images/logo.png'
+import userPhoto from '../images/userPhoto.png'
 import Button from './Button'
 import ButtonHollow from './Button-hollow'
-import { LogoIcon } from "./common/logo.styled"
 import { styled } from 'styled-components'
+import { Photo } from './common/photo.styled'
 
 const StyledFollowCard = styled.div`
   width: 100%;
@@ -68,7 +68,7 @@ const StyledFollowCard = styled.div`
 const FollowCard = ({className, isFollow, onClick}) => {
   return (
     <StyledFollowCard className={className}>
-      <LogoIcon src={logo} alt="" />
+      <Photo src={userPhoto} alt="" />
       <div className='follow-card-data' >
         <div className='card-data-header' >
           <div className='data-header-username' >Devon Lane</div>
