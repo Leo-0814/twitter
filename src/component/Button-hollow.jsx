@@ -15,9 +15,9 @@ const StyledButtonHollow = styled.button`
   }
 `
 
-const ButtonHollow = ({children, className}) => {
+const ButtonHollow = ({children, className, onClick}) => {
   return (
-    <StyledButtonHollow className={className}>
+    <StyledButtonHollow className={className} onClick={() => onClick?.()}>
       {children}
     </StyledButtonHollow>
   )

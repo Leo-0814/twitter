@@ -99,12 +99,12 @@ a:visited {
 
   //中間container
   .centerContainer {
-    padding-right: 5px;
     width: 100%;
     overflow-y: auto;
     overflow-x: auto;
     height: 100vh;
     position: relative;
+    border: 1px solid rgba(230, 236, 240, 1);
 
     //卷軸底部
     &::-webkit-scrollbar-track {
@@ -125,15 +125,13 @@ a:visited {
       line-height: 26px;
       padding: 24px;
       padding-right: 0;
-      border: 1px solid rgba(230, 236, 240, 1);
+      border-bottom: 1px solid rgba(230, 236, 240, 1);
       width: 100%;
     }
     .centerContainer-posting {
       display: flex;
       align-items: start;
       padding: 6px 5px 60px 19px;
-      border-left: 1px solid rgba(230, 236, 240, 1);
-      border-right: 1px solid rgba(230, 236, 240, 1);
       border-bottom: 10px solid rgba(230, 236, 240, 1);
       width: 100%;
       position: relative;
@@ -179,6 +177,7 @@ a:visited {
             font-size: 16px;
             font-weight: 400;
             line-height: 26px;
+            color: rgba(108, 117, 125, 1)
           }
         }
       }
@@ -315,7 +314,6 @@ a:visited {
             font-size: 16px;
             font-weight: 400;
             line-height: 26px;
-            color: #9197A3;
           }
         }
       }
@@ -353,7 +351,6 @@ a:visited {
             font-size: 16px;
             font-weight: 400;
             line-height: 26px;
-            color: #6C757D;
           }
         }
       }
@@ -416,12 +413,15 @@ a:visited {
   //Information頁
   .informationContainer {
     width: 100%;
+    position: relative;
+    border: 1px solid rgba(230, 236, 240, 1);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 
     .informationContainer-header {
       display: flex;
       align-items: center;
-      border-left: 1px solid rgba(230, 236, 240, 1);
-      border-right: 1px solid rgba(230, 236, 240, 1);
 
       .header-back {
         width: 24px;
@@ -445,23 +445,18 @@ a:visited {
         }
       }
     }
-    .information-self {
+    .informationContainer-self {
       width: 100%;
-      display: flex;
-      flex-direction: column;
-      
-      border-left: 1px solid rgba(230, 236, 240, 1);
-      border-right: 1px solid rgba(230, 236, 240, 1);
 
-      .self-q {
+      .self-picture {
         position: relative;
 
-        .self-background {
+        .self-picture-background {
           width: 100%;
           height: auto;
         }
       
-        .self-photo {
+        .self-picture-photo {
           width: 140px;
           height: 140px;
           position: absolute;
@@ -469,7 +464,7 @@ a:visited {
           bottom: -60px;
         }
       
-        .self-btn {
+        .self-picture-btn {
           width: 128px;
           height: 40px;
           padding: 0;
@@ -515,36 +510,147 @@ a:visited {
         }
       }
     }
-    .information-content {
-      width: 100%;
+    .informationContainer-tabs {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid rgba(230, 236, 240, 1);
 
-      .content-tabs {
-        display: flex;
-        align-items: center;
-        border-left: 1px solid rgba(230, 236, 240, 1);
-        border-right: 1px solid rgba(230, 236, 240, 1);
-        border-bottom: 1px solid rgba(230, 236, 240, 1);
+      .tabs-tab {
+        width: 130px;
+        height: 52px;
+        text-align: center;
+        font-weight: 700;
+        font-size: 15px;
+        line-height: 52px;
+        color: rgba(101, 119, 134, 1);
+        cursor: pointer;
 
-        .content-tab {
-          width: 130px;
-          height: 52px;
-          text-align: center;
-          font-weight: 700;
-          font-size: 15px;
-          line-height: 52px;
-          color: rgba(101, 119, 134, 1);
-          
-          cursor: pointer;
-        }
-        .content-tab-active {
+        &.active {
           color: rgba(255, 102, 0, 1);
           border-bottom: 2px solid rgba(255, 102, 0, 1);
         }
       }
-      .content-post {
-        overflow-y: auto;
-        overflow-x: hidden;
-        height: 400px;
+    }
+    .informationContainer-post {
+      display: none;
+      overflow-y: auto;
+
+      &.active {
+        display: inline;
+      }
+    }
+    .informationContainer-reply {
+      display: none;
+      overflow-y: auto;
+
+      &.active {
+        display: inline;
+      }
+    }
+    .informationContainer-like {
+      display: none;
+      overflow-y: auto;
+
+      &.active {
+        display: inline;
+      }
+    }
+    .informationContainer-posting-modal {
+      width: 100%;
+      height: 300px;
+
+      .posting-modal-content {
+        padding: 6px 6px;
+        display: flex;
+        align-items: start;
+
+        .modal-content-textarea {
+          margin-top: 10px;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 26px;
+
+          &::placeholder {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 26px;
+          }
+        }
+      }
+    }
+    &.reply {
+      display: none;
+    }
+    .informationContainer-editInfo-modal {
+      width: 100%;
+      height: auto;
+
+      .editInfo-modal-picture {
+        position: relative;
+
+        .modal-picture-background {
+          width: 100%;
+          height: auto;
+        }
+        .modal-picture-photo {
+          width: 140px;
+          height: 140px;
+          position: absolute;
+          left: 16px;
+          bottom: -50px;
+        }
+      }
+      .editInfo-modal-input {
+        margin: 0 16px;
+        margin-top: 30px;
+
+        .modal-input-username {
+          display: flex;
+          flex-direction: column;
+
+          .input-username-count {
+            align-self: self-end;
+            margin-top: 5px;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 20px;
+            color: rgba(105, 105, 116, 1);
+          }
+        }
+
+        .modal-input-introduction {
+          margin-top: 5px;
+          display: flex;
+          flex-direction: column;
+          margin-bottom: 12px;
+
+          .input-introduction-label {
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 22px;
+            color: rgba(105, 105, 116, 1);
+            background-color: rgba(245, 248, 250, 1);
+            padding: 3px 6px 0px 6px;
+          }
+          .input-introduction-textarea {
+            border-radius: 0px 0px 4px 4px;
+            background-color: rgba(245, 248, 250, 1);
+            border: none;
+            border-bottom: 2px solid #657786;
+            padding: 0 6px;
+            font-size: 16px;
+            line-height: 26px;
+            font-weight: 400;
+          }
+          .input-introduction-count {
+            align-self: self-end;
+            margin-top: 5px;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 20px;
+            color: rgba(105, 105, 116, 1);
+          }
+        }
       }
     }
   }

@@ -23,6 +23,7 @@ const HomePage = () => {
       <div className="mainContainer">
         <LeftContainer home={homeActive} onClickPost={() => setPostingModal(true)}>'</LeftContainer>
 
+        {/* centerContainer */}
         <div className={clsx("centerContainer", { reply: replyPage})}>
           <div className="centerContainer-title">首頁</div>
           <div className="centerContainer-posting">
@@ -31,13 +32,13 @@ const HomePage = () => {
             <Button className='posting-btn'>推文</Button>
           </div>
           <div className="centerContainer-post">
-            <PostCard onClickReply={() => setReplyPage(true)}></PostCard>
+            <PostCard onClickReply={() => setReplyPage(true)} isLike={true}></PostCard>
             <PostCard onClickReply={() => setReplyPage(true)}></PostCard>
             <PostCard onClickReply={() => setReplyPage(true)}></PostCard>
             <PostCard onClickReply={() => setReplyPage(true)}></PostCard>
             <PostCard onClickReply={() => setReplyPage(true)}></PostCard>
           </div>
-          <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='centerContainer-posting-modal' btnText='推文'>
+          <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='centerContainer-posting-modal' btnText='推文' type='typeA'>
             <div className="posting-modal-content">
                 <LogoIcon src={logo} alt="logo" className="modal-content-img" />
                 <textarea rows='6' cols='100' className="modal-content-textarea" placeholder='有什麼新鮮事?'></textarea>
@@ -45,6 +46,7 @@ const HomePage = () => {
           </Modal>
         </div>
 
+        {/* replyListContainer */}
         <div className={clsx("replyListContainer", { reply: replyPage})}>
           <div className="replyList-header">
             <img src={leftArrow} alt="leftArrow" className="replyList-header-back" onClick={() => setReplyPage(false)}/>
@@ -82,17 +84,17 @@ const HomePage = () => {
             <ReplyCard type='typeA'></ReplyCard>
             <ReplyCard type='typeA'></ReplyCard>
           </div>
-          <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='replyList-posting-modal' btnText='推文'>
+          <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='replyList-posting-modal' btnText='推文'  type='typeA'>
             <div className="posting-modal-content">
               <LogoIcon src={logo} alt="logo" className="modal-content-img" />
               <textarea rows='6' cols='100' className="modal-content-textarea" placeholder='有什麼新鮮事?'></textarea>
             </div>
           </Modal>
-          <Modal active={replyModal} onClickModalCancel={() => setReplyModal(false)} className='replyList-reply-modal' btnText='回覆'>
+          <Modal active={replyModal} onClickModalCancel={() => setReplyModal(false)} className='replyList-reply-modal' btnText='回覆'  type='typeA'>
             <ReplyCard className='reply-modal-replyCard'></ReplyCard>
             <div className="reply-modal-ownReply">
               <LogoIcon src={logo} alt="logo" className="modal-ownReply-img" />
-              <textarea rows='6' cols='100' className="modal-ownReply-textarea" placeholder='推你的回覆'></textarea>
+              <textarea rows='8' cols='100' className="modal-ownReply-textarea" placeholder='推你的回覆'></textarea>
             </div>
           </Modal>
         </div>

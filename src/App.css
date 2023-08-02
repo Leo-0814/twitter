@@ -96,12 +96,12 @@ a:visited {
   bottom: 0;
 }
 .mainContainer .centerContainer {
-  padding-right: 5px;
   width: 100%;
   overflow-y: auto;
   overflow-x: auto;
   height: 100vh;
   position: relative;
+  border: 1px solid rgb(230, 236, 240);
 }
 .mainContainer .centerContainer::-webkit-scrollbar-track {
   background-color: rgb(240, 240, 240);
@@ -119,15 +119,13 @@ a:visited {
   line-height: 26px;
   padding: 24px;
   padding-right: 0;
-  border: 1px solid rgb(230, 236, 240);
+  border-bottom: 1px solid rgb(230, 236, 240);
   width: 100%;
 }
 .mainContainer .centerContainer .centerContainer-posting {
   display: flex;
   align-items: start;
   padding: 6px 5px 60px 19px;
-  border-left: 1px solid rgb(230, 236, 240);
-  border-right: 1px solid rgb(230, 236, 240);
   border-bottom: 10px solid rgb(230, 236, 240);
   width: 100%;
   position: relative;
@@ -172,11 +170,13 @@ a:visited {
   font-size: 16px;
   font-weight: 400;
   line-height: 26px;
+  color: rgb(108, 117, 125);
 }
 .mainContainer .centerContainer .centerContainer-posting-modal .posting-modal-content .modal-content-textarea::placeholder {
   font-size: 16px;
   font-weight: 400;
   line-height: 26px;
+  color: rgb(108, 117, 125);
 }
 .mainContainer .centerContainer.reply {
   display: none;
@@ -298,13 +298,11 @@ a:visited {
   font-size: 16px;
   font-weight: 400;
   line-height: 26px;
-  color: #9197A3;
 }
 .mainContainer .replyListContainer .replyList-posting-modal .posting-modal-content .modal-content-textarea::placeholder {
   font-size: 16px;
   font-weight: 400;
   line-height: 26px;
-  color: #9197A3;
 }
 .mainContainer .replyListContainer .replyList-reply-modal {
   width: 100%;
@@ -338,13 +336,11 @@ a:visited {
   font-size: 16px;
   font-weight: 400;
   line-height: 26px;
-  color: #6C757D;
 }
 .mainContainer .replyListContainer .replyList-reply-modal .reply-modal-ownReply .modal-ownReply-textarea::placeholder {
   font-size: 16px;
   font-weight: 400;
   line-height: 26px;
-  color: #6C757D;
 }
 .mainContainer .replyListContainer.reply {
   display: flex;
@@ -395,12 +391,15 @@ a:visited {
 }
 .mainContainer .informationContainer {
   width: 100%;
+  position: relative;
+  border: 1px solid rgb(230, 236, 240);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 .mainContainer .informationContainer .informationContainer-header {
   display: flex;
   align-items: center;
-  border-left: 1px solid rgb(230, 236, 240);
-  border-right: 1px solid rgb(230, 236, 240);
 }
 .mainContainer .informationContainer .informationContainer-header .header-back {
   width: 24px;
@@ -422,28 +421,24 @@ a:visited {
   font-size: 13px;
   line-height: 12px;
 }
-.mainContainer .informationContainer .information-self {
+.mainContainer .informationContainer .informationContainer-self {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  border-left: 1px solid rgb(230, 236, 240);
-  border-right: 1px solid rgb(230, 236, 240);
 }
-.mainContainer .informationContainer .information-self .self-q {
+.mainContainer .informationContainer .informationContainer-self .self-picture {
   position: relative;
 }
-.mainContainer .informationContainer .information-self .self-q .self-background {
+.mainContainer .informationContainer .informationContainer-self .self-picture .self-picture-background {
   width: 100%;
   height: auto;
 }
-.mainContainer .informationContainer .information-self .self-q .self-photo {
+.mainContainer .informationContainer .informationContainer-self .self-picture .self-picture-photo {
   width: 140px;
   height: 140px;
   position: absolute;
   left: 16px;
   bottom: -60px;
 }
-.mainContainer .informationContainer .information-self .self-q .self-btn {
+.mainContainer .informationContainer .informationContainer-self .self-picture .self-picture-btn {
   width: 128px;
   height: 40px;
   padding: 0;
@@ -451,49 +446,44 @@ a:visited {
   right: 16px;
   bottom: -60px;
 }
-.mainContainer .informationContainer .information-self .self-content {
+.mainContainer .informationContainer .informationContainer-self .self-content {
   margin: 70px 16px 16px 16px;
 }
-.mainContainer .informationContainer .information-self .self-content .self-content-username {
+.mainContainer .informationContainer .informationContainer-self .self-content .self-content-username {
   font-weight: 700;
   font-size: 18px;
   line-height: 26px;
 }
-.mainContainer .informationContainer .information-self .self-content .self-content-account {
+.mainContainer .informationContainer .informationContainer-self .self-content .self-content-account {
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;
   color: rgb(108, 117, 125);
 }
-.mainContainer .informationContainer .information-self .self-content .self-content-text {
+.mainContainer .informationContainer .informationContainer-self .self-content .self-content-text {
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;
 }
-.mainContainer .informationContainer .information-self .self-content .self-content-footer {
+.mainContainer .informationContainer .informationContainer-self .self-content .self-content-footer {
   display: flex;
   align-items: center;
 }
-.mainContainer .informationContainer .information-self .self-content .self-content-footer .content-footer-following {
+.mainContainer .informationContainer .informationContainer-self .self-content .self-content-footer .content-footer-following {
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;
   margin-right: 16px;
 }
-.mainContainer .informationContainer .information-self .self-content .self-content-footer .content-footer-following .footer-following-span {
+.mainContainer .informationContainer .informationContainer-self .self-content .self-content-footer .content-footer-following .footer-following-span {
   color: rgb(108, 117, 125);
 }
-.mainContainer .informationContainer .information-content {
-  width: 100%;
-}
-.mainContainer .informationContainer .information-content .content-tabs {
+.mainContainer .informationContainer .informationContainer-tabs {
   display: flex;
   align-items: center;
-  border-left: 1px solid rgb(230, 236, 240);
-  border-right: 1px solid rgb(230, 236, 240);
   border-bottom: 1px solid rgb(230, 236, 240);
 }
-.mainContainer .informationContainer .information-content .content-tabs .content-tab {
+.mainContainer .informationContainer .informationContainer-tabs .tabs-tab {
   width: 130px;
   height: 52px;
   text-align: center;
@@ -503,14 +493,124 @@ a:visited {
   color: rgb(101, 119, 134);
   cursor: pointer;
 }
-.mainContainer .informationContainer .information-content .content-tabs .content-tab-active {
+.mainContainer .informationContainer .informationContainer-tabs .tabs-tab.active {
   color: rgb(255, 102, 0);
   border-bottom: 2px solid rgb(255, 102, 0);
 }
-.mainContainer .informationContainer .information-content .content-post {
+.mainContainer .informationContainer .informationContainer-post {
+  display: none;
   overflow-y: auto;
-  overflow-x: hidden;
-  height: 400px;
+}
+.mainContainer .informationContainer .informationContainer-post.active {
+  display: inline;
+}
+.mainContainer .informationContainer .informationContainer-reply {
+  display: none;
+  overflow-y: auto;
+}
+.mainContainer .informationContainer .informationContainer-reply.active {
+  display: inline;
+}
+.mainContainer .informationContainer .informationContainer-like {
+  display: none;
+  overflow-y: auto;
+}
+.mainContainer .informationContainer .informationContainer-like.active {
+  display: inline;
+}
+.mainContainer .informationContainer .informationContainer-posting-modal {
+  width: 100%;
+  height: 300px;
+}
+.mainContainer .informationContainer .informationContainer-posting-modal .posting-modal-content {
+  padding: 6px 6px;
+  display: flex;
+  align-items: start;
+}
+.mainContainer .informationContainer .informationContainer-posting-modal .posting-modal-content .modal-content-textarea {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+}
+.mainContainer .informationContainer .informationContainer-posting-modal .posting-modal-content .modal-content-textarea::-moz-placeholder {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+}
+.mainContainer .informationContainer .informationContainer-posting-modal .posting-modal-content .modal-content-textarea::placeholder {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+}
+.mainContainer .informationContainer.reply {
+  display: none;
+}
+.mainContainer .informationContainer .informationContainer-editInfo-modal {
+  width: 100%;
+  height: auto;
+}
+.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-picture {
+  position: relative;
+}
+.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-picture .modal-picture-background {
+  width: 100%;
+  height: auto;
+}
+.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-picture .modal-picture-photo {
+  width: 140px;
+  height: 140px;
+  position: absolute;
+  left: 16px;
+  bottom: -50px;
+}
+.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-input {
+  margin: 0 16px;
+  margin-top: 30px;
+}
+.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-input .modal-input-username {
+  display: flex;
+  flex-direction: column;
+}
+.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-input .modal-input-username .input-username-count {
+  align-self: self-end;
+  margin-top: 5px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  color: rgb(105, 105, 116);
+}
+.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-input .modal-input-introduction {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-input .modal-input-introduction .input-introduction-label {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: rgb(105, 105, 116);
+  background-color: rgb(245, 248, 250);
+  padding: 3px 6px 0px 6px;
+}
+.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-input .modal-input-introduction .input-introduction-textarea {
+  border-radius: 0px 0px 4px 4px;
+  background-color: rgb(245, 248, 250);
+  border: none;
+  border-bottom: 2px solid #657786;
+  padding: 0 6px;
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 400;
+}
+.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-input .modal-input-introduction .input-introduction-count {
+  align-self: self-end;
+  margin-top: 5px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  color: rgb(105, 105, 116);
 }
 .mainContainer .settingContainer {
   width: 100%;

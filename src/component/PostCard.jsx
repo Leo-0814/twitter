@@ -1,14 +1,13 @@
 import logo from '../images/logo.png'
 import reply from '../images/_base/reply.png'
 import like from '../images/_base/like.png'
+import likeActive from '../images/_base/likeActive.png'
 import { LogoIcon } from "./common/logo.styled"
 import { styled } from 'styled-components'
 
 const StyledPostCard = styled.div`
   width: 100%;
   padding: 6px 5px 6px 19px;
-  border-left: 1px solid rgba(230, 236, 240, 1);
-  border-right: 1px solid rgba(230, 236, 240, 1);
   border-bottom: 1px solid rgba(230, 236, 240, 1);
   display: flex;
 
@@ -79,7 +78,7 @@ const StyledPostCard = styled.div`
 `
 
 
-const PostCard = ({onClickReply}) => {
+const PostCard = ({onClickReply, isLike}) => {
   return (
     <StyledPostCard>
       <LogoIcon src={logo} alt="" />
@@ -97,7 +96,7 @@ const PostCard = ({onClickReply}) => {
             <div className='footer-item-count' >13</div>
           </div>
           <div className='data-footer-item'>
-            <img className='footer-item-icon' src={like} alt="like" />
+            <img className='footer-item-icon' src={isLike? likeActive: like} alt="like" />
             <div className='footer-item-count' >76</div>
           </div>
         </div>
