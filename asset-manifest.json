@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/twitter/static/css/main.28b88d1a.css",
+    "main.js": "/twitter/static/js/main.a523927a.js",
+    "static/js/787.f649083d.chunk.js": "/twitter/static/js/787.f649083d.chunk.js",
+    "static/media/background.png": "/twitter/static/media/background.4d3d3770306c43294bf9.png",
+    "static/media/photo.png": "/twitter/static/media/photo.91bdc10af8c0b4d5c3ba.png",
+    "static/media/userPhoto.png": "/twitter/static/media/userPhoto.398e70df8939d8edd676.png",
+    "static/media/logo.svg": "/twitter/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/twitter/index.html",
+    "main.28b88d1a.css.map": "/twitter/static/css/main.28b88d1a.css.map",
+    "main.a523927a.js.map": "/twitter/static/js/main.a523927a.js.map",
+    "787.f649083d.chunk.js.map": "/twitter/static/js/787.f649083d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.28b88d1a.css",
+    "static/js/main.a523927a.js"
+  ]
+}
