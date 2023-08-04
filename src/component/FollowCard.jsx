@@ -14,6 +14,7 @@ const StyledFollowCard = styled.div`
   .follow-card-data {
     margin-left: 3px;
     margin-top: 5px;
+    flex-grow: 1;
 
     .card-data-header {
       display: flex;
@@ -65,9 +66,9 @@ const StyledFollowCard = styled.div`
 `
 
 
-const FollowCard = ({className, isFollow, onClick}) => {
+const FollowCard = ({isFollow, onClick}) => {
   return (
-    <StyledFollowCard className={className}>
+    <StyledFollowCard>
       <Photo src={userPhoto} alt="" />
       <div className='follow-card-data' >
         <div className='card-data-header' >

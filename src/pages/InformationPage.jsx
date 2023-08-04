@@ -192,8 +192,12 @@ const InformationPage = () => {
             <FollowCard isFollow={false}></FollowCard>
             <FollowCard isFollow={false}></FollowCard>
             <FollowCard isFollow={false}></FollowCard>
+            <FollowCard isFollow={false}></FollowCard>
+            <FollowCard isFollow={false}></FollowCard>
           </div>
           <div className={clsx('followListContainer-following', {active: followTabControl === 1})}>
+            <FollowCard isFollow={true} onClick={() => setIsFollow(false)}></FollowCard>
+            <FollowCard isFollow={true} onClick={() => setIsFollow(false)}></FollowCard>
             <FollowCard isFollow={true} onClick={() => setIsFollow(false)}></FollowCard>
             <FollowCard isFollow={true} onClick={() => setIsFollow(false)}></FollowCard>
             <FollowCard isFollow={true} onClick={() => setIsFollow(false)}></FollowCard>
