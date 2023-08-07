@@ -1,15 +1,40 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import AuthInput from '../component/AuthInput'
 import logo from '../images/logo.png'
 import { AuthContainer, AuthLinkContainer, AuthLinkSpan, AuthLinkText, AuthTitle } from '../component/common/auth.styled'
 import { LogoIcon } from '../component/common/logo.styled'
 import Button from '../component/Button'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { login } from '../api/auth'
+import Swal from 'sweetalert2'
 
 
 const LoginPage = () => {
   const [account, setAccount] = useState('')
   const [password, setPassword] = useState('')
+  const navigate = useNavigate()
+
+const handleClick = async () => {
+  try {
+    const { success, token } = await login({account, password})
+    console.log(success)
+    if (success) {
+      localStorage.setItem('token', token)
+      Swal.fire({
+        icon: 'success',
+        title: '登入成功',
+        showCancelButton: false,
+        showConfirmButton: false,
+        timer: 1000,
+        position: 'top'
+      })
+      navigate('/home')
+      return
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
 
   return (
     <AuthContainer>
@@ -22,7 +47,7 @@ const LoginPage = () => {
           value={password} name='password' placeholder='請輸入密碼' label='密碼' type='number' className='authInput' onChange={(passwordInputValue) => setPassword(passwordInputValue)}
         />
 
-      <Button className='authBtn'>登入</Button>
+      <Button className='authBtn' onClick={handleClick}>登入</Button>
 
       <AuthLinkContainer className='login-linkContainer'>
         <Link to='/signUp'>
