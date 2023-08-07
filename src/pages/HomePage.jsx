@@ -4,7 +4,7 @@ import LeftContainer from '../component/LeftContainer'
 import RightContainer from '../component/RightContainer'
 import PostCard from '../component/PostCard'
 import homeActive from '../images/_base/homeActive.png'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Modal, ModalBackground } from '../component/Modal'
 import ReplyCard from '../component/ReplyCard'
 import leftArrow from '../images/_base/leftArrow.png'
@@ -12,11 +12,24 @@ import reply from '../images/_base/reply.png'
 import like from '../images/_base/like.png'
 import clsx from 'clsx'
 import { Photo } from '../component/common/photo.styled'
+import { getInfo } from '../api/auth'
 
 const HomePage = () => {
   const [postingModal, setPostingModal] = useState(false)
   const [replyPage, setReplyPage] = useState(false)
   const [replyModal, setReplyModal] = useState(false)
+
+useEffect(() => {
+  const getInfoAsync = async () => {
+    try {
+      const res = await getInfo()
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  getInfoAsync()
+},[])
 
   return (
     <>

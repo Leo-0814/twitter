@@ -45,3 +45,12 @@ export const register = async ({account, userName, email, password, confirm_pass
   }
 }
 
+export const getInfo = async () => {
+  try {
+    const res = await axios.get(`${baseUrl}/info`)
+
+    return res.data.data
+  } catch (error) {
+    console.log('[get info]', error)
+  }
+}
