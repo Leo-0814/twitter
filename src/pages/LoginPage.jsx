@@ -4,7 +4,7 @@ import logo from '../images/logo.png'
 import { AuthContainer, AuthLinkContainer, AuthLinkSpan, AuthLinkText, AuthTitle } from '../component/common/auth.styled'
 import { LogoIcon } from '../component/common/logo.styled'
 import Button from '../component/Button'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { login } from '../api/auth'
 import Swal from 'sweetalert2'
 
@@ -15,6 +15,10 @@ const LoginPage = () => {
   const navigate = useNavigate()
 
 const handleClick = async () => {
+  if (account.length === 0 || password.length === 0) {
+    return
+  }
+
   try {
     const { success, token } = await login({account, password})
     console.log(success)
