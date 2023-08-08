@@ -2,13 +2,26 @@ import { LogoIcon } from "./common/logo.styled"
 import logo from '../images/logo.png'
 import logOut from '../images/_base/logOut.png'
 import Button from "./Button"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import baseHome from '../images/_base/home.png'
 import baseInformation from '../images/_base/information.png'
 import baseSetting from '../images/_base/setting.png'
 import { clsx } from "clsx"
+import { logout } from "../api/auth"
 
 const LeftContainer = ({home, information, setting, onClickPost}) => {
+  const navigate = useNavigate()
+
+  const handleClick = async () => {
+    const token = localStorage.getItem('token')
+    try {
+      await logout(token)
+      localStorage.removeItem('token')
+      navigate('/login')
+    } catch (error) {
+      console.log(error)
+    }
+  }  
   return (
     <div className="leftContainer">
       <LogoIcon src={logo} alt="" className="leftContainer-logo" />
@@ -27,11 +40,10 @@ const LeftContainer = ({home, information, setting, onClickPost}) => {
         </Link>
         <Button className="leftContainer-list-postBtn" onClick={() => onClickPost?.()}>推文</Button>
 
-        {/* 登出以後要改回來 */}
-        <Link to='/login' className="leftContainer-list-item leftContainer-list-logOut">
+        <div className="leftContainer-list-item leftContainer-list-logOut" onClick={handleClick}>
           <img src={logOut} alt="logOut" className="leftContainer-list-icon" />
           <div className="leftContainer-list-text">登出</div>
-        </Link>
+        </div>
       </div>
     </div>
   )

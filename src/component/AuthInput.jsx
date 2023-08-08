@@ -31,13 +31,22 @@ const StyledInput = styled.input`
   }
 `
 
-const AuthInput = ({type, name, value, placeholder, label, className, onChange}) => {
-  return (
-    <StyledContainer>
-      <StyledLabel htmlFor={name}>{label}</StyledLabel>
-      <StyledInput id={name} type={type || 'text'} value={value} placeholder={placeholder || ''} className={className} onChange={(e) => onChange?.(e.target.value)} />
-    </StyledContainer>
-  )
+const AuthInput = ({type, name, value, placeholder, label, className, onChange, readOnly}) => {
+    if (readOnly) {
+      return (
+        <StyledContainer>
+          <StyledLabel htmlFor={name}>{label}</StyledLabel>
+          <StyledInput id={name} type={type || 'text'} value={value} placeholder={placeholder || ''} className={className} readOnly onChange={(e) => onChange?.(e.target.value)} />
+        </StyledContainer>
+      )
+    } else {
+      return (
+        <StyledContainer>
+          <StyledLabel htmlFor={name}>{label}</StyledLabel>
+          <StyledInput id={name} type={type || 'text'} value={value} placeholder={placeholder || ''} className={className}  onChange={(e) => onChange?.(e.target.value)} />
+        </StyledContainer>
+      )
+    }
 }
 
 export default AuthInput

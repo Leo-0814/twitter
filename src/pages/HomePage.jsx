@@ -12,7 +12,7 @@ import reply from '../images/_base/reply.png'
 import like from '../images/_base/like.png'
 import clsx from 'clsx'
 import { Photo } from '../component/common/photo.styled'
-import { getInfo } from '../api/auth'
+import { getInfo } from '../api/info'
 
 const HomePage = () => {
   const [postingModal, setPostingModal] = useState(false)
@@ -21,8 +21,10 @@ const HomePage = () => {
 
 useEffect(() => {
   const getInfoAsync = async () => {
+    const token = localStorage.getItem('token')
+
     try {
-      const res = await getInfo()
+      const res = await getInfo(token)
       console.log(res)
     } catch (error) {
       console.log(error)

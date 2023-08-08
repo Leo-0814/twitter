@@ -19,7 +19,7 @@ export const login = async({account, password}) => {
       title: '登入失敗',
       text: errorMessage
     })
-    console.log('[login error]', error)
+    console.error('[login error]', error)
   }
 }
 
@@ -41,16 +41,20 @@ export const register = async ({account, userName, email, password, confirm_pass
       title: '登入失敗',
       text: errorMessage
     })
-    console.log('[login error]', error)
+    console.error('[login error]', error)
   }
 }
 
-export const getInfo = async () => {
+export const logout = async (token) => {
   try {
-    const res = await axios.get(`${baseUrl}/info`)
-
-    return res.data.data
+    await axios({
+      method: 'post',
+      headers: {
+        Authorization: 'bearer ' + token
+      },
+      url: `${baseUrl}/logout`
+    })
   } catch (error) {
-    console.log('[get info]', error)
+    console.error('[logout error]', error)
   }
 }

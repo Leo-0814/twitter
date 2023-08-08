@@ -21,7 +21,6 @@ const handleClick = async () => {
 
   try {
     const { success, token } = await login({account, password})
-    console.log(success)
     if (success) {
       localStorage.setItem('token', token)
       Swal.fire({
@@ -36,7 +35,7 @@ const handleClick = async () => {
       return
     }
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 }
 
