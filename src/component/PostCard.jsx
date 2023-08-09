@@ -78,14 +78,14 @@ const StyledPostCard = styled.div`
 `
 
 
-const PostCard = ({onClickReply, isLike}) => {
+const PostCard = ({onClickReply, isLike, real_name, account}) => {
   return (
     <StyledPostCard>
       <Photo src={userPhoto} alt="" />
       <div className='post-card-data' >
         <div className='card-data-header' >
-          <div className='data-header-username' >Apple</div>
-          <div className='data-header-account' >@apple</div>
+          <div className='data-header-username' >{real_name}</div>
+          <div className='data-header-account' >@{account}</div>
           <span className='data-header-dot'>．</span>
           <div className='data-header-time'>3小時</div>
         </div>

@@ -66,15 +66,15 @@ const StyledReplyCard = styled.div`
 `
 
 
-const ReplyCard = ({type, className}) => {
+const ReplyCard = ({type, className, real_name, account}) => {
   if (type === 'typeA') {
     return (
       <StyledReplyCard className={className}>
         <Photo src={userPhoto} alt="" />
         <div className='reply-card-data' >
           <div className='card-data-header' >
-            <div className='data-header-username' >Devon Lane</div>
-            <div className='data-header-account' >@devon_lane</div>
+            <div className='data-header-username' >{real_name}</div>
+            <div className='data-header-account' >@{account}</div>
             <span className='data-header-dot'>．</span>
             <div className='data-header-time'>3小時</div>
           </div>
@@ -89,8 +89,8 @@ const ReplyCard = ({type, className}) => {
         <Photo src={userPhoto} alt="" />
         <div className='reply-card-data' >
           <div className='card-data-header' >
-            <div className='data-header-username' >Devon Lane</div>
-            <div className='data-header-account' >@devon_lane</div>
+            <div className='data-header-username' >{real_name}</div>
+            <div className='data-header-account' >@{account}</div>
             <span className='data-header-dot'>．</span>
             <div className='data-header-time'>3小時</div>
           </div>

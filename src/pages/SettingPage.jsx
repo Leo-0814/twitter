@@ -13,6 +13,7 @@ const SettingPage = () => {
     account: '',
     real_name: '',
     email: '',
+    remark: '',
     new_login_password: '',
     new_login_password_confirmation: '',
   }) 
@@ -38,22 +39,24 @@ const SettingPage = () => {
       const token = localStorage.getItem('token')
 
       try {
-        const { account, real_name, email, account_id
+        const { account, real_name, email, account_id, remark
  } = await getInfo(token)
-        setPersonInfo({
-          ...personInfo,
+        setPersonInfo((...info) => {
+          return {
+          info,
           account,
           real_name,
           email,
           account_id,
-        })
+          remark,
+        }})
       } catch (error) {
         console.log(error)
       }
     }
     getInfoAsync()
   },[])
-
+  
   return (
     <div className="mainContainer">
       <LeftContainer setting={settingActive}></LeftContainer>

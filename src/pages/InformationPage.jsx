@@ -7,7 +7,7 @@ import photo from '../images/photo.png'
 import background from '../images/background.png'
 import informationActive from '../images/_base/informationActive.png'
 import { Link } from "react-router-dom"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Modal, ModalBackground } from "../component/Modal"
 import userPhoto from '../images/userPhoto.png'
 import clsx from "clsx"
@@ -17,6 +17,7 @@ import ReplyCard from "../component/ReplyCard"
 import AuthInput from "../component/AuthInput"
 import FollowCard from "../component/FollowCard"
 import { Photo } from "../component/common/photo.styled"
+import { getInfo } from "../api/info"
 
 const InformationPage = () => {
   const [postingModal, setPostingModal] = useState(false)
@@ -26,9 +27,38 @@ const InformationPage = () => {
   const [editInfoModal, setEditInfoModal] = useState(false)
   const [infoTabControl, setInfoTabControl] = useState(0)
   const [followTabControl, setFollowTabControl] = useState(0)
-  const [username, setUsername] = useState('John Doe')
-  const [introduction, setIntroduction] = useState('')
   const [isFollow, setIsFollow] = useState(false)
+  const [ personInfo, setPersonInfo ] = useState({
+    account_id: '',
+    account: '',
+    real_name: '',
+    remark: '',
+  }) 
+
+  useEffect(() => {
+    const getInfoAsync = async () => {
+      const token = localStorage.getItem('token')
+
+      try {
+        const { account, real_name, account_id, remark
+ } = await getInfo(token)
+        setPersonInfo({
+          ...personInfo,
+          account,
+          real_name,
+          account_id,
+          remark,
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getInfoAsync()
+  },[])
+
+  
+  const real_name = useRef(personInfo.real_name)
+  console.log(real_name)
   
   return (
     <>
@@ -43,7 +73,7 @@ const InformationPage = () => {
           <div className="informationContainer-header">
             <Link to='/home'><img src={leftArrow} alt="leftArrow" className="header-back" /></Link>
             <div className="header-content">
-              <div className="header-content-username">John Doe</div>
+              <div className="header-content-username">{personInfo.real_name}</div>
               <div className="header-content-postCount">25 推文</div>
             </div>
           </div>
@@ -54,9 +84,9 @@ const InformationPage = () => {
               <ButtonHollow className='self-picture-btn' onClick={() => setEditInfoModal(true)}>編輯個人資料</ButtonHollow>
             </div>
             <div className="self-content">
-              <div className="self-content-username">John Doe</div>
-              <div className="self-content-account">@heyjohn</div>
-              <div className="self-content-text">Ipsum is simply dummy text of the printing and typesetting industry.</div>
+              <div className="self-content-username">{personInfo.real_name}</div>
+              <div className="self-content-account">@{personInfo.account}</div>
+              <div className="self-content-text">{personInfo.remark}</div>
               <div className="self-content-footer">
                 <div className="content-footer-following" onClick={() => {
                   setFollowPage(true)
@@ -73,25 +103,25 @@ const InformationPage = () => {
             <div className={clsx('tabs-tab', {active: infoTabControl === 2})} onClick={() => setInfoTabControl(2)}>喜歡的內容</div>
           </div>
           <div className={clsx('informationContainer-post', {active: infoTabControl === 0})}>
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={false}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={false}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={false}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={false}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={false}></PostCard>
+            <PostCard onClickReply={() => setReplyPage(true)} isLike={false} real_name={personInfo.real_name} account={personInfo.account}></PostCard>
+            <PostCard onClickReply={() => setReplyPage(true)} isLike={false} real_name={personInfo.real_name} account={personInfo.account}></PostCard>
+            <PostCard onClickReply={() => setReplyPage(true)} isLike={false} real_name={personInfo.real_name} account={personInfo.account}></PostCard>
+            <PostCard onClickReply={() => setReplyPage(true)} isLike={false} real_name={personInfo.real_name} account={personInfo.account}></PostCard>
+            <PostCard onClickReply={() => setReplyPage(true)} isLike={false} real_name={personInfo.real_name} account={personInfo.account}></PostCard>
           </div>
           <div className={clsx('informationContainer-reply', {active: infoTabControl === 1})}>
-            <ReplyCard type='typeA'></ReplyCard>
-            <ReplyCard type='typeA'></ReplyCard>
-            <ReplyCard type='typeA'></ReplyCard>
-            <ReplyCard type='typeA'></ReplyCard>
-            <ReplyCard type='typeA'></ReplyCard>
+            <ReplyCard type='typeA' real_name={personInfo.real_name} account={personInfo.account}></ReplyCard>
+            <ReplyCard type='typeA' real_name={personInfo.real_name} account={personInfo.account}></ReplyCard>
+            <ReplyCard type='typeA' real_name={personInfo.real_name} account={personInfo.account}></ReplyCard>
+            <ReplyCard type='typeA' real_name={personInfo.real_name} account={personInfo.account}></ReplyCard>
+            <ReplyCard type='typeA' real_name={personInfo.real_name} account={personInfo.account}></ReplyCard>
           </div>
           <div className={clsx('informationContainer-like', {active: infoTabControl === 2})}>
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={true}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={true}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={true}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={true}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={true}></PostCard>
+            <PostCard onClickReply={() => setReplyPage(true)} isLike={true} real_name={personInfo.real_name} account={personInfo.account}></PostCard>
+            <PostCard onClickReply={() => setReplyPage(true)} isLike={true} real_name={personInfo.real_name} account={personInfo.account}></PostCard>
+            <PostCard onClickReply={() => setReplyPage(true)} isLike={true} real_name={personInfo.real_name} account={personInfo.account}></PostCard>
+            <PostCard onClickReply={() => setReplyPage(true)} isLike={true} real_name={personInfo.real_name} account={personInfo.account}></PostCard>
+            <PostCard onClickReply={() => setReplyPage(true)} isLike={true} real_name={personInfo.real_name} account={personInfo.account}></PostCard>
           </div>
           {/* 推文modal */}
           <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='informationContainer-posting-modal' btnText='推文' type='typeA'>
@@ -109,14 +139,17 @@ const InformationPage = () => {
             <div className="editInfo-modal-input">
               <div className="modal-input-username">
                 <AuthInput 
-                  value={username} name='username' label='名稱' className='input-username-input' onChange={(usernameInputValue) => setUsername(usernameInputValue)}
+                  value={personInfo.real_name} name='username' label='名稱' className='input-username-input' onChange={(realNameInputValue) => setPersonInfo({
+                    ...personInfo,
+                    real_name: realNameInputValue
+                    })}
                 />
                 <div className="input-username-count">8/50</div>
               </div>
               
               <div className="modal-input-introduction">
                 <label htmlFor='introduction' className="input-introduction-label">自我介紹</label>
-                <textarea id='introduction' className='input-introduction-textarea' rows='6' cols='100' placeholder="請輸入自我介紹" defaultValue={introduction}></textarea>
+                <textarea id='introduction' className='input-introduction-textarea' rows='6' cols='100' placeholder="請輸入自我介紹" defaultValue={personInfo.remark}></textarea>
                 <div className="input-introduction-count">0/160</div>
               </div>
             </div>
