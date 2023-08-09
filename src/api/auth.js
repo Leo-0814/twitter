@@ -23,10 +23,10 @@ export const login = async({account, password}) => {
   }
 }
 
-export const register = async ({account, userName, email, password, confirm_password, currency, invite_code}) => {
+export const register = async ({account, password, confirm_password, currency, invite_code}) => {
   try {
     const res = await axios.post(`${baseUrl}/register`, {
-      account, userName, email, password, confirm_password, currency, invite_code
+      account, password, confirm_password, currency, invite_code
     })
 
     const token = res.data.data.token

@@ -9,7 +9,7 @@ import { editInfo, getInfo } from "../api/info"
 
 const SettingPage = () => {
   const [ personInfo, setPersonInfo ] = useState({
-    id: '',
+    account_id: '',
     account: '',
     real_name: '',
     email: '',
@@ -24,7 +24,7 @@ const SettingPage = () => {
   const handleClick = async () => {
     try {
       const res = await editInfo({area_code, mobile, user_level_id, adminToken, ...personInfo})
-      console.log(res)
+
       if (res) {
         window.location.reload()
       }
@@ -41,10 +41,11 @@ const SettingPage = () => {
         const { account, real_name, email, account_id
  } = await getInfo(token)
         setPersonInfo({
+          ...personInfo,
           account,
           real_name,
           email,
-          id: account_id
+          account_id,
         })
       } catch (error) {
         console.log(error)
@@ -52,7 +53,7 @@ const SettingPage = () => {
     }
     getInfoAsync()
   },[])
- console.log(personInfo)
+
   return (
     <div className="mainContainer">
       <LeftContainer setting={settingActive}></LeftContainer>

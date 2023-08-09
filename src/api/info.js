@@ -10,17 +10,19 @@ export const getInfo = async (token) => {
         Authorization: 'bearer ' + token,
       }
     })
+
+    console.log(res.data.data)
     return res.data.data
   } catch (error) {
     console.error('[get info]', error)
   }
 }
 
-export const editInfo = async ({adminToken, id, ...prop}) => {
+export const editInfo = async ({adminToken, account_id, ...prop}) => {
   try {
     const res = await axios({
       method: 'put',
-      url: `${adminBaseUrl}/info/${id}`,
+      url: `${adminBaseUrl}/info/${account_id}`,
       headers: {
         Authorization: 'bearer ' + adminToken,
       },

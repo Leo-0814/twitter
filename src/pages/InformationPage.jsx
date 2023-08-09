@@ -116,7 +116,7 @@ const InformationPage = () => {
               
               <div className="modal-input-introduction">
                 <label htmlFor='introduction' className="input-introduction-label">自我介紹</label>
-                <textarea id='introduction' className='input-introduction-textarea' rows='6' cols='100' placeholder="請輸入自我介紹">{introduction}</textarea>
+                <textarea id='introduction' className='input-introduction-textarea' rows='6' cols='100' placeholder="請輸入自我介紹" defaultValue={introduction}></textarea>
                 <div className="input-introduction-count">0/160</div>
               </div>
             </div>

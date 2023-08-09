@@ -7,39 +7,50 @@ import Button from '../component/Button'
 import { useState } from 'react'
 import { register } from '../api/auth'
 import Swal from 'sweetalert2'
+import { editInfo, getInfo } from '../api/info'
 
 
 const SignUpPage = () => {
   const [account, setAccount] = useState('')
-  const [userName, setUserName] = useState('')
+  const [real_name, setRealName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirm_password, setConfirmPassword] = useState('')
+  const navigate = useNavigate()
   const invite_code= "32033018"
   const currency = 'BRL'
-  const navigate = useNavigate()
+  const adminToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FkbWluYXBpLmJhbGwxODguY2MvYWRtaW4vbG9naW4iLCJpYXQiOjE2OTE0NjY1MjksImV4cCI6MTY5MTYzOTMyOSwibmJmIjoxNjkxNDY2NTI5LCJqdGkiOiJabmdxZjVXVlRJclpuekYzIiwic3ViIjoiMjUiLCJwcnYiOiJjODI5MjIzODM1ZDExMTM4ZjA4YWNlNTZmZmE2NjI4YmMyNjgzY2I1In0.VS-1Px66ifJ2BJzG4l5OMSmUN59gxIOruzIAx53yl1w'
+  const area_code = ''
+  const mobile = ''
+  const user_level_id = 22
 
 const handleClick = async () => {
-  if (account.length === 0 || userName.length === 0 || email.length === 0 || password.length === 0 || confirm_password.length === 0) {
+  if (account.length === 0 || real_name.length === 0 || email.length === 0 || password.length === 0 || confirm_password.length === 0) {
     return
   }
 
   try {
     const { success, token } = await register({
-      account, userName, email, password, confirm_password, currency, invite_code
+      account, password, confirm_password, currency, invite_code
     })
 
     if (success) {
       localStorage.setItem('token', token)
-      Swal.fire({
-        icon: 'success',
-        title: '註冊成功',
-        showCancelButton: false,
-        showConfirmButton: false,
-        timer: 1000,
-        position: 'top'
-      })
-      navigate('/home')
+      const { account_id } = await getInfo(token)
+      
+      const res = await editInfo({area_code, mobile, user_level_id, adminToken, account_id, email, real_name})
+
+      if (res) {
+        navigate('/home')
+        Swal.fire({
+          icon: 'success',
+          title: '註冊成功',
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 1000,
+          position: 'top'
+        })
+      }
     }
   } catch (error) {
     console.log(error)
@@ -54,7 +65,7 @@ const handleClick = async () => {
           value={account} name='account' placeholder='請輸入帳號' label='帳號' className='authInput' onChange={(accountInputValue) => setAccount(accountInputValue)}
         />
         <AuthInput 
-          value={userName} name='username' placeholder='請輸入使用者名稱' label='名稱' className='authInput' onChange={(userNameInputValue) => setUserName(userNameInputValue)}
+          value={real_name} name='username' placeholder='請輸入使用者名稱' label='名稱' className='authInput' onChange={(userNameInputValue) => setRealName(userNameInputValue)}
         />
         <AuthInput 
           value={email} name='email' placeholder='請輸入Email' label='Email' type='email' className='authInput' onChange={(emailInputValue) => setEmail(emailInputValue)}
