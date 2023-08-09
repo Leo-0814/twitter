@@ -4,6 +4,7 @@ import Button from "../component/Button"
 import LeftContainer from "../component/LeftContainer"
 import settingActive from '../images/_base/settingActive.png'
 import { editInfo, getInfo } from "../api/info"
+import Swal from "sweetalert2"
 
 
 
@@ -27,10 +28,25 @@ const SettingPage = () => {
       const res = await editInfo({area_code, mobile, user_level_id, adminToken, ...personInfo})
 
       if (res) {
-        window.location.reload()
+        // window.location.reload()
+        setPersonInfo((prop) => {
+          return {
+            ...prop,
+            new_login_password: '',
+            new_login_password_confirmation: '',
+          }
+        })
+        Swal.fire({
+          icon: 'success',
+          title: '儲存成功',
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 1000,
+          position: 'top'
+        })
       }
     } catch (error) {
-      
+      console.log(error)
     }
   }
 
@@ -41,9 +57,9 @@ const SettingPage = () => {
       try {
         const { account, real_name, email, account_id, remark
  } = await getInfo(token)
-        setPersonInfo((...info) => {
+        setPersonInfo((prop) => {
           return {
-          info,
+          ...prop,
           account,
           real_name,
           email,
@@ -55,7 +71,7 @@ const SettingPage = () => {
       }
     }
     getInfoAsync()
-  },[])
+  }, [])
   
   return (
     <div className="mainContainer">
@@ -93,6 +109,8 @@ const SettingPage = () => {
           </div>
           <Button className='settingBtn' onClick={handleClick}>儲存</Button>
         </div>
+        {personInfo.account_id}
+        {personInfo.new_login_password}
     </div>
   )
 }

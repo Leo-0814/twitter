@@ -60,6 +60,7 @@ useEffect(() => {
                 <Photo src={userPhoto} alt="logo" className="modal-content-img" />
                 <textarea rows='6' cols='100' className="modal-content-textarea" placeholder='有什麼新鮮事?'></textarea>
             </div>
+            <Button className='posting-modal-btn'>推文</Button>
           </Modal>
         </div>
 
@@ -107,6 +108,7 @@ useEffect(() => {
               <Photo src={userPhoto} alt="logo" className="modal-ownReply-img" />
               <textarea rows='8' cols='100' className="modal-ownReply-textarea" placeholder='推你的回覆'></textarea>
             </div>
+            <Button className='reply-modal-btn'>推文</Button>
           </Modal>
         </div>
 

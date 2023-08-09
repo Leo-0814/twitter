@@ -49,27 +49,12 @@ const StyledModalContainer = styled.div`
       margin-left: 24px;
     }
   }
-  .modal-btn-typeA, .modal-btn-typeB {
-    position: absolute;
-    bottom: 16px;
-    right: 16px;
-    width: 64px;
-    height: 40px;
-    padding: 0;
-    font-weight: 400;
-    line-height: 24px;
-    font-size: 16px;
-  }
-  .modal-btn-typeB {
-    top: 10px;
-  }
   &.active {
     display: inline;
   }
 `
 
-const Modal = ({ active, onClickModalCancel, children, className, btnText, title, type}) => {
-  if (type === 'typeA') {
+const Modal = ({ active, onClickModalCancel, children, className, title}) => {
     return (
       <StyledModalContainer className={clsx(className, { active: active })}>
         <div className="modal-header">
@@ -77,22 +62,8 @@ const Modal = ({ active, onClickModalCancel, children, className, btnText, title
           <div className="modal-header-title">{title? title: ''}</div>
         </div>
         {children}
-        <Button className='modal-btn-typeA'>{btnText}</Button>
       </StyledModalContainer>
     )
-  } else {
-    return (
-      <StyledModalContainer className={clsx(className, { active: active })}>
-        <div className="modal-header">
-          <img src={modalCancel} alt='modalCancel' className="modal-header-cancel" onClick={() => onClickModalCancel?.()} />
-          <div className="modal-header-title">{title? title: ''}</div>
-        </div>
-        {children}
-        <Button className='modal-btn-typeB'>{btnText}</Button>
-      </StyledModalContainer>
-    )
-  }
-  
 }
 
 const ModalBackground = ({active}) => {
