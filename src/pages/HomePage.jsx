@@ -4,7 +4,7 @@ import LeftContainer from '../component/LeftContainer'
 import RightContainer from '../component/RightContainer'
 import PostCard from '../component/PostCard'
 import homeActive from '../images/_base/homeActive.png'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal, ModalBackground } from '../component/Modal'
 import ReplyCard from '../component/ReplyCard'
 import leftArrow from '../images/_base/leftArrow.png'
@@ -12,26 +12,60 @@ import reply from '../images/_base/reply.png'
 import like from '../images/_base/like.png'
 import clsx from 'clsx'
 import { Photo } from '../component/common/photo.styled'
-import { getInfo } from '../api/info'
+import { followUser, getInfo } from '../api/info'
+import { useNavigate } from 'react-router-dom'
 
 const HomePage = () => {
   const [postingModal, setPostingModal] = useState(false)
   const [replyPage, setReplyPage] = useState(false)
   const [replyModal, setReplyModal] = useState(false)
+  const navigate = useNavigate()
+  const [ personInfo, setPersonInfo ] = useState({
+    account_id: '',
+    account: '',
+    real_name: '',
+    remark: '',
+    email: ''
+  }) 
+  const adminToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FkbWluYXBpLmJhbGwxODguY2MvYWRtaW4vbG9naW4iLCJpYXQiOjE2OTE2Mzk4NDUsImV4cCI6MTY5MTgxMjY0NSwibmJmIjoxNjkxNjM5ODQ1LCJqdGkiOiJVbFJ4amlFMjNXcnFCb28wIiwic3ViIjoiMjUiLCJwcnYiOiJjODI5MjIzODM1ZDExMTM4ZjA4YWNlNTZmZmE2NjI4YmMyNjgzY2I1In0.u2v2srj3SlpsAzbuC2Lep0M7TCW7gv92qdtDv43kj7w'
 
-useEffect(() => {
-  const getInfoAsync = async () => {
-    const token = localStorage.getItem('token')
-
+  const handleClick = async (id) => {
     try {
-      const res = await getInfo(token)
-      console.log(res)
+      await followUser(id, adminToken)
+      window.location.reload()
     } catch (error) {
       console.log(error)
     }
   }
-  getInfoAsync()
-},[])
+
+  useEffect(() => {
+    const getInfoAsync = async () => {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        navigate('/login')
+        return
+      } 
+
+      try {
+        const res = await getInfo(token)
+        if (!res) {
+          localStorage.removeItem('token')
+          navigate('/login')
+        } else {
+          setPersonInfo({
+          email: res.email,
+          account: res.account,
+          real_name: res.real_name,
+          account_id: res.account_id,
+          remark: res.remark
+        })
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getInfoAsync()
+  },[navigate])
 
   return (
     <>
@@ -49,11 +83,11 @@ useEffect(() => {
             <Button className='posting-btn'>推文</Button>
           </div>
           <div className="centerContainer-post">
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={true}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)}></PostCard>
+            <PostCard onClickReply={() => setReplyPage(true)} isLike={true}  account={personInfo.account} real_name={personInfo.real_name}></PostCard>
+            <PostCard onClickReply={() => setReplyPage(true)} account={personInfo.account} real_name={personInfo.real_name}></PostCard>
+            <PostCard onClickReply={() => setReplyPage(true)} account={personInfo.account} real_name={personInfo.real_name}></PostCard>
+            <PostCard onClickReply={() => setReplyPage(true)} account={personInfo.account} real_name={personInfo.real_name}></PostCard>
+            <PostCard onClickReply={() => setReplyPage(true)} account={personInfo.account} real_name={personInfo.real_name}></PostCard>
           </div>
           <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='centerContainer-posting-modal' btnText='推文' type='typeA'>
             <div className="posting-modal-content">
@@ -113,7 +147,7 @@ useEffect(() => {
         </div>
 
 
-        <RightContainer></RightContainer>
+        <RightContainer onClick={handleClick}></RightContainer>
       </div>
 
       <ModalBackground active={postingModal || replyModal}></ModalBackground>

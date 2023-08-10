@@ -18,7 +18,7 @@ const SettingPage = () => {
     new_login_password: '',
     new_login_password_confirmation: '',
   }) 
-  const adminToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FkbWluYXBpLmJhbGwxODguY2MvYWRtaW4vbG9naW4iLCJpYXQiOjE2OTE0NjY1MjksImV4cCI6MTY5MTYzOTMyOSwibmJmIjoxNjkxNDY2NTI5LCJqdGkiOiJabmdxZjVXVlRJclpuekYzIiwic3ViIjoiMjUiLCJwcnYiOiJjODI5MjIzODM1ZDExMTM4ZjA4YWNlNTZmZmE2NjI4YmMyNjgzY2I1In0.VS-1Px66ifJ2BJzG4l5OMSmUN59gxIOruzIAx53yl1w'
+  const adminToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FkbWluYXBpLmJhbGwxODguY2MvYWRtaW4vbG9naW4iLCJpYXQiOjE2OTE2Mzk4NDUsImV4cCI6MTY5MTgxMjY0NSwibmJmIjoxNjkxNjM5ODQ1LCJqdGkiOiJVbFJ4amlFMjNXcnFCb28wIiwic3ViIjoiMjUiLCJwcnYiOiJjODI5MjIzODM1ZDExMTM4ZjA4YWNlNTZmZmE2NjI4YmMyNjgzY2I1In0.u2v2srj3SlpsAzbuC2Lep0M7TCW7gv92qdtDv43kj7w'
   const area_code = ''
   const mobile = ''
   const user_level_id = 22
@@ -109,8 +109,6 @@ const SettingPage = () => {
           </div>
           <Button className='settingBtn' onClick={handleClick}>儲存</Button>
         </div>
-        {personInfo.account_id}
-        {personInfo.new_login_password}
     </div>
   )
 }

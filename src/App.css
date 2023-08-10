@@ -54,7 +54,7 @@ a:visited {
   width: 80%;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 178px minmax(400px, 1fr) 273px;
+  grid-template-columns: 198px minmax(400px, 1fr) 297px;
   height: 100vh;
 }
 .mainContainer .leftContainer {
@@ -348,9 +348,12 @@ a:visited {
 .mainContainer .rightContainer {
   margin-top: 16px;
   margin-left: 24px;
+  padding-bottom: 16px;
+  height: 100vh;
 }
 .mainContainer .rightContainer .rightContainer-area {
   width: 100%;
+  height: 100%;
   background-color: rgb(250, 250, 251);
   border-radius: 16px;
 }
@@ -361,33 +364,53 @@ a:visited {
   padding: 24px;
   border-bottom: 1px solid rgb(230, 236, 240);
 }
-.mainContainer .rightContainer .rightContainer-area .rightContainer-area-followList {
+.mainContainer .rightContainer .rightContainer-area .rightContainer-area-list {
+  height: 100%;
+  overflow-y: auto;
+}
+.mainContainer .rightContainer .rightContainer-area .rightContainer-area-list::-webkit-scrollbar-track {
+  background-color: rgb(240, 240, 240);
+}
+.mainContainer .rightContainer .rightContainer-area .rightContainer-area-list::-webkit-scrollbar {
+  width: 8px;
+}
+.mainContainer .rightContainer .rightContainer-area .rightContainer-area-list::-webkit-scrollbar-thumb {
+  background-color: rgb(193, 193, 193);
+  border-radius: 4px;
+}
+.mainContainer .rightContainer .rightContainer-area .rightContainer-area-list .area-list-followList {
   display: flex;
-  justify-content: space-around;
   align-items: center;
   padding: 12px 10px;
+  position: relative;
 }
-.mainContainer .rightContainer .rightContainer-area .rightContainer-area-followList .followList-content {
+.mainContainer .rightContainer .rightContainer-area .rightContainer-area-list .area-list-followList .followList-content {
   text-align: center;
+  margin-left: 10px;
 }
-.mainContainer .rightContainer .rightContainer-area .rightContainer-area-followList .followList-content .followList-content-username {
+.mainContainer .rightContainer .rightContainer-area .rightContainer-area-list .area-list-followList .followList-content .followList-content-username {
   font-size: 16px;
   font-weight: 700;
   line-height: 26px;
 }
-.mainContainer .rightContainer .rightContainer-area .rightContainer-area-followList .followList-content .followList-content-account {
+.mainContainer .rightContainer .rightContainer-area .rightContainer-area-list .area-list-followList .followList-content .followList-content-account {
   font-size: 14px;
   font-weight: 500;
   line-height: 22px;
   color: rgb(146, 146, 157);
 }
-.mainContainer .rightContainer .rightContainer-area .rightContainer-area-followList .followList-content-btn {
+.mainContainer .rightContainer .rightContainer-area .rightContainer-area-list .area-list-followList .followList-content-btn, .mainContainer .rightContainer .rightContainer-area .rightContainer-area-list .area-list-followList .followList-content-btn-hollow {
   width: 96px;
   height: 40px;
   padding: 0;
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
+  position: absolute;
+  right: 10px;
+}
+.mainContainer .rightContainer .rightContainer-area .rightContainer-area-list .area-list-followList .followList-content-btn-hollow {
+  width: 64px;
 }
 .mainContainer .informationContainer {
   width: 100%;

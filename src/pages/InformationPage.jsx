@@ -17,7 +17,7 @@ import ReplyCard from "../component/ReplyCard"
 import AuthInput from "../component/AuthInput"
 import FollowCard from "../component/FollowCard"
 import { Photo } from "../component/common/photo.styled"
-import { editInfo, getInfo } from "../api/info"
+import { editInfo, followUser, getInfo } from "../api/info"
 import Button from "../component/Button"
 import Swal from "sweetalert2"
 
@@ -35,10 +35,13 @@ const InformationPage = () => {
     account: '',
     real_name: '',
     remark: '',
+    email: ''
   }) 
   const realNameRef = useRef(personInfo.real_name)
   const accountRef = useRef(personInfo.account)
-  const adminToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FkbWluYXBpLmJhbGwxODguY2MvYWRtaW4vbG9naW4iLCJpYXQiOjE2OTE0NjY1MjksImV4cCI6MTY5MTYzOTMyOSwibmJmIjoxNjkxNDY2NTI5LCJqdGkiOiJabmdxZjVXVlRJclpuekYzIiwic3ViIjoiMjUiLCJwcnYiOiJjODI5MjIzODM1ZDExMTM4ZjA4YWNlNTZmZmE2NjI4YmMyNjgzY2I1In0.VS-1Px66ifJ2BJzG4l5OMSmUN59gxIOruzIAx53yl1w'
+  const remarkRef = useRef(personInfo.remark)
+
+  const adminToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FkbWluYXBpLmJhbGwxODguY2MvYWRtaW4vbG9naW4iLCJpYXQiOjE2OTE2Mzk4NDUsImV4cCI6MTY5MTgxMjY0NSwibmJmIjoxNjkxNjM5ODQ1LCJqdGkiOiJVbFJ4amlFMjNXcnFCb28wIiwic3ViIjoiMjUiLCJwcnYiOiJjODI5MjIzODM1ZDExMTM4ZjA4YWNlNTZmZmE2NjI4YmMyNjgzY2I1In0.u2v2srj3SlpsAzbuC2Lep0M7TCW7gv92qdtDv43kj7w'
   const area_code = ''
   const mobile = ''
   const user_level_id = 22
@@ -49,8 +52,18 @@ const InformationPage = () => {
       remark: remarkInputValue.target.value
     })
   }
-  const handleClick = async () => {
-    if (personInfo.real_name.length === 0 || personInfo.remark.length === 0) {
+  
+  const handleClickFollowUser = async (id) => {
+    try {
+      await followUser(id, adminToken)
+      window.location.reload()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleClickEditInfo = async () => {
+    if (personInfo.real_name.length === 0) {
       return
     }
 
@@ -59,7 +72,6 @@ const InformationPage = () => {
 
       if (res) {
         // window.location.reload()
-        setPersonInfo(personInfo)
         setEditInfoModal(false)
         Swal.fire({
           icon: 'success',
@@ -80,10 +92,10 @@ const InformationPage = () => {
       const token = localStorage.getItem('token')
 
       try {
-        const { account, real_name, account_id, remark
+        const { account, real_name, account_id, remark, email
  } = await getInfo(token)
         setPersonInfo({
-          ...personInfo,
+          email,
           account,
           real_name,
           account_id,
@@ -91,6 +103,7 @@ const InformationPage = () => {
         })
         realNameRef.current = real_name
         accountRef.current = account
+        remarkRef.current = remark
       } catch (error) {
         console.log(error)
       }
@@ -124,7 +137,7 @@ const InformationPage = () => {
             <div className="self-content">
               <div className="self-content-username">{realNameRef.current}</div>
               <div className="self-content-account">@{accountRef.current}</div>
-              <div className="self-content-text">{personInfo.remark}</div>
+              <div className="self-content-text">{remarkRef.current}</div>
               <div className="self-content-footer">
                 <div className="content-footer-following" onClick={() => {
                   setFollowPage(true)
@@ -195,7 +208,7 @@ const InformationPage = () => {
                 <div className="input-introduction-count">{personInfo.remark.length}/160</div>
               </div>
             </div>
-            <Button className='editInfo-modal-btn' onClick={handleClick}>儲存</Button>
+            <Button className='editInfo-modal-btn' onClick={handleClickEditInfo}>儲存</Button>
           </Modal>
         </div>
 
@@ -284,7 +297,7 @@ const InformationPage = () => {
           </div>
         </div>
 
-        <RightContainer></RightContainer>
+        <RightContainer onClick={handleClickFollowUser}></RightContainer>
       </div>
 
       <ModalBackground active={postingModal || replyModal || editInfoModal}></ModalBackground>

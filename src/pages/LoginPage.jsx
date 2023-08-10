@@ -4,9 +4,10 @@ import logo from '../images/logo.png'
 import { AuthContainer, AuthLinkContainer, AuthLinkSpan, AuthLinkText, AuthTitle } from '../component/common/auth.styled'
 import { LogoIcon } from '../component/common/logo.styled'
 import Button from '../component/Button'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { login } from '../api/auth'
 import Swal from 'sweetalert2'
+import { getInfo } from '../api/info'
 
 
 const LoginPage = () => {
@@ -14,30 +15,45 @@ const LoginPage = () => {
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
 
-const handleClick = async () => {
-  if (account.length === 0 || password.length === 0) {
-    return
-  }
-
-  try {
-    const { success, token } = await login({account, password})
-    if (success) {
-      localStorage.setItem('token', token)
-      Swal.fire({
-        icon: 'success',
-        title: '登入成功',
-        showCancelButton: false,
-        showConfirmButton: false,
-        timer: 1000,
-        position: 'top'
-      })
-      navigate('/home')
+  const handleClick = async () => {
+    if (account.length === 0 || password.length === 0) {
       return
     }
-  } catch (error) {
-    console.error(error)
+
+    try {
+      const { success, token } = await login({account, password})
+      if (success) {
+        localStorage.setItem('token', token)
+        Swal.fire({
+          icon: 'success',
+          title: '登入成功',
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 1000,
+          position: 'top'
+        })
+        navigate('/home')
+        return
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
-}
+
+  useEffect(() => {
+    const getInfoAsync = async () => {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        return
+      }
+
+      const res = await getInfo(token)
+      if (res) {
+        navigate('/home')
+      }
+    }
+    getInfoAsync()
+  },[navigate])
 
   return (
     <AuthContainer>
@@ -59,9 +75,6 @@ const handleClick = async () => {
         <AuthLinkSpan >． </AuthLinkSpan>
         <Link to='/admin'>
           <AuthLinkText>後台登入</AuthLinkText>
-        </Link>
-        <Link to='/home'>
-          <AuthLinkText>進入主頁(以後要拔除)</AuthLinkText>
         </Link>
       </AuthLinkContainer>
     </AuthContainer>

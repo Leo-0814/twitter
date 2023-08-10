@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const baseUrl = 'https://globaluser.ball188.cc/user'
-const adminBaseUrl = 'https://adminapi.ball188.cc/user'
+const adminBaseUrl = 'https://adminapi.ball188.cc'
 
 export const getInfo = async (token) => {
   try {
@@ -22,7 +22,7 @@ export const editInfo = async ({adminToken, account_id, ...prop}) => {
   try {
     const res = await axios({
       method: 'put',
-      url: `${adminBaseUrl}/info/${account_id}`,
+      url: `${adminBaseUrl}/user/info/${account_id}`,
       headers: {
         Authorization: 'bearer ' + adminToken,
       },
@@ -34,3 +34,34 @@ export const editInfo = async ({adminToken, account_id, ...prop}) => {
     console.error('[Edit password]', error)
   }
 }
+
+export const getUsers = async (adminToken) => {
+  try {
+    const res = await axios.get(`${adminBaseUrl}/BRL/user/list`, {
+      headers: {
+        Authorization: 'bearer ' + adminToken
+      }
+    })
+
+    return res.data.data
+  } catch (error) {
+    console.error('[Get users]', error)
+  }
+}
+
+export const followUser = async (account_id, adminToken) => {
+  try {
+    const res = await axios({
+      method: 'put',
+      url: `${adminBaseUrl}/user/email/status`,
+      headers: {
+        Authorization: 'bearer ' + adminToken
+      },
+      data: {account_id}
+    })
+      return res.data.data
+    }
+    catch (error) {
+    console.error('[Follow users]', error)
+  }
+} 
