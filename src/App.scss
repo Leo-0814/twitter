@@ -629,19 +629,51 @@ a:visited {
       height: auto;
 
       .editInfo-modal-picture {
-        position: relative;
-
+        
         .modal-picture-background {
-          width: 100%;
-          height: auto;
-        }
+          position: relative;
+      
+          .picture-background-img {
+            width: 100%;
+            height: auto;
+          }
+          .picture-background-edit {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
 
+            &:hover {
+              background-color: rgba(23, 23, 37, 0.5);
+            }
+
+            .background-edit-icon {
+              position: absolute;
+              width: 24px;
+              height: 24px;
+              background-color: black;
+            }
+            .background-edit-input {
+              opacity: 0;
+            }
+            .picture-background-delete {
+              position: absolute;
+            }
+          }
+        }
         .modal-picture-photo {
-          width: 140px;
-          height: 140px;
-          position: absolute;
-          left: 16px;
-          bottom: -50px;
+          position: relative;
+          .picture-photo-img {
+            width: 140px;
+            height: 140px;
+            position: absolute;
+            left: 16px;
+            bottom: -35px;
+          }
+          .picture-photo-input {
+
+          }
         }
       }
 

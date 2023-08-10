@@ -6,6 +6,7 @@ import leftArrow from '../images/_base/leftArrow.png'
 import photo from '../images/photo.png'
 import background from '../images/background.png'
 import informationActive from '../images/_base/informationActive.png'
+import editPhoto from '../images/_base/edit-photo.png'
 import { Link } from "react-router-dom"
 import { useEffect, useRef, useState } from "react"
 import { Modal, ModalBackground } from "../component/Modal"
@@ -188,8 +189,19 @@ const InformationPage = () => {
           {/* 編輯個人資料modal */}
           <Modal active={editInfoModal} onClickModalCancel={() => setEditInfoModal(false)} className='informationContainer-editInfo-modal' btnText='儲存' title='編輯個人資料' type='typeB'>
             <div className="editInfo-modal-picture">
-              <img src={background} alt="background" className="modal-picture-background" />
-              <img src={photo} alt="photo1" className="modal-picture-photo" />
+              <div className="modal-picture-background">
+                <img src={background} alt="background" className="picture-background-img" />
+                <div className="picture-background-edit">
+                  <img src={editPhoto} alt="editIcon" className="background-edit-icon"/>
+                  <input type="file" className="background-edit-input"/>
+                </div>
+                <img src="" alt="delete-background" className="picture-background-delete"/>
+              </div>
+              <div className="modal-picture-photo">
+                <img src={photo} alt="photo1" className="picture-photo-img" />
+                <input type="file" className="picture-photo-input"/>
+              </div>
+              
             </div>
             <div className="editInfo-modal-input">
               <div className="modal-input-username">
