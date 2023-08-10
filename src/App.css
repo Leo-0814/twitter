@@ -387,6 +387,9 @@ a:visited {
 .mainContainer .rightContainer .rightContainer-area .rightContainer-area-list .area-list-followList .followList-content {
   text-align: center;
   margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 }
 .mainContainer .rightContainer .rightContainer-area .rightContainer-area-list .area-list-followList .followList-content .followList-content-username {
   font-size: 16px;
@@ -580,7 +583,9 @@ a:visited {
 }
 .mainContainer .informationContainer .informationContainer-editInfo-modal {
   width: 100%;
-  height: auto;
+}
+.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-picture {
+  width: 100%;
 }
 .mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-picture .modal-picture-background {
   position: relative;
@@ -588,28 +593,44 @@ a:visited {
 .mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-picture .modal-picture-background .picture-background-img {
   width: 100%;
   height: auto;
+  vertical-align: bottom;
 }
 .mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-picture .modal-picture-background .picture-background-edit {
   position: absolute;
-  left: 0;
-  top: 0;
   width: 100%;
   height: 100%;
-}
-.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-picture .modal-picture-background .picture-background-edit:hover {
+  top: 0;
   background-color: rgba(23, 23, 37, 0.5);
+  opacity: 0;
 }
 .mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-picture .modal-picture-background .picture-background-edit .background-edit-icon {
   position: absolute;
+  left: 40%;
+  top: 40%;
   width: 24px;
   height: 24px;
-  background-color: black;
+  cursor: pointer;
+}
+.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-picture .modal-picture-background .picture-background-edit .background-edit-icon:hover {
+  opacity: 0.8;
 }
 .mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-picture .modal-picture-background .picture-background-edit .background-edit-input {
-  opacity: 0;
-}
-.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-picture .modal-picture-background .picture-background-edit .picture-background-delete {
   position: absolute;
+  display: none;
+}
+.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-picture .modal-picture-background .picture-background-edit .background-edit-delete {
+  position: absolute;
+  right: 40%;
+  top: 40%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-picture .modal-picture-background .picture-background-edit .background-edit-delete:hover {
+  opacity: 0.8;
+}
+.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-picture .modal-picture-background .picture-background-edit:hover {
+  opacity: 1;
 }
 .mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-picture .modal-picture-photo {
   position: relative;
@@ -619,7 +640,35 @@ a:visited {
   height: 140px;
   position: absolute;
   left: 16px;
-  bottom: -35px;
+  bottom: -60px;
+}
+.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-picture .modal-picture-photo .picture-photo-edit {
+  position: absolute;
+  left: 16px;
+  bottom: -60px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background-color: rgba(23, 23, 37, 0.5);
+  opacity: 0;
+}
+.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-picture .modal-picture-photo .picture-photo-edit .photo-edit-icon {
+  position: absolute;
+  left: 40%;
+  top: 40%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-picture .modal-picture-photo .picture-photo-edit .photo-edit-icon:hover {
+  opacity: 0.8;
+}
+.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-picture .modal-picture-photo .picture-photo-edit .photo-edit-input {
+  position: absolute;
+  display: none;
+}
+.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-picture .modal-picture-photo .picture-photo-edit:hover {
+  opacity: 1;
 }
 .mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-input {
   margin: 0 16px;

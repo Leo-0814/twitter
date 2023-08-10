@@ -5,6 +5,7 @@ import LeftContainer from "../component/LeftContainer"
 import settingActive from '../images/_base/settingActive.png'
 import { editInfo, getInfo } from "../api/info"
 import Swal from "sweetalert2"
+import { adminToken } from '../component/common/adminToken'
 
 
 
@@ -18,7 +19,6 @@ const SettingPage = () => {
     new_login_password: '',
     new_login_password_confirmation: '',
   }) 
-  const adminToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FkbWluYXBpLmJhbGwxODguY2MvYWRtaW4vbG9naW4iLCJpYXQiOjE2OTE2Mzk4NDUsImV4cCI6MTY5MTgxMjY0NSwibmJmIjoxNjkxNjM5ODQ1LCJqdGkiOiJVbFJ4amlFMjNXcnFCb28wIiwic3ViIjoiMjUiLCJwcnYiOiJjODI5MjIzODM1ZDExMTM4ZjA4YWNlNTZmZmE2NjI4YmMyNjgzY2I1In0.u2v2srj3SlpsAzbuC2Lep0M7TCW7gv92qdtDv43kj7w'
   const area_code = ''
   const mobile = ''
   const user_level_id = 22

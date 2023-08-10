@@ -12,13 +12,15 @@ import reply from '../images/_base/reply.png'
 import like from '../images/_base/like.png'
 import clsx from 'clsx'
 import { Photo } from '../component/common/photo.styled'
-import { followUser, getInfo } from '../api/info'
+import { followUser, getInfo, getUsers } from '../api/info'
 import { useNavigate } from 'react-router-dom'
+import { adminToken } from '../component/common/adminToken'
 
 const HomePage = () => {
   const [postingModal, setPostingModal] = useState(false)
   const [replyPage, setReplyPage] = useState(false)
   const [replyModal, setReplyModal] = useState(false)
+  const [ userList, setUserList ] = useState([])
   const navigate = useNavigate()
   const [ personInfo, setPersonInfo ] = useState({
     account_id: '',
@@ -27,8 +29,7 @@ const HomePage = () => {
     remark: '',
     email: ''
   }) 
-  const adminToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FkbWluYXBpLmJhbGwxODguY2MvYWRtaW4vbG9naW4iLCJpYXQiOjE2OTE2Mzk4NDUsImV4cCI6MTY5MTgxMjY0NSwibmJmIjoxNjkxNjM5ODQ1LCJqdGkiOiJVbFJ4amlFMjNXcnFCb28wIiwic3ViIjoiMjUiLCJwcnYiOiJjODI5MjIzODM1ZDExMTM4ZjA4YWNlNTZmZmE2NjI4YmMyNjgzY2I1In0.u2v2srj3SlpsAzbuC2Lep0M7TCW7gv92qdtDv43kj7w'
-
+  
   const handleClick = async (id) => {
     try {
       await followUser(id, adminToken)
@@ -38,6 +39,7 @@ const HomePage = () => {
     }
   }
 
+  // 判斷token拿取個人資料
   useEffect(() => {
     const getInfoAsync = async () => {
       const token = localStorage.getItem('token')
@@ -66,6 +68,22 @@ const HomePage = () => {
     }
     getInfoAsync()
   },[navigate])
+
+  // 初始拿用戶列表
+  useEffect(() => {
+    const getUsersAsync = async () => {
+      try {
+        const res = await getUsers(adminToken)
+        
+        if (res) {
+          setUserList(res)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getUsersAsync()
+  },[])
 
   return (
     <>
@@ -147,7 +165,7 @@ const HomePage = () => {
         </div>
 
 
-        <RightContainer onClick={handleClick}></RightContainer>
+        <RightContainer onClick={handleClick} userList={userList}></RightContainer>
       </div>
 
       <ModalBackground active={postingModal || replyModal}></ModalBackground>

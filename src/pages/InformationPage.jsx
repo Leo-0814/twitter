@@ -7,6 +7,7 @@ import photo from '../images/photo.png'
 import background from '../images/background.png'
 import informationActive from '../images/_base/informationActive.png'
 import editPhoto from '../images/_base/edit-photo.png'
+import backgroundDelete from '../images/_base/background-delete.png'
 import { Link } from "react-router-dom"
 import { useEffect, useRef, useState } from "react"
 import { Modal, ModalBackground } from "../component/Modal"
@@ -18,9 +19,10 @@ import ReplyCard from "../component/ReplyCard"
 import AuthInput from "../component/AuthInput"
 import FollowCard from "../component/FollowCard"
 import { Photo } from "../component/common/photo.styled"
-import { editInfo, followUser, getInfo } from "../api/info"
+import { editInfo, followUser, getInfo, getUsers } from "../api/info"
 import Button from "../component/Button"
 import Swal from "sweetalert2"
+import { adminToken } from '../component/common/adminToken'
 
 const InformationPage = () => {
   const [postingModal, setPostingModal] = useState(false)
@@ -31,6 +33,7 @@ const InformationPage = () => {
   const [infoTabControl, setInfoTabControl] = useState(0)
   const [followTabControl, setFollowTabControl] = useState(0)
   const [isFollow, setIsFollow] = useState(false)
+  const [ userList, setUserList ] = useState([])
   const [ personInfo, setPersonInfo ] = useState({
     account_id: '',
     account: '',
@@ -42,7 +45,6 @@ const InformationPage = () => {
   const accountRef = useRef(personInfo.account)
   const remarkRef = useRef(personInfo.remark)
 
-  const adminToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FkbWluYXBpLmJhbGwxODguY2MvYWRtaW4vbG9naW4iLCJpYXQiOjE2OTE2Mzk4NDUsImV4cCI6MTY5MTgxMjY0NSwibmJmIjoxNjkxNjM5ODQ1LCJqdGkiOiJVbFJ4amlFMjNXcnFCb28wIiwic3ViIjoiMjUiLCJwcnYiOiJjODI5MjIzODM1ZDExMTM4ZjA4YWNlNTZmZmE2NjI4YmMyNjgzY2I1In0.u2v2srj3SlpsAzbuC2Lep0M7TCW7gv92qdtDv43kj7w'
   const area_code = ''
   const mobile = ''
   const user_level_id = 22
@@ -57,7 +59,8 @@ const InformationPage = () => {
   const handleClickFollowUser = async (id) => {
     try {
       await followUser(id, adminToken)
-      window.location.reload()
+      const res = await getUsers(adminToken)
+      setUserList(res)
     } catch (error) {
       console.log(error)
     }
@@ -88,6 +91,7 @@ const InformationPage = () => {
     }
   }
 
+  // 初始拿個人資料
   useEffect(() => {
     const getInfoAsync = async () => {
       const token = localStorage.getItem('token')
@@ -111,6 +115,22 @@ const InformationPage = () => {
     }
     getInfoAsync()
   }, [editInfoModal])
+
+  // 初始拿用戶列表
+  useEffect(() => {
+    const getUsersAsync = async () => {
+      try {
+        const res = await getUsers(adminToken)
+        
+        if (res) {
+          setUserList(res)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getUsersAsync()
+  },[])
   
   return (
     <>
@@ -194,12 +214,15 @@ const InformationPage = () => {
                 <div className="picture-background-edit">
                   <img src={editPhoto} alt="editIcon" className="background-edit-icon"/>
                   <input type="file" className="background-edit-input"/>
+                  <img src={backgroundDelete} alt="delete-background" className="background-edit-delete"/>
                 </div>
-                <img src="" alt="delete-background" className="picture-background-delete"/>
               </div>
               <div className="modal-picture-photo">
                 <img src={photo} alt="photo1" className="picture-photo-img" />
-                <input type="file" className="picture-photo-input"/>
+                <div className="picture-photo-edit">
+                  <img src={editPhoto} alt="editIcon" className="photo-edit-icon"/>
+                  <input type="file" className="photo-edit-input"/>
+                </div>
               </div>
               
             </div>
@@ -211,13 +234,13 @@ const InformationPage = () => {
                     real_name: realNameInputValue
                     })}
                 />
-                <div className="input-username-count">{personInfo.real_name.length}/50</div>
+                <div className="input-username-count">{personInfo.real_name.toString().length}/50</div>
               </div>
               
               <div className="modal-input-introduction">
                 <label htmlFor='introduction' className="input-introduction-label">自我介紹</label>
                 <textarea id='introduction' className='input-introduction-textarea' rows='6' cols='100' placeholder="請輸入自我介紹" value={personInfo.remark} onChange={handleChange}></textarea>
-                <div className="input-introduction-count">{personInfo.remark.length}/160</div>
+                <div className="input-introduction-count">{personInfo.remark? personInfo.remark.toString().length : 0}/160</div>
               </div>
             </div>
             <Button className='editInfo-modal-btn' onClick={handleClickEditInfo}>儲存</Button>
@@ -309,7 +332,7 @@ const InformationPage = () => {
           </div>
         </div>
 
-        <RightContainer onClick={handleClickFollowUser}></RightContainer>
+        <RightContainer onClick={handleClickFollowUser} userList={userList}></RightContainer>
       </div>
 
       <ModalBackground active={postingModal || replyModal || editInfoModal}></ModalBackground>
