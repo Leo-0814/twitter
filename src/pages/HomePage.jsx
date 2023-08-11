@@ -16,6 +16,7 @@ import { Photo } from '../component/common/photo.styled'
 import { followUser, getInfo, getUsers } from '../api/info'
 import { useNavigate } from 'react-router-dom'
 import { adminToken } from '../component/common/adminToken'
+import { createPost, getPosts } from '../api/posts'
 
 const HomePage = () => {
   const [postingModal, setPostingModal] = useState(false)
@@ -32,11 +33,40 @@ const HomePage = () => {
     mobile: '',
     send_sms_time: '',
   }) 
+  const [ postList, setPostList ] = useState([])
+  const [ postingContent, setPostingContent ] = useState('')
   
   const handleClick = async (id) => {
     try {
       await followUser(id, adminToken)
       window.location.reload()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleClickToPost = async () => {
+    if (postingContent.length === 0) {
+      return
+    }
+    const token = localStorage.getItem('token')
+    const id = postList.length
+    const time = new Date()
+    const getTime = time.getTime()
+    const create_at = time.toLocaleString()
+
+    try {
+      const res = await createPost({token, id, create_at, getTime, postingContent, ...personInfo})
+      
+      if (res) {
+        setPostList((prop) => {
+          return [
+            ...prop,
+            res
+          ]
+        })
+        setPostingContent('')
+      }
     } catch (error) {
       console.log(error)
     }
@@ -90,6 +120,19 @@ const HomePage = () => {
     getUsersAsync()
   },[])
 
+  // 初始拿推文
+  useEffect(() => {
+    const getPostsAsync = async () => {
+      try {
+        const res = await getPosts()
+        setPostList(res)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getPostsAsync()
+  },[])
+
   return (
     <>
       <div className="mainContainer">
@@ -102,19 +145,19 @@ const HomePage = () => {
           <div className="centerContainer-title">首頁</div>
           <div className="centerContainer-posting">
             <Photo src={ownPhoto} alt="logo" className="posting-img" />
-            <textarea rows='3' cols='100' className="posting-textarea" placeholder='有什麼新鮮事?'></textarea>
-            <Button className='posting-btn'>推文</Button>
+            <textarea rows='3' cols='100' className="posting-textarea" placeholder='有什麼新鮮事?' value={postingContent} onChange={(e) => setPostingContent(e.target.value)}></textarea>
+            <Button className='posting-btn' onClick={handleClickToPost}>推文</Button>
           </div>
           <div className="centerContainer-post">
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={true}  account={personInfo.account} real_name={personInfo.real_name}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)} account={personInfo.account} real_name={personInfo.real_name}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)} account={personInfo.account} real_name={personInfo.real_name}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)} account={personInfo.account} real_name={personInfo.real_name}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)} account={personInfo.account} real_name={personInfo.real_name}></PostCard>
+            {postList.map((post) => {
+              return (
+                <PostCard key={post.id} onClickReply={() => setReplyPage(true)} isLike={true} postData={post}></PostCard>
+              )
+            })}
           </div>
           <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='centerContainer-posting-modal' btnText='推文' type='typeA'>
             <div className="posting-modal-content">
-                <Photo src={userPhoto} alt="logo" className="modal-content-img" />
+                <Photo src={ownPhoto} alt="logo" className="modal-content-img" />
                 <textarea rows='6' cols='100' className="modal-content-textarea" placeholder='有什麼新鮮事?'></textarea>
             </div>
             <Button className='posting-modal-btn'>推文</Button>

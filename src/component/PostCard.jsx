@@ -4,6 +4,7 @@ import like from '../images/_base/like.png'
 import likeActive from '../images/_base/likeActive.png'
 import { styled } from 'styled-components'
 import { Photo } from './common/photo.styled'
+import { timeDifferent } from './common/time'
 
 const StyledPostCard = styled.div`
   width: 100%;
@@ -78,26 +79,29 @@ const StyledPostCard = styled.div`
 `
 
 
-const PostCard = ({onClickReply, isLike, real_name, account}) => {
+const PostCard = ({onClickReply, isLike, postData}) => {
+
+  const timeDif = timeDifferent(postData.getTime)
+
   return (
     <StyledPostCard>
       <Photo src={userPhoto} alt="" />
       <div className='post-card-data' >
         <div className='card-data-header' >
-          <div className='data-header-username' >{real_name}</div>
-          <div className='data-header-account' >@{account}</div>
+          <div className='data-header-username' >{postData.real_name}</div>
+          <div className='data-header-account' >@{postData.account}</div>
           <span className='data-header-dot'>．</span>
-          <div className='data-header-time'>3小時</div>
+          <div className='data-header-time'>{timeDif}</div>
         </div>
-        <div className='card-data-content' >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</div>
+        <div className='card-data-content' >{postData.content}</div>
         <div className='card-data-footer' >
           <div className='data-footer-item' >
             <img className='footer-item-icon' src={reply} alt="reply" onClick={() => onClickReply?.()}/>
-            <div className='footer-item-count' >13</div>
+            <div className='footer-item-count' >{postData.reply_count}</div>
           </div>
           <div className='data-footer-item'>
             <img className='footer-item-icon' src={isLike? likeActive: like} alt="like" />
-            <div className='footer-item-count' >76</div>
+            <div className='footer-item-count' >{postData.like_count}</div>
           </div>
         </div>
       </div>

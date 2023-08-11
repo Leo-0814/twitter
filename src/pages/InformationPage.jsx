@@ -23,6 +23,7 @@ import { editInfo, followUser, getInfo, getUsers } from "../api/info"
 import Button from "../component/Button"
 import Swal from "sweetalert2"
 import { adminToken } from '../component/common/adminToken'
+import { getPosts } from "../api/posts"
 
 const InformationPage = () => {
   const [postingModal, setPostingModal] = useState(false)
@@ -34,6 +35,7 @@ const InformationPage = () => {
   const [followTabControl, setFollowTabControl] = useState(0)
   const [isFollow, setIsFollow] = useState(false)
   const [ userList, setUserList ] = useState([])
+  const [ postList, setPostList ] = useState([])
   const [ personInfo, setPersonInfo ] = useState({
     account_id: '',
     account: '',
@@ -51,7 +53,7 @@ const InformationPage = () => {
   const area_code = ''
   const user_level_id = 22
 
-  // 上傳檔案
+  // 上傳背景圖
   const handleUploadBackground = async (e) => {
     if (!e.target.files[0]) return;
     var reader = new FileReader();
@@ -67,6 +69,7 @@ const InformationPage = () => {
     e.target.value = "";
   };
 
+  // 上傳頭貼
   const handleUploadPhoto = async (e) => {
     if (!e.target.files[0]) return;
     var reader = new FileReader();
@@ -165,6 +168,19 @@ const InformationPage = () => {
     }
     getUsersAsync()
   },[])
+
+  // 初始拿推文
+  useEffect(() => {
+    const getPostsAsync = async () => {
+      try {
+        const res = await getPosts()
+        setPostList(res)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getPostsAsync()
+  },[])
   
   return (
     <>
@@ -212,11 +228,14 @@ const InformationPage = () => {
           </div>
           {/* tab post */}
           <div className={clsx('informationContainer-post', {active: infoTabControl === 0})}>
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={false} real_name={realNameRef.current} account={accountRef.current}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={false} real_name={realNameRef.current} account={accountRef.current}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={false} real_name={realNameRef.current} account={accountRef.current}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={false} real_name={realNameRef.current} account={accountRef.current}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={false} real_name={realNameRef.current} account={accountRef.current}></PostCard>
+            {postList.map((post) => {
+              if (post.account === personInfo.account) {
+                return (
+                  <PostCard key={post.id} onClickReply={() => setReplyPage(true)} isLike={true} postData={post}></PostCard>
+                )
+              }
+              return <></>
+            })}
           </div>
           {/* tab reply */}
           <div className={clsx('informationContainer-reply', {active: infoTabControl === 1})}>
@@ -228,11 +247,14 @@ const InformationPage = () => {
           </div>
           {/* tab like */}
           <div className={clsx('informationContainer-like', {active: infoTabControl === 2})}>
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={true} real_name={realNameRef.current} account={accountRef.current}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={true} real_name={realNameRef.current} account={accountRef.current}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={true} real_name={realNameRef.current} account={accountRef.current}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={true} real_name={realNameRef.current} account={accountRef.current}></PostCard>
-            <PostCard onClickReply={() => setReplyPage(true)} isLike={true} real_name={realNameRef.current} account={accountRef.current}></PostCard>
+            {postList.map((post) => {
+              if (post.account === personInfo.account) {
+                return (
+                  <PostCard key={post.id} onClickReply={() => setReplyPage(true)} isLike={true} postData={post}></PostCard>
+                )
+              }
+              return <></>
+            })}
           </div>
           {/* 推文modal */}
           <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='informationContainer-posting-modal' btnText='推文' type='typeA'>
@@ -271,7 +293,6 @@ const InformationPage = () => {
                   </label>
                 </div>
               </div>
-              
             </div>
             <div className="editInfo-modal-input">
               <div className="modal-input-username">
