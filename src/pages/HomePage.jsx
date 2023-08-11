@@ -1,4 +1,5 @@
 import userPhoto from '../images/userPhoto.png'
+import ownPhoto from '../images/ownPhoto.png'
 import Button from '../component/Button'
 import LeftContainer from '../component/LeftContainer'
 import RightContainer from '../component/RightContainer'
@@ -27,7 +28,9 @@ const HomePage = () => {
     account: '',
     real_name: '',
     remark: '',
-    email: ''
+    email: '',
+    mobile: '',
+    send_sms_time: '',
   }) 
   
   const handleClick = async (id) => {
@@ -59,7 +62,9 @@ const HomePage = () => {
           account: res.account,
           real_name: res.real_name,
           account_id: res.account_id,
-          remark: res.remark
+          remark: res.remark,
+          mobile: res.mobile,
+          send_sms_time: res.send_sms_time,
         })
         }
       } catch (error) {
@@ -96,7 +101,7 @@ const HomePage = () => {
         <div className={clsx("centerContainer", { reply: replyPage})}>
           <div className="centerContainer-title">首頁</div>
           <div className="centerContainer-posting">
-            <Photo src={userPhoto} alt="logo" className="posting-img" />
+            <Photo src={ownPhoto} alt="logo" className="posting-img" />
             <textarea rows='3' cols='100' className="posting-textarea" placeholder='有什麼新鮮事?'></textarea>
             <Button className='posting-btn'>推文</Button>
           </div>

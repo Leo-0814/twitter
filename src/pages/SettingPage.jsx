@@ -16,19 +16,18 @@ const SettingPage = () => {
     real_name: '',
     email: '',
     remark: '',
+    mobile: '',
     new_login_password: '',
     new_login_password_confirmation: '',
   }) 
   const area_code = ''
-  const mobile = ''
   const user_level_id = 22
 
   const handleClick = async () => {
     try {
-      const res = await editInfo({area_code, mobile, user_level_id, adminToken, ...personInfo})
+      const res = await editInfo({area_code, user_level_id, adminToken, ...personInfo})
 
       if (res) {
-        // window.location.reload()
         setPersonInfo((prop) => {
           return {
             ...prop,
@@ -55,7 +54,7 @@ const SettingPage = () => {
       const token = localStorage.getItem('token')
 
       try {
-        const { account, real_name, email, account_id, remark
+        const { account, real_name, email, account_id, remark, mobile
  } = await getInfo(token)
         setPersonInfo((prop) => {
           return {
@@ -65,6 +64,7 @@ const SettingPage = () => {
           email,
           account_id,
           remark,
+          mobile,
         }})
       } catch (error) {
         console.log(error)

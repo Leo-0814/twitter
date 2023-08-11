@@ -31,7 +31,7 @@ export const editInfo = async ({adminToken, account_id, ...prop}) => {
     
     return res.data.data
   } catch (error) {
-    console.error('[Edit password]', error)
+    console.error('[Edit info]', error)
   }
 }
 

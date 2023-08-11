@@ -3,8 +3,8 @@ import LeftContainer from "../component/LeftContainer"
 import PostCard from "../component/PostCard"
 import RightContainer from "../component/RightContainer"
 import leftArrow from '../images/_base/leftArrow.png'
-import photo from '../images/photo.png'
-import background from '../images/background.png'
+import ownPhoto from '../images/ownPhoto.png'
+import baseBackground from '../images/baseBackground.png'
 import informationActive from '../images/_base/informationActive.png'
 import editPhoto from '../images/_base/edit-photo.png'
 import backgroundDelete from '../images/_base/background-delete.png'
@@ -39,15 +39,48 @@ const InformationPage = () => {
     account: '',
     real_name: '',
     remark: '',
-    email: ''
-  }) 
+    email: '',
+    mobile: '',
+    send_sms_time: ''
+  })
+
   const realNameRef = useRef(personInfo.real_name)
   const accountRef = useRef(personInfo.account)
   const remarkRef = useRef(personInfo.remark)
 
   const area_code = ''
-  const mobile = ''
   const user_level_id = 22
+
+  // 上傳檔案
+  const handleUploadBackground = async (e) => {
+    if (!e.target.files[0]) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      setPersonInfo((info) => {
+        return {
+          ...info,
+          mobile: reader.result
+        }
+      });
+    };
+    reader?.readAsDataURL(e?.target?.files[0]);
+    e.target.value = "";
+  };
+
+  const handleUploadPhoto = async (e) => {
+    if (!e.target.files[0]) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      setPersonInfo((info) => {
+        return {
+          ...info,
+          send_sms_time: reader.result
+        }
+      });
+    };
+    reader?.readAsDataURL(e?.target?.files[0]);
+    e.target.value = "";
+  };
 
   const handleChange = (remarkInputValue) => {
     setPersonInfo({
@@ -72,7 +105,7 @@ const InformationPage = () => {
     }
 
     try {
-      const res = await editInfo({ area_code, mobile, user_level_id, adminToken, ...personInfo })
+      const res = await editInfo({ area_code, user_level_id, adminToken, ...personInfo, mobile: '', send_sms_time: ''})
 
       if (res) {
         // window.location.reload()
@@ -97,7 +130,7 @@ const InformationPage = () => {
       const token = localStorage.getItem('token')
 
       try {
-        const { account, real_name, account_id, remark, email
+        const { account, real_name, account_id, remark, email, mobile
  } = await getInfo(token)
         setPersonInfo({
           email,
@@ -105,6 +138,7 @@ const InformationPage = () => {
           real_name,
           account_id,
           remark,
+          mobile,
         })
         realNameRef.current = real_name
         accountRef.current = account
@@ -151,8 +185,10 @@ const InformationPage = () => {
           </div>
           <div className="informationContainer-self">
             <div className="self-picture">
-              <img src={background} alt="background" className="self-picture-background" />
-              <img src={photo} alt="photo1" className="self-picture-photo" />
+              <img src={personInfo.mobile? personInfo.mobile: baseBackground} alt="background" className="self-picture-background" />
+              <div className="self-picture-photo">
+                <img src={ownPhoto} alt="photo1" className="picture-photo-img" />
+              </div>
               <ButtonHollow className='self-picture-btn' onClick={() => setEditInfoModal(true)}>編輯個人資料</ButtonHollow>
             </div>
             <div className="self-content">
@@ -210,18 +246,29 @@ const InformationPage = () => {
           <Modal active={editInfoModal} onClickModalCancel={() => setEditInfoModal(false)} className='informationContainer-editInfo-modal' btnText='儲存' title='編輯個人資料' type='typeB'>
             <div className="editInfo-modal-picture">
               <div className="modal-picture-background">
-                <img src={background} alt="background" className="picture-background-img" />
+                <img src={personInfo.mobile? personInfo.mobile: baseBackground} alt="background" className="picture-background-img" />
                 <div className="picture-background-edit">
-                  <img src={editPhoto} alt="editIcon" className="background-edit-icon"/>
-                  <input type="file" className="background-edit-input"/>
-                  <img src={backgroundDelete} alt="delete-background" className="background-edit-delete"/>
+                  <label className="background-edit-icon">
+                    <img src={editPhoto} alt="editIcon" className="edit-icon-img"/>
+                    <input type="file" accept= "image/png, image/jpeg" className="edit-icon-input" onChange={handleUploadBackground}/>
+                  </label>
+                  <img src={backgroundDelete} alt="delete-background" className="background-edit-delete" onClick={() => 
+                    setPersonInfo((info) => {
+                      return {
+                        ...info,
+                        mobile: baseBackground
+                      }
+                    })}
+                  />
                 </div>
               </div>
               <div className="modal-picture-photo">
-                <img src={photo} alt="photo1" className="picture-photo-img" />
+                <img src={personInfo.send_sms_time? personInfo.send_sms_time: ownPhoto} alt="photo1" className="picture-photo-img" />
                 <div className="picture-photo-edit">
-                  <img src={editPhoto} alt="editIcon" className="photo-edit-icon"/>
-                  <input type="file" className="photo-edit-input"/>
+                  <label className="photo-edit-icon">
+                    <img src={editPhoto} alt="editIcon" className="edit-icon-img"/>
+                    <input type="file" className="edit-icon-input" onChange={handleUploadPhoto}/>
+                  </label>
                 </div>
               </div>
               
