@@ -23,7 +23,7 @@ import { editInfo, followUser, getInfo, getUsers } from "../api/info"
 import Button from "../component/Button"
 import Swal from "sweetalert2"
 import { adminToken } from '../component/common/adminToken'
-import { getPosts } from "../api/posts"
+import { createPost, getPosts } from "../api/posts"
 
 const InformationPage = () => {
   const [postingModal, setPostingModal] = useState(false)
@@ -43,27 +43,53 @@ const InformationPage = () => {
     remark: '',
     email: '',
     mobile: '',
-    send_sms_time: ''
   })
-
+  const [postingContent, setPostingContent] = useState('')
   const realNameRef = useRef(personInfo.real_name)
   const accountRef = useRef(personInfo.account)
   const remarkRef = useRef(personInfo.remark)
+  const [ backgroundUrl, setBackgroundUrl ] = useState('')
+  const [ photoUrl, setPhotoUrl] = useState('')
 
   const area_code = ''
   const user_level_id = 22
+
+  // 發文
+  const handleClickPost = async () => {
+    if (postingContent.length === 0) {
+      return
+    }
+
+    const token = localStorage.getItem('token')
+    const id = postList.length
+    const time = new Date()
+    const getTime = time.getTime()
+    const create_at = time.toLocaleString()
+
+    try {
+      const res = await createPost({ token, id, create_at, getTime, postingContent, ...personInfo })
+
+      if (res) {
+        setPostList((prop) => {
+          return [
+            ...prop,
+            res
+          ]
+        })
+        setPostingContent('')
+        setPostingModal(false)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   // 上傳背景圖
   const handleUploadBackground = async (e) => {
     if (!e.target.files[0]) return;
     var reader = new FileReader();
     reader.onload = function () {
-      setPersonInfo((info) => {
-        return {
-          ...info,
-          mobile: reader.result
-        }
-      });
+      setBackgroundUrl(reader.result);
     };
     reader?.readAsDataURL(e?.target?.files[0]);
     e.target.value = "";
@@ -74,24 +100,13 @@ const InformationPage = () => {
     if (!e.target.files[0]) return;
     var reader = new FileReader();
     reader.onload = function () {
-      setPersonInfo((info) => {
-        return {
-          ...info,
-          send_sms_time: reader.result
-        }
-      });
+      setPhotoUrl(reader.result);
     };
     reader?.readAsDataURL(e?.target?.files[0]);
     e.target.value = "";
   };
-
-  const handleChange = (remarkInputValue) => {
-    setPersonInfo({
-      ...personInfo,
-      remark: remarkInputValue.target.value
-    })
-  }
   
+  //推薦跟隨
   const handleClickFollowUser = async (id) => {
     try {
       await followUser(id, adminToken)
@@ -102,6 +117,7 @@ const InformationPage = () => {
     }
   }
 
+  //編輯個人資料，背景跟頭貼沒有地方儲存，未來優化
   const handleClickEditInfo = async () => {
     if (personInfo.real_name.length === 0) {
       return
@@ -201,9 +217,9 @@ const InformationPage = () => {
           </div>
           <div className="informationContainer-self">
             <div className="self-picture">
-              <img src={personInfo.mobile? personInfo.mobile: baseBackground} alt="background" className="self-picture-background" />
+              <img src={backgroundUrl? backgroundUrl: baseBackground} alt="background" className="self-picture-background" />
               <div className="self-picture-photo">
-                <img src={ownPhoto} alt="photo1" className="picture-photo-img" />
+                <img src={photoUrl? photoUrl: ownPhoto} alt="photo1" className="picture-photo-img" />
               </div>
               <ButtonHollow className='self-picture-btn' onClick={() => setEditInfoModal(true)}>編輯個人資料</ButtonHollow>
             </div>
@@ -260,32 +276,27 @@ const InformationPage = () => {
           <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='informationContainer-posting-modal' btnText='推文' type='typeA'>
             <div className="posting-modal-content">
               <Photo src={userPhoto} alt="logo" className="modal-content-img" />
-              <textarea rows='6' cols='100' className="modal-content-textarea" placeholder='有什麼新鮮事?'></textarea>
+              <textarea rows='6' cols='100' className="modal-content-textarea" placeholder='有什麼新鮮事?' value={postingContent} onChange={(postingTextareaValue) => setPostingContent(postingTextareaValue.target.value)}></textarea>
             </div>
-            <Button className='posting-modal-btn'>推文</Button>
+            <Button className='posting-modal-btn' onClick={handleClickPost}>推文</Button>
           </Modal>
           {/* 編輯個人資料modal */}
           <Modal active={editInfoModal} onClickModalCancel={() => setEditInfoModal(false)} className='informationContainer-editInfo-modal' btnText='儲存' title='編輯個人資料' type='typeB'>
             <div className="editInfo-modal-picture">
               <div className="modal-picture-background">
-                <img src={personInfo.mobile? personInfo.mobile: baseBackground} alt="background" className="picture-background-img" />
+                <img src={backgroundUrl? backgroundUrl: baseBackground} alt="background" className="picture-background-img" />
                 <div className="picture-background-edit">
                   <label className="background-edit-icon">
                     <img src={editPhoto} alt="editIcon" className="edit-icon-img"/>
                     <input type="file" accept= "image/png, image/jpeg" className="edit-icon-input" onChange={handleUploadBackground}/>
                   </label>
                   <img src={backgroundDelete} alt="delete-background" className="background-edit-delete" onClick={() => 
-                    setPersonInfo((info) => {
-                      return {
-                        ...info,
-                        mobile: baseBackground
-                      }
-                    })}
+                    setBackgroundUrl('')}
                   />
                 </div>
               </div>
               <div className="modal-picture-photo">
-                <img src={personInfo.send_sms_time? personInfo.send_sms_time: ownPhoto} alt="photo1" className="picture-photo-img" />
+                <img src={photoUrl ? photoUrl : ownPhoto} alt="photo1" className="picture-photo-img" />
                 <div className="picture-photo-edit">
                   <label className="photo-edit-icon">
                     <img src={editPhoto} alt="editIcon" className="edit-icon-img"/>
@@ -307,7 +318,11 @@ const InformationPage = () => {
               
               <div className="modal-input-introduction">
                 <label htmlFor='introduction' className="input-introduction-label">自我介紹</label>
-                <textarea id='introduction' className='input-introduction-textarea' rows='6' cols='100' placeholder="請輸入自我介紹" value={personInfo.remark} onChange={handleChange}></textarea>
+                <textarea id='introduction' className='input-introduction-textarea' rows='6' cols='100' placeholder="請輸入自我介紹" value={personInfo.remark} onChange={(remarkTextareaValue) => setPersonInfo({
+                  ...personInfo,
+                  remark: remarkTextareaValue.target.value
+                  })
+                }></textarea>
                 <div className="input-introduction-count">{personInfo.remark? personInfo.remark.toString().length : 0}/160</div>
               </div>
             </div>

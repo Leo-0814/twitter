@@ -79,13 +79,13 @@ const StyledPostCard = styled.div`
 `
 
 
-const PostCard = ({onClickReply, isLike, postData}) => {
+const PostCard = ({ onClickReply, isLike, postData, onClick, post_id}) => {
 
   const timeDif = timeDifferent(postData.getTime)
 
   return (
     <StyledPostCard>
-      <Photo src={userPhoto} alt="" />
+      <Photo src={userPhoto} alt="userPhoto" />
       <div className='post-card-data' >
         <div className='card-data-header' >
           <div className='data-header-username' >{postData.real_name}</div>
@@ -100,7 +100,7 @@ const PostCard = ({onClickReply, isLike, postData}) => {
             <div className='footer-item-count' >{postData.reply_count}</div>
           </div>
           <div className='data-footer-item'>
-            <img className='footer-item-icon' src={isLike? likeActive: like} alt="like" />
+            <img className='footer-item-icon' src={isLike ? likeActive : like} alt="like" onClick={() => onClick?.(post_id)}/>
             <div className='footer-item-count' >{postData.like_count}</div>
           </div>
         </div>

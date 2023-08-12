@@ -8,10 +8,10 @@ export const timeDifferent = (lastTime) => {
   } else if (timeReduce / 1000 / 60 < 60) {
     const min = Math.floor(timeReduce / 1000 / 60)
     return `${min}分鐘前`
-  } else if (timeReduce / 1000 / 60 / 60 < 60) {
+  } else if (timeReduce / 1000 / 60 / 60 < 24) {
     const hour = Math.floor(timeReduce / 1000 / 60 / 60)
     return `${hour}小時前`
-  } else if (timeReduce / 1000 / 60 / 60 / 24 < 60) {
+  } else {
     const day = Math.floor(timeReduce / 1000 / 60 / 60 / 24)
     return `${day}天前`
   } 

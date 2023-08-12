@@ -30,13 +30,14 @@ const HomePage = () => {
     real_name: '',
     remark: '',
     email: '',
-    mobile: '',
-    send_sms_time: '',
+    mobile: '', //like的推文
+    send_sms_time: '',  //頭貼
   }) 
   const [ postList, setPostList ] = useState([])
   const [ postingContent, setPostingContent ] = useState('')
   
-  const handleClick = async (id) => {
+  // 推薦跟隨
+  const handleClickFollowUser = async (id) => {
     try {
       await followUser(id, adminToken)
       window.location.reload()
@@ -45,10 +46,12 @@ const HomePage = () => {
     }
   }
 
-  const handleClickToPost = async () => {
+  // 發文
+  const handleClickPost = async () => {
     if (postingContent.length === 0) {
       return
     }
+
     const token = localStorage.getItem('token')
     const id = postList.length
     const time = new Date()
@@ -66,10 +69,15 @@ const HomePage = () => {
           ]
         })
         setPostingContent('')
+        setPostingModal(false)
       }
     } catch (error) {
       console.log(error)
     }
+  }
+
+  const handleClickLike = async (post_id) => {
+    //改成推文加DB like
   }
 
   // 判斷token拿取個人資料
@@ -146,21 +154,21 @@ const HomePage = () => {
           <div className="centerContainer-posting">
             <Photo src={ownPhoto} alt="logo" className="posting-img" />
             <textarea rows='3' cols='100' className="posting-textarea" placeholder='有什麼新鮮事?' value={postingContent} onChange={(e) => setPostingContent(e.target.value)}></textarea>
-            <Button className='posting-btn' onClick={handleClickToPost}>推文</Button>
+            <Button className='posting-btn' onClick={handleClickPost}>推文</Button>
           </div>
           <div className="centerContainer-post">
             {postList.map((post) => {
               return (
-                <PostCard key={post.id} onClickReply={() => setReplyPage(true)} isLike={true} postData={post}></PostCard>
+                <PostCard key={post.id} post_id={post.id} onClickReply={() => setReplyPage(true)} postData={post} onClick={handleClickLike}></PostCard>
               )
             })}
           </div>
           <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='centerContainer-posting-modal' btnText='推文' type='typeA'>
             <div className="posting-modal-content">
                 <Photo src={ownPhoto} alt="logo" className="modal-content-img" />
-                <textarea rows='6' cols='100' className="modal-content-textarea" placeholder='有什麼新鮮事?'></textarea>
+              <textarea rows='6' cols='100' className="modal-content-textarea" placeholder='有什麼新鮮事?' value={postingContent} onChange={(postingModalTextareaValue) => setPostingContent(postingModalTextareaValue.target.value)}></textarea>
             </div>
-            <Button className='posting-modal-btn'>推文</Button>
+            <Button className='posting-modal-btn' onClick={handleClickPost}>推文</Button>
           </Modal>
         </div>
 
@@ -213,7 +221,7 @@ const HomePage = () => {
         </div>
 
 
-        <RightContainer onClick={handleClick} userList={userList}></RightContainer>
+        <RightContainer onClick={handleClickFollowUser} userList={userList}></RightContainer>
       </div>
 
       <ModalBackground active={postingModal || replyModal}></ModalBackground>
