@@ -79,9 +79,10 @@ const StyledPostCard = styled.div`
 `
 
 
-const PostCard = ({ onClickReply, isLike, postData, onClick, post_id}) => {
+const PostCard = ({ onClickReply, postData, onClick, account_id}) => {
 
   const timeDif = timeDifferent(postData.getTime)
+  const isLike = postData.like.includes(account_id)
 
   return (
     <StyledPostCard>
@@ -100,8 +101,8 @@ const PostCard = ({ onClickReply, isLike, postData, onClick, post_id}) => {
             <div className='footer-item-count' >{postData.reply_count}</div>
           </div>
           <div className='data-footer-item'>
-            <img className='footer-item-icon' src={isLike ? likeActive : like} alt="like" onClick={() => onClick?.(post_id)}/>
-            <div className='footer-item-count' >{postData.like_count}</div>
+            <img className='footer-item-icon' src={isLike ? likeActive : like} alt="like" onClick={() => onClick?.(postData.id)}/>
+            <div className='footer-item-count' >{postData.like.length}</div>
           </div>
         </div>
       </div>

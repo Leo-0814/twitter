@@ -16,7 +16,7 @@ import { Photo } from '../component/common/photo.styled'
 import { followUser, getInfo, getUsers } from '../api/info'
 import { useNavigate } from 'react-router-dom'
 import { adminToken } from '../component/common/adminToken'
-import { createPost, getPosts } from '../api/posts'
+import { createPost, editPost, getPosts } from '../api/posts'
 
 const HomePage = () => {
   const [postingModal, setPostingModal] = useState(false)
@@ -30,8 +30,6 @@ const HomePage = () => {
     real_name: '',
     remark: '',
     email: '',
-    mobile: '', //like的推文
-    send_sms_time: '',  //頭貼
   }) 
   const [ postList, setPostList ] = useState([])
   const [ postingContent, setPostingContent ] = useState('')
@@ -53,7 +51,7 @@ const HomePage = () => {
     }
 
     const token = localStorage.getItem('token')
-    const id = postList.length
+    const id = postList[postList.length - 1].id + 1
     const time = new Date()
     const getTime = time.getTime()
     const create_at = time.toLocaleString()
@@ -76,8 +74,21 @@ const HomePage = () => {
     }
   }
 
-  const handleClickLike = async (post_id) => {
-    //改成推文加DB like
+  // 對推文按喜歡
+  const handleClickLike = async (postId) => {
+    const token = localStorage.getItem('token')
+    const account_id = personInfo.account_id
+    const post = postList.filter(item => item.id === postId)
+    try {
+      const res = await editPost({post, account_id, token})
+
+      if (res) {
+        const res = await getPosts()
+        setPostList(res)
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   // 判斷token拿取個人資料
@@ -101,8 +112,6 @@ const HomePage = () => {
           real_name: res.real_name,
           account_id: res.account_id,
           remark: res.remark,
-          mobile: res.mobile,
-          send_sms_time: res.send_sms_time,
         })
         }
       } catch (error) {
@@ -133,7 +142,7 @@ const HomePage = () => {
     const getPostsAsync = async () => {
       try {
         const res = await getPosts()
-        setPostList(res)
+        setPostList(res.reverse())
       } catch (error) {
         console.log(error)
       }
@@ -159,7 +168,7 @@ const HomePage = () => {
           <div className="centerContainer-post">
             {postList.map((post) => {
               return (
-                <PostCard key={post.id} post_id={post.id} onClickReply={() => setReplyPage(true)} postData={post} onClick={handleClickLike}></PostCard>
+                <PostCard key={post.id} onClickReply={() => setReplyPage(true)} postData={post} account_id={personInfo.account_id} onClick={handleClickLike}></PostCard>
               )
             })}
           </div>

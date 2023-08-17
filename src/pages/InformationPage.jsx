@@ -23,7 +23,7 @@ import { editInfo, followUser, getInfo, getUsers } from "../api/info"
 import Button from "../component/Button"
 import Swal from "sweetalert2"
 import { adminToken } from '../component/common/adminToken'
-import { createPost, getPosts } from "../api/posts"
+import { createPost, editPost, getPosts } from "../api/posts"
 
 const InformationPage = () => {
   const [postingModal, setPostingModal] = useState(false)
@@ -61,7 +61,7 @@ const InformationPage = () => {
     }
 
     const token = localStorage.getItem('token')
-    const id = postList.length
+    const id = postList[postList.length - 1].id + 1
     const time = new Date()
     const getTime = time.getTime()
     const create_at = time.toLocaleString()
@@ -143,14 +143,34 @@ const InformationPage = () => {
     }
   }
 
+  // 對推文按喜歡
+  const handleClickLike = async (postId) => {
+    const token = localStorage.getItem('token')
+    const account_id = personInfo.account_id
+    const post = postList.filter(item => item.id === postId)
+    try {
+      const res = await editPost({post, account_id, token})
+
+      if (res) {
+        const res = await getPosts()
+        setPostList(res)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   // 初始拿個人資料
   useEffect(() => {
     const getInfoAsync = async () => {
       const token = localStorage.getItem('token')
 
       try {
-        const { account, real_name, account_id, remark, email, mobile
+        let { account, real_name, account_id, remark, email, mobile
  } = await getInfo(token)
+        if (!remark) {
+          remark = ''
+        }
         setPersonInfo({
           email,
           account,
@@ -190,7 +210,7 @@ const InformationPage = () => {
     const getPostsAsync = async () => {
       try {
         const res = await getPosts()
-        setPostList(res)
+        setPostList(res.reverse())
       } catch (error) {
         console.log(error)
       }
@@ -247,10 +267,9 @@ const InformationPage = () => {
             {postList.map((post) => {
               if (post.account === personInfo.account) {
                 return (
-                  <PostCard key={post.id} onClickReply={() => setReplyPage(true)} isLike={true} postData={post}></PostCard>
+                  <PostCard key={post.id} onClickReply={() => setReplyPage(true)} postData={post} account_id={personInfo.account_id} onClick={handleClickLike}></PostCard>
                 )
               }
-              return <></>
             })}
           </div>
           {/* tab reply */}
@@ -264,12 +283,11 @@ const InformationPage = () => {
           {/* tab like */}
           <div className={clsx('informationContainer-like', {active: infoTabControl === 2})}>
             {postList.map((post) => {
-              if (post.account === personInfo.account) {
+              if (post.like.includes(personInfo.account_id)) {
                 return (
-                  <PostCard key={post.id} onClickReply={() => setReplyPage(true)} isLike={true} postData={post}></PostCard>
+                  <PostCard key={post.id} onClickReply={() => setReplyPage(true)} postData={post} account_id={personInfo.account_id} onClick={handleClickLike}></PostCard>
                 )
               }
-              return <></>
             })}
           </div>
           {/* 推文modal */}
