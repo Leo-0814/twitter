@@ -267,7 +267,7 @@ const InformationPage = () => {
             {postList.map((post) => {
               if (post.account === personInfo.account) {
                 return (
-                  <PostCard key={post.id} onClickReply={() => setReplyPage(true)} postData={post} account_id={personInfo.account_id} onClick={handleClickLike}></PostCard>
+                  <PostCard key={post.id} onClickReply={() => setReplyPage(true)} postData={post} account_id={personInfo.account_id} onClickLike={handleClickLike}></PostCard>
                 )
               }
             })}
@@ -285,7 +285,7 @@ const InformationPage = () => {
             {postList.map((post) => {
               if (post.like.includes(personInfo.account_id)) {
                 return (
-                  <PostCard key={post.id} onClickReply={() => setReplyPage(true)} postData={post} account_id={personInfo.account_id} onClick={handleClickLike}></PostCard>
+                  <PostCard key={post.id} onClickReply={() => setReplyPage(true)} postData={post} account_id={personInfo.account_id} onClickLike={handleClickLike}></PostCard>
                 )
               }
             })}
