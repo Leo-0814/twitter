@@ -1,6 +1,8 @@
 import userPhoto from '../images/userPhoto.png'
+import ownPhoto from '../images/ownPhoto.png'
 import { styled } from 'styled-components'
 import { Photo } from './common/photo.styled'
+import { timeDifferent } from './common/time'
 
 const StyledReplyCard = styled.div`
   width: 100%;
@@ -66,36 +68,39 @@ const StyledReplyCard = styled.div`
 `
 
 
-const ReplyCard = ({type, className, real_name, account}) => {
+const ReplyCard = ({type, className, replyData, personInfo}) => {
+  
+  const timeDif = timeDifferent(replyData.getTime)
+
   if (type === 'typeA') {
     return (
       <StyledReplyCard className={className}>
-        <Photo src={userPhoto} alt="" />
+        <Photo src={replyData.account === personInfo.account? ownPhoto: userPhoto} alt="userPhoto" />
         <div className='reply-card-data' >
           <div className='card-data-header' >
-            <div className='data-header-username' >{real_name}</div>
-            <div className='data-header-account' >@{account}</div>
+            <div className='data-header-username' >{replyData.real_name}</div>
+            <div className='data-header-account' >@{replyData.account}</div>
             <span className='data-header-dot'>．</span>
-            <div className='data-header-time'>3小時</div>
+            <div className='data-header-time'>{timeDif}</div>
           </div>
-          <div className="card-data-target">回覆<span className='data-target-span'>@apply</span></div>
-          <div className='card-data-content' >Lorem Ipsum is simply dummy text of the printing and typesetting industry. </div>
+          <div className="card-data-target">回覆<span className='data-target-span'>@{replyData.account}</span></div>
+          <div className='card-data-content' >{replyData.content} </div>
         </div>
       </StyledReplyCard>
     )
   } else {
     return (
       <StyledReplyCard className={className}>
-        <Photo src={userPhoto} alt="" />
+        <Photo src={replyData.account === personInfo.account? ownPhoto: userPhoto} alt="userPhoto" />
         <div className='reply-card-data' >
           <div className='card-data-header' >
-            <div className='data-header-username' >{real_name}</div>
-            <div className='data-header-account' >@{account}</div>
+            <div className='data-header-username' >{replyData.real_name}</div>
+            <div className='data-header-account' >@{replyData.account}</div>
             <span className='data-header-dot'>．</span>
-            <div className='data-header-time'>3小時</div>
+            <div className='data-header-time'>{timeDif}</div>
           </div>
-          <div className='card-data-content' >Lorem Ipsum is simply dummy text of the printing and typesetting industry. </div>
-          <div className="card-data-target">回覆給<span className='data-target-span'>@apply</span></div>
+          <div className='card-data-content' >{replyData.content}</div>
+          <div className="card-data-target">回覆給<span className='data-target-span'>@{replyData.account}</span></div>
         </div>
       </StyledReplyCard>
     )

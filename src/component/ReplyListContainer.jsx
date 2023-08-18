@@ -1,14 +1,19 @@
 import clsx from "clsx"
 import leftArrow from '../images/_base/leftArrow.png'
 import userPhoto from '../images/userPhoto.png'
+import ownPhoto from '../images/ownPhoto.png'
 import reply from '../images/_base/reply.png'
 import like from '../images/_base/like.png'
+import likeActive from '../images/_base/likeActive.png'
 import ReplyCard from "./ReplyCard"
 import { Modal } from "./Modal"
 import { Photo } from "./common/photo.styled"
-import { Button } from "style-components"
+import Button from './Button'
 
-export const ReplyListContainer = ({isOpenReplyPage, isOpenReplyModal, onClickOpenReplyPage, onClickOpenReplyModal, postData}) => {
+export const ReplyListContainer = ({isOpenReplyPage, isOpenReplyModal, onClickOpenReplyPage, onClickOpenReplyModal, postData, onClick, personInfo, replyModalInputValue, onChange, onClickReply}) => {
+
+  const isLike = postData.like.includes(personInfo.account_id)
+
   return (
     <div className={clsx("replyListContainer", { reply: isOpenReplyPage })}>
       <div className="replyList-header">
@@ -17,7 +22,7 @@ export const ReplyListContainer = ({isOpenReplyPage, isOpenReplyModal, onClickOp
       </div>
       <div className="replyList-content">
         <div className="replyList-content-header">
-          <Photo src={userPhoto} alt="" className="content-header-photo" />
+          <Photo src={postData.account === personInfo.account? ownPhoto: userPhoto} alt="" className="content-header-photo" />
           <div className="content-header-data">
             <div className="header-data-username">{postData.real_name}</div>
             <div className="header-data-account">@{postData.account}</div>
@@ -36,24 +41,22 @@ export const ReplyListContainer = ({isOpenReplyPage, isOpenReplyModal, onClickOp
       </div>
       <div className="replyList-action">
         <img src={reply} alt="reply" className="replyList-action-icon" onClick={() => onClickOpenReplyModal?.(true)} />
-        <img src={like} alt="like" className="replyList-action-icon" />
+        <img src={isLike ? likeActive : like} alt="like" className="replyList-action-icon" onClick={() => onClick?.(postData.id)}/>
       </div>
       <div className="replyList-reply">
-        <ReplyCard type='typeA'></ReplyCard>
-        <ReplyCard type='typeA'></ReplyCard>
-        <ReplyCard type='typeA'></ReplyCard>
-        <ReplyCard type='typeA'></ReplyCard>
-        <ReplyCard type='typeA'></ReplyCard>
-        <ReplyCard type='typeA'></ReplyCard>
-        <ReplyCard type='typeA'></ReplyCard>
+        {postData.reply.map((item) => {
+          return (
+            <ReplyCard key={item.id} type='typeA' replyData={item} personInfo={personInfo}></ReplyCard>
+          )
+        })}
       </div>
       <Modal active={isOpenReplyModal} onClickModalCancel={() => onClickOpenReplyModal?.(false)} className='replyList-reply-modal' btnText='回覆' type='typeA'>
-        <ReplyCard className='reply-modal-replyCard'></ReplyCard>
+        <ReplyCard className='reply-modal-replyCard' replyData={postData} personInfo={personInfo}></ReplyCard>
         <div className="reply-modal-ownReply">
-          <Photo src={userPhoto} alt="logo" className="modal-ownReply-img" />
-          <textarea rows='8' cols='100' className="modal-ownReply-textarea" placeholder='推你的回覆'></textarea>
+          <Photo src={ownPhoto} alt="ownPhoto" className="modal-ownReply-img" />
+          <textarea rows='8' cols='100' className="modal-ownReply-textarea" placeholder='推你的回覆' value={replyModalInputValue} onChange={(replyModalInputValue) => onChange?.(replyModalInputValue)}></textarea>
         </div>
-        <Button className='reply-modal-btn'>推文</Button>
+        <Button className='reply-modal-btn' onClick={() => onClickReply?.(postData.id)}>回覆</Button>
       </Modal>
     </div>
   )

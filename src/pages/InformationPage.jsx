@@ -11,10 +11,7 @@ import backgroundDelete from '../images/_base/background-delete.png'
 import { Link } from "react-router-dom"
 import { useEffect, useRef, useState } from "react"
 import { Modal, ModalBackground } from "../component/Modal"
-import userPhoto from '../images/userPhoto.png'
 import clsx from "clsx"
-import reply from '../images/_base/reply.png'
-import like from '../images/_base/like.png'
 import ReplyCard from "../component/ReplyCard"
 import AuthInput from "../component/AuthInput"
 import FollowCard from "../component/FollowCard"
@@ -24,12 +21,13 @@ import Button from "../component/Button"
 import Swal from "sweetalert2"
 import { adminToken } from '../component/common/adminToken'
 import { createPost, editPost, getPosts } from "../api/posts"
+import { ReplyListContainer } from "../component/ReplyListContainer"
 
 const InformationPage = () => {
   const [postingModal, setPostingModal] = useState(false)
-  const [replyPage, setReplyPage] = useState(false)
+  const [ isOpenReplyPage, setIsOpenReplyPage ] = useState(false)
+  const [ isOpenReplyModal, setIsOpenReplyModal ] = useState(false)
   const [followPage, setFollowPage] = useState(false)
-  const [replyModal, setReplyModal] = useState(false)
   const [editInfoModal, setEditInfoModal] = useState(false)
   const [infoTabControl, setInfoTabControl] = useState(0)
   const [followTabControl, setFollowTabControl] = useState(0)
@@ -50,6 +48,18 @@ const InformationPage = () => {
   const remarkRef = useRef(personInfo.remark)
   const [ backgroundUrl, setBackgroundUrl ] = useState('')
   const [ photoUrl, setPhotoUrl] = useState('')
+  const [ replyContainerData, setReplyContainerData ] = useState({
+    id: '',
+    account: '',
+    real_name: '',
+    create_at: '',
+    getTime: '',
+    content: '',
+    photo: '',
+    reply: [],
+    like: []
+  })
+  const [ replyModalInputValue, setReplyModalInputValue ] = useState('') 
 
   const area_code = ''
   const user_level_id = 22
@@ -61,21 +71,17 @@ const InformationPage = () => {
     }
 
     const token = localStorage.getItem('token')
-    const id = postList[postList.length - 1].id + 1
+    const id = postList[0].id + 1
     const time = new Date()
     const getTime = time.getTime()
     const create_at = time.toLocaleString()
 
     try {
-      const res = await createPost({ token, id, create_at, getTime, postingContent, ...personInfo })
-
+      const res = await createPost({token, id, create_at, getTime, postingContent, ...personInfo})
+      
       if (res) {
-        setPostList((prop) => {
-          return [
-            ...prop,
-            res
-          ]
-        })
+        const newPostList = [res,...postList]
+        setPostList(newPostList)
         setPostingContent('')
         setPostingModal(false)
       }
@@ -146,14 +152,44 @@ const InformationPage = () => {
   // 對推文按喜歡
   const handleClickLike = async (postId) => {
     const token = localStorage.getItem('token')
-    const account_id = personInfo.account_id
     const post = postList.filter(item => item.id === postId)
     try {
-      const res = await editPost({post, account_id, token})
-
+      const res = await editPost({post, personInfo, token})
+      
       if (res) {
-        const res = await getPosts()
-        setPostList(res)
+        setReplyContainerData(res)
+        const posts = await getPosts()
+        setPostList(posts)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  // 點擊推文回覆跳轉replyListContainer
+  const handleClickReply = async (postData) => {
+    setIsOpenReplyPage(true)
+    setReplyContainerData(postData)
+  }
+
+  // 回覆推文
+  const handleReply = async (postId) => {
+    const token = localStorage.getItem('token')
+    const post = postList.filter(item => item.id === postId)
+    const time = new Date()
+    const getTime = time.getTime()
+    const create_at = time.toLocaleString()
+
+    try {
+      const res = await editPost({post, personInfo, token, replyModalInputValue, create_at, getTime})
+      
+      if (res) {
+        setReplyModalInputValue('')
+        const posts = await getPosts()
+        setPostList(posts)
+        const newPostData = posts.filter(post => post.id === postId)
+        setReplyContainerData(newPostData[0])
+        setIsOpenReplyModal(false)
       }
     } catch (error) {
       console.log(error)
@@ -210,7 +246,7 @@ const InformationPage = () => {
     const getPostsAsync = async () => {
       try {
         const res = await getPosts()
-        setPostList(res.reverse())
+        setPostList(res)
       } catch (error) {
         console.log(error)
       }
@@ -223,11 +259,11 @@ const InformationPage = () => {
       <div className="mainContainer">
         <LeftContainer information={informationActive} onClickPost={() => {
           setPostingModal(true)
-          setReplyPage(false)
+          setIsOpenReplyPage(false)
           setFollowPage(false)}}></LeftContainer>
 
         {/* informationContainer */}
-        <div className={clsx("informationContainer", { reply: replyPage, follow: followPage})}>
+        <div className={clsx("informationContainer", { reply: isOpenReplyPage, follow: followPage})}>
           <div className="informationContainer-header">
             <Link to='/home'><img src={leftArrow} alt="leftArrow" className="header-back" /></Link>
             <div className="header-content">
@@ -267,25 +303,32 @@ const InformationPage = () => {
             {postList.map((post) => {
               if (post.account === personInfo.account) {
                 return (
-                  <PostCard key={post.id} onClickReply={() => setReplyPage(true)} postData={post} account_id={personInfo.account_id} onClickLike={handleClickLike}></PostCard>
+                  <PostCard key={post.id} onClickReply={handleClickReply} postData={post} personInfo={personInfo} onClickLike={handleClickLike}></PostCard>
                 )
               }
             })}
           </div>
           {/* tab reply */}
           <div className={clsx('informationContainer-reply', {active: infoTabControl === 1})}>
-            <ReplyCard type='typeA' real_name={realNameRef.current} account={accountRef.current}></ReplyCard>
-            <ReplyCard type='typeA' real_name={realNameRef.current} account={accountRef.current}></ReplyCard>
-            <ReplyCard type='typeA' real_name={realNameRef.current} account={accountRef.current}></ReplyCard>
-            <ReplyCard type='typeA' real_name={realNameRef.current} account={accountRef.current}></ReplyCard>
-            <ReplyCard type='typeA' real_name={realNameRef.current} account={accountRef.current}></ReplyCard>
+            {postList.map(post => { 
+              return(
+              post.reply.map(item => {
+                if (item.account === personInfo.account) {
+                  return (
+                    <ReplyCard key={item.id} type='typeA' replyData={item} personInfo={personInfo}></ReplyCard>
+                  )
+                } 
+              })
+            )
+              
+            })}
           </div>
           {/* tab like */}
           <div className={clsx('informationContainer-like', {active: infoTabControl === 2})}>
             {postList.map((post) => {
               if (post.like.includes(personInfo.account_id)) {
                 return (
-                  <PostCard key={post.id} onClickReply={() => setReplyPage(true)} postData={post} account_id={personInfo.account_id} onClickLike={handleClickLike}></PostCard>
+                  <PostCard key={post.id} onClickReply={handleClickReply} postData={post} personInfo={personInfo} onClickLike={handleClickLike}></PostCard>
                 )
               }
             })}
@@ -293,7 +336,7 @@ const InformationPage = () => {
           {/* 推文modal */}
           <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='informationContainer-posting-modal' btnText='推文' type='typeA'>
             <div className="posting-modal-content">
-              <Photo src={userPhoto} alt="logo" className="modal-content-img" />
+              <Photo src={ownPhoto} alt="ownPhoto" className="modal-content-img" />
               <textarea rows='6' cols='100' className="modal-content-textarea" placeholder='有什麼新鮮事?' value={postingContent} onChange={(postingTextareaValue) => setPostingContent(postingTextareaValue.target.value)}></textarea>
             </div>
             <Button className='posting-modal-btn' onClick={handleClickPost}>推文</Button>
@@ -348,53 +391,17 @@ const InformationPage = () => {
           </Modal>
         </div>
 
-        {/* replyListContainer */}
-        <div className={clsx("replyListContainer", { reply: replyPage})}>
-          <div className="replyList-header">
-            <img src={leftArrow} alt="leftArrow" className="replyList-header-back" onClick={() => setReplyPage(false)}/>
-            <div className="replyList-header-title">推文</div>
-          </div>
-          <div className="replyList-content">
-            <div className="replyList-content-header">
-              <Photo src={userPhoto} alt="" className="content-header-photo" />
-              <div className="content-header-data">
-                <div className="header-data-username">Apple</div>
-                <div className="header-data-account">@apple</div>
-              </div>
-            </div>
-            <div className="replyList-content-text">Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt.</div>
-            <div className="replyList-content-footer">上午 10:05 ． 2021年11月10日</div>
-          </div>
-          <div className="replyList-actionCount">
-            <div className="replyList-actionCount-item">
-              <div className="actionCount-item-count">34<span className="actionCount-item-span">回覆</span></div>
-            </div>
-            <div className="replyList-actionCount-item">
-              <div className="actionCount-item-count">808<span className="actionCount-item-span">喜歡次數</span></div>
-            </div>
-          </div>
-          <div className="replyList-action">
-            <img src={reply} alt="reply" className="replyList-action-icon" onClick={() => setReplyModal(true)}/>
-            <img src={like} alt="like" className="replyList-action-icon" />
-          </div>
-          <div className="replyList-reply">
-            <ReplyCard type='typeA'></ReplyCard>
-            <ReplyCard type='typeA'></ReplyCard>
-            <ReplyCard type='typeA'></ReplyCard>
-            <ReplyCard type='typeA'></ReplyCard>
-            <ReplyCard type='typeA'></ReplyCard>
-            <ReplyCard type='typeA'></ReplyCard>
-            <ReplyCard type='typeA'></ReplyCard>
-          </div>
-          <Modal active={replyModal} onClickModalCancel={() => setReplyModal(false)} className='replyList-reply-modal' btnText='回覆' type='typeA'>
-            <ReplyCard className='reply-modal-replyCard'></ReplyCard>
-            <div className="reply-modal-ownReply">
-              <Photo src={userPhoto} alt="logo" className="modal-ownReply-img" />
-              <textarea rows='8' cols='100' className="modal-ownReply-textarea" placeholder='推你的回覆'></textarea>
-            </div>
-            <Button className='reply-modal-btn'>回覆</Button>
-          </Modal>
-        </div>
+        <ReplyListContainer
+          isOpenReplyPage={isOpenReplyPage} 
+          isOpenReplyModal={isOpenReplyModal} 
+          onClickOpenReplyPage={(boolean) => setIsOpenReplyPage(boolean)} 
+          onClickOpenReplyModal={(boolean) => setIsOpenReplyModal(boolean)} postData={replyContainerData} 
+          onClick={handleClickLike} 
+          personInfo={personInfo} 
+          replyModalInputValue={replyModalInputValue} 
+          onChange={(value) => setReplyModalInputValue(value.target.value)} 
+          onClickReply={handleReply}>
+        </ReplyListContainer>
 
         {/* followListContainer */}
         <div className={clsx("followListContainer", { follow: followPage})}>
@@ -436,7 +443,7 @@ const InformationPage = () => {
         <RightContainer onClick={handleClickFollowUser} userList={userList}></RightContainer>
       </div>
 
-      <ModalBackground active={postingModal || replyModal || editInfoModal}></ModalBackground>
+      <ModalBackground active={postingModal || isOpenReplyModal || editInfoModal}></ModalBackground>
     </>
   )
 }

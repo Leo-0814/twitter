@@ -455,6 +455,22 @@ a:visited {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    overflow-y: auto;
+    //卷軸底部
+    &::-webkit-scrollbar-track {
+      background-color: rgba(240, 240, 240, 1);
+    }
+  
+    //卷軸整體
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+  
+    //卷軸本身
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(193, 193, 193, 1);
+      border-radius: 4px;
+    }
 
     .informationContainer-header {
       display: flex;
@@ -580,7 +596,6 @@ a:visited {
     }
     .informationContainer-post {
       display: none;
-      overflow-y: auto;
 
       &.active {
         display: inline;
@@ -588,7 +603,6 @@ a:visited {
     }
     .informationContainer-reply {
       display: none;
-      overflow-y: auto;
 
       &.active {
         display: inline;
@@ -596,7 +610,6 @@ a:visited {
     }
     .informationContainer-like {
       display: none;
-      overflow-y: auto;
 
       &.active {
         display: inline;

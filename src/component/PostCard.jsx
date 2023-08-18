@@ -1,4 +1,5 @@
 import userPhoto from '../images/userPhoto.png'
+import ownPhoto from '../images/ownPhoto.png'
 import reply from '../images/_base/reply.png'
 import like from '../images/_base/like.png'
 import likeActive from '../images/_base/likeActive.png'
@@ -79,14 +80,14 @@ const StyledPostCard = styled.div`
 `
 
 
-const PostCard = ({ onClickReply, postData, onClickLike, account_id}) => {
+const PostCard = ({ onClickReply, postData, onClickLike, personInfo}) => {
 
   const timeDif = timeDifferent(postData.getTime)
-  const isLike = postData.like.includes(account_id)
+  const isLike = postData.like.includes(personInfo.account_id)
 
   return (
     <StyledPostCard>
-      <Photo src={userPhoto} alt="userPhoto" />
+      <Photo src={postData.account === personInfo.account? ownPhoto: userPhoto} alt="userPhoto" />
       <div className='post-card-data' >
         <div className='card-data-header' >
           <div className='data-header-username' >{postData.real_name}</div>
@@ -98,7 +99,7 @@ const PostCard = ({ onClickReply, postData, onClickLike, account_id}) => {
         <div className='card-data-footer' >
           <div className='data-footer-item' >
             <img className='footer-item-icon' src={reply} alt="reply" onClick={() => onClickReply?.(postData)}/>
-            <div className='footer-item-count' >{postData.reply_count}</div>
+            <div className='footer-item-count' >{postData.reply.length}</div>
           </div>
           <div className='data-footer-item'>
             <img className='footer-item-icon' src={isLike ? likeActive : like} alt="like" onClick={() => onClickLike?.(postData.id)}/>

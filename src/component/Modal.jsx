@@ -1,6 +1,5 @@
 import { styled } from 'styled-components'
 import modalCancel from '../images/_base/modalCancel.png'
-import Button from './Button'
 import clsx from 'clsx'
 
 const StyledModalBackground = styled.div`

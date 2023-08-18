@@ -40,6 +40,7 @@ const HomePage = () => {
     reply: [],
     like: []
   })
+  const [ replyModalInputValue, setReplyModalInputValue ] = useState('') 
   
   // 推薦跟隨
   const handleClickFollowUser = async (id) => {
@@ -58,7 +59,7 @@ const HomePage = () => {
     }
 
     const token = localStorage.getItem('token')
-    const id = postList[postList.length - 1].id + 1
+    const id = postList[0].id + 1
     const time = new Date()
     const getTime = time.getTime()
     const create_at = time.toLocaleString()
@@ -67,12 +68,8 @@ const HomePage = () => {
       const res = await createPost({token, id, create_at, getTime, postingContent, ...personInfo})
       
       if (res) {
-        setPostList((prop) => {
-          return [
-            ...prop,
-            res
-          ]
-        })
+        const newPostList = [res,...postList]
+        setPostList(newPostList)
         setPostingContent('')
         setPostingModal(false)
       }
@@ -84,24 +81,48 @@ const HomePage = () => {
   // 對推文按喜歡
   const handleClickLike = async (postId) => {
     const token = localStorage.getItem('token')
-    const account_id = personInfo.account_id
     const post = postList.filter(item => item.id === postId)
     try {
-      const res = await editPost({post, account_id, token})
-
+      const res = await editPost({post, personInfo, token})
+      
       if (res) {
-        const res = await getPosts()
-        setPostList(res.reverse())
+        setReplyContainerData(res)
+        const posts = await getPosts()
+        setPostList(posts)
       }
     } catch (error) {
       console.log(error)
     }
   }
 
-  // 點擊推文回覆
+  // 點擊推文回覆跳轉replyListContainer
   const handleClickReply = async (postData) => {
     setIsOpenReplyPage(true)
     setReplyContainerData(postData)
+  }
+
+  // 回覆推文
+  const handleReply = async (postId) => {
+    const token = localStorage.getItem('token')
+    const post = postList.filter(item => item.id === postId)
+    const time = new Date()
+    const getTime = time.getTime()
+    const create_at = time.toLocaleString()
+
+    try {
+      const res = await editPost({post, personInfo, token, replyModalInputValue, create_at, getTime})
+      
+      if (res) {
+        setReplyModalInputValue('')
+        const posts = await getPosts()
+        setPostList(posts)
+        const newPostData = posts.filter(post => post.id === postId)
+        setReplyContainerData(newPostData[0])
+        setIsOpenReplyModal(false)
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   // 判斷token拿取個人資料
@@ -155,7 +176,7 @@ const HomePage = () => {
     const getPostsAsync = async () => {
       try {
         const res = await getPosts()
-        setPostList(res.reverse())
+        setPostList(res)
       } catch (error) {
         console.log(error)
       }
@@ -181,21 +202,30 @@ const HomePage = () => {
           <div className="centerContainer-post">
             {postList.map((post) => {
               return (
-                <PostCard key={post.id} onClickReply={handleClickReply} postData={post} account_id={personInfo.account_id} onClickLike={handleClickLike}></PostCard>
+                <PostCard key={post.id} onClickReply={handleClickReply} postData={post} personInfo={personInfo} onClickLike={handleClickLike}></PostCard>
               )
             })}
           </div>
           <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='centerContainer-posting-modal' btnText='推文' type='typeA'>
             <div className="posting-modal-content">
-                <Photo src={ownPhoto} alt="logo" className="modal-content-img" />
+                <Photo src={ownPhoto} alt="ownPhoto" className="modal-content-img" />
               <textarea rows='6' cols='100' className="modal-content-textarea" placeholder='有什麼新鮮事?' value={postingContent} onChange={(postingModalTextareaValue) => setPostingContent(postingModalTextareaValue.target.value)}></textarea>
             </div>
             <Button className='posting-modal-btn' onClick={handleClickPost}>推文</Button>
           </Modal>
         </div>
 
-        {/* replyListContainer */}
-        <ReplyListContainer isOpenReplyPage={isOpenReplyPage} isOpenReplyModal={isOpenReplyModal} onClickOpenReplyPage={(boolean) => setIsOpenReplyPage(boolean)} onClickOpenReplyModal={(boolean) => setIsOpenReplyModal(boolean)} postData={replyContainerData}></ReplyListContainer>
+        <ReplyListContainer 
+          isOpenReplyPage={isOpenReplyPage} 
+          isOpenReplyModal={isOpenReplyModal} 
+          onClickOpenReplyPage={(boolean) => setIsOpenReplyPage(boolean)} 
+          onClickOpenReplyModal={(boolean) => setIsOpenReplyModal(boolean)} postData={replyContainerData} 
+          onClick={handleClickLike} 
+          personInfo={personInfo} 
+          replyModalInputValue={replyModalInputValue} 
+          onChange={(value) => setReplyModalInputValue(value.target.value)} 
+          onClickReply={handleReply}>
+        </ReplyListContainer>
 
 
         <RightContainer onClick={handleClickFollowUser} userList={userList}></RightContainer>

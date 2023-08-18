@@ -422,6 +422,17 @@ a:visited {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  overflow-y: auto;
+}
+.mainContainer .informationContainer::-webkit-scrollbar-track {
+  background-color: rgb(240, 240, 240);
+}
+.mainContainer .informationContainer::-webkit-scrollbar {
+  width: 8px;
+}
+.mainContainer .informationContainer::-webkit-scrollbar-thumb {
+  background-color: rgb(193, 193, 193);
+  border-radius: 4px;
 }
 .mainContainer .informationContainer .informationContainer-header {
   display: flex;
@@ -536,21 +547,18 @@ a:visited {
 }
 .mainContainer .informationContainer .informationContainer-post {
   display: none;
-  overflow-y: auto;
 }
 .mainContainer .informationContainer .informationContainer-post.active {
   display: inline;
 }
 .mainContainer .informationContainer .informationContainer-reply {
   display: none;
-  overflow-y: auto;
 }
 .mainContainer .informationContainer .informationContainer-reply.active {
   display: inline;
 }
 .mainContainer .informationContainer .informationContainer-like {
   display: none;
-  overflow-y: auto;
 }
 .mainContainer .informationContainer .informationContainer-like.active {
   display: inline;

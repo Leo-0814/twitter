@@ -6,7 +6,7 @@ export const getPosts = async () => {
   try {
     const res = await axios.get(`${baseUrl}/posts`)
 
-    return res.data
+    return res.data.reverse()
   } catch (error) {
     console.error('[Get posts]', error)
   }
@@ -29,9 +29,7 @@ export const createPost = async ({token, id, create_at, getTime, postingContent,
         content: postingContent,
         photo: '',
         reply: [],
-        reply_count: 0,
         like: [],
-        like_count: 0,
       }
     })
 
@@ -41,14 +39,30 @@ export const createPost = async ({token, id, create_at, getTime, postingContent,
   }
 }
 
-export const editPost = async ({post, account_id, token}) => {
+export const editPost = async ({post, personInfo, token, replyModalInputValue, create_at, getTime}) => {
   let postLike = post[0].like
-  if (postLike.includes(account_id)) {
-    const targetIndex = postLike.findIndex(item => item === account_id)
-    postLike.splice(targetIndex, 1)
+  let postReply = post[0].reply
+
+  if (replyModalInputValue) {
+    postReply.unshift({
+      id: postReply.length,
+      account: personInfo.account,
+      real_name: personInfo.real_name,
+      create_at,
+      getTime,
+      post_account: post.account,
+      content: replyModalInputValue
+    })
   } else {
-    postLike.push(account_id)
+    if (postLike.includes(personInfo.account_id)) {
+      const targetIndex = postLike.findIndex(item => item === personInfo.account_id)
+      postLike.splice(targetIndex, 1)
+    } else {
+      postLike.push(personInfo.account_id)
+    }
   }
+  
+  
   try {
     const res = await axios({
       method: 'put',
@@ -58,7 +72,8 @@ export const editPost = async ({post, account_id, token}) => {
       },
       data: {
         ...post[0],
-        like: postLike
+        like: postLike,
+        reply: postReply
       }
     })
 
