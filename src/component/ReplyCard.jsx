@@ -68,7 +68,7 @@ const StyledReplyCard = styled.div`
 `
 
 
-const ReplyCard = ({type, className, replyData, personInfo}) => {
+const ReplyCard = ({type, className, replyData, personInfo, postData, userData}) => {
   
   const timeDif = timeDifferent(replyData.getTime)
 
@@ -83,7 +83,7 @@ const ReplyCard = ({type, className, replyData, personInfo}) => {
             <span className='data-header-dot'>．</span>
             <div className='data-header-time'>{timeDif}</div>
           </div>
-          <div className="card-data-target">回覆<span className='data-target-span'>@{replyData.account}</span></div>
+          <div className="card-data-target">回覆<span className='data-target-span'>@{postData.account}</span></div>
           <div className='card-data-content' >{replyData.content} </div>
         </div>
       </StyledReplyCard>
@@ -100,7 +100,7 @@ const ReplyCard = ({type, className, replyData, personInfo}) => {
             <div className='data-header-time'>{timeDif}</div>
           </div>
           <div className='card-data-content' >{replyData.content}</div>
-          <div className="card-data-target">回覆給<span className='data-target-span'>@{replyData.account}</span></div>
+          <div className="card-data-target">回覆給<span className='data-target-span'>@{postData.account}</span></div>
         </div>
       </StyledReplyCard>
     )

@@ -26,6 +26,11 @@ const StyledPostCard = styled.div`
         font-size: 16px;
         line-height: 26px;
         margin-right: 5px;
+        cursor: pointer;
+
+        &:hover {
+          opacity: .9;
+        }
       }
       .data-header-account {
         color: rgba(108, 117, 125, 1);
@@ -80,17 +85,20 @@ const StyledPostCard = styled.div`
 `
 
 
-const PostCard = ({ onClickReply, postData, onClickLike, personInfo}) => {
+const PostCard = ({ onClickReply, postData, onClickLike, personInfo, onClickName, userData}) => {
 
   const timeDif = timeDifferent(postData.getTime)
   const isLike = postData.like.includes(personInfo.account_id)
 
   return (
     <StyledPostCard>
-      <Photo src={postData.account === personInfo.account? ownPhoto: userPhoto} alt="userPhoto" />
+      {userData.account? 
+        <Photo src={postData.account === userData.account? userPhoto: ownPhoto} alt="userPhoto" />
+        : <Photo src={postData.account === personInfo.account? ownPhoto: userPhoto} alt="userPhoto" />
+      }
       <div className='post-card-data' >
         <div className='card-data-header' >
-          <div className='data-header-username' >{postData.real_name}</div>
+          <div className='data-header-username' onClick={() => onClickName?.(postData)}>{postData.real_name}</div>
           <div className='data-header-account' >@{postData.account}</div>
           <span className='data-header-dot'>．</span>
           <div className='data-header-time'>{timeDif}</div>

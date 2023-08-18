@@ -1,37 +1,27 @@
-import ButtonHollow from "../component/Button-hollow"
 import LeftContainer from "../component/LeftContainer"
-import PostCard from "../component/PostCard"
 import RightContainer from "../component/RightContainer"
 import leftArrow from '../images/_base/leftArrow.png'
-import ownPhoto from '../images/ownPhoto.png'
-import baseBackground from '../images/baseBackground.png'
 import informationActive from '../images/_base/informationActive.png'
-import editPhoto from '../images/_base/edit-photo.png'
-import backgroundDelete from '../images/_base/background-delete.png'
-import { Link } from "react-router-dom"
 import { useEffect, useRef, useState } from "react"
-import { Modal, ModalBackground } from "../component/Modal"
+import { ModalBackground } from "../component/Modal"
 import clsx from "clsx"
-import ReplyCard from "../component/ReplyCard"
-import AuthInput from "../component/AuthInput"
 import FollowCard from "../component/FollowCard"
-import { Photo } from "../component/common/photo.styled"
 import { editInfo, followUser, getInfo, getUsers } from "../api/info"
-import Button from "../component/Button"
 import Swal from "sweetalert2"
 import { adminToken } from '../component/common/adminToken'
 import { createPost, editPost, getPosts } from "../api/posts"
 import { ReplyListContainer } from "../component/ReplyListContainer"
+import { InformationContainer } from "../component/InformationContainer"
 
 const InformationPage = () => {
-  const [postingModal, setPostingModal] = useState(false)
+  const [ postingModal, setPostingModal ] = useState(false)
   const [ isOpenReplyPage, setIsOpenReplyPage ] = useState(false)
   const [ isOpenReplyModal, setIsOpenReplyModal ] = useState(false)
-  const [followPage, setFollowPage] = useState(false)
-  const [editInfoModal, setEditInfoModal] = useState(false)
-  const [infoTabControl, setInfoTabControl] = useState(0)
-  const [followTabControl, setFollowTabControl] = useState(0)
-  const [isFollow, setIsFollow] = useState(false)
+  const [ isOpenFollowPage, setIsOpenFollowPage ] = useState(false)
+  const [ editInfoModal, setEditInfoModal ] = useState(false)
+  const [ infoTabControl, setInfoTabControl ] = useState(0)
+  const [ followTabControl, setFollowTabControl ] = useState(0)
+  const [ isFollow, setIsFollow ]  = useState(false)
   const [ userList, setUserList ] = useState([])
   const [ postList, setPostList ] = useState([])
   const [ personInfo, setPersonInfo ] = useState({
@@ -58,6 +48,12 @@ const InformationPage = () => {
     photo: '',
     reply: [],
     like: []
+  })
+  const [ userData, setUserData ] = useState({
+    account: '',
+    account_id: '',
+    real_name: '',
+    remark: '',
   })
   const [ replyModalInputValue, setReplyModalInputValue ] = useState('') 
 
@@ -91,7 +87,7 @@ const InformationPage = () => {
   }
 
   // 上傳背景圖
-  const handleUploadBackground = async (e) => {
+  const handleUploadBackground = (e) => {
     if (!e.target.files[0]) return;
     var reader = new FileReader();
     reader.onload = function () {
@@ -102,7 +98,7 @@ const InformationPage = () => {
   };
 
   // 上傳頭貼
-  const handleUploadPhoto = async (e) => {
+  const handleUploadPhoto = (e) => {
     if (!e.target.files[0]) return;
     var reader = new FileReader();
     reader.onload = function () {
@@ -167,7 +163,7 @@ const InformationPage = () => {
   }
 
   // 點擊推文回覆跳轉replyListContainer
-  const handleClickReply = async (postData) => {
+  const handleClickReply = (postData) => {
     setIsOpenReplyPage(true)
     setReplyContainerData(postData)
   }
@@ -194,6 +190,17 @@ const InformationPage = () => {
     } catch (error) {
       console.log(error)
     }
+  }
+
+  // 點擊名字查看user資料
+  const handleClickName = (postData) => {
+    setUserData({
+      account: postData.account,
+      account_id: postData.account_id,
+      real_name: postData.real_name,
+      remark: postData.remark,
+    })
+    setInfoTabControl(0)
   }
 
   // 初始拿個人資料
@@ -260,136 +267,41 @@ const InformationPage = () => {
         <LeftContainer information={informationActive} onClickPost={() => {
           setPostingModal(true)
           setIsOpenReplyPage(false)
-          setFollowPage(false)}}></LeftContainer>
+          setIsOpenFollowPage(false)}}></LeftContainer>
 
-        {/* informationContainer */}
-        <div className={clsx("informationContainer", { reply: isOpenReplyPage, follow: followPage})}>
-          <div className="informationContainer-header">
-            <Link to='/home'><img src={leftArrow} alt="leftArrow" className="header-back" /></Link>
-            <div className="header-content">
-              <div className="header-content-username">{realNameRef.current}</div>
-              <div className="header-content-postCount">25 推文</div>
-            </div>
-          </div>
-          <div className="informationContainer-self">
-            <div className="self-picture">
-              <img src={backgroundUrl? backgroundUrl: baseBackground} alt="background" className="self-picture-background" />
-              <div className="self-picture-photo">
-                <img src={photoUrl? photoUrl: ownPhoto} alt="photo1" className="picture-photo-img" />
-              </div>
-              <ButtonHollow className='self-picture-btn' onClick={() => setEditInfoModal(true)}>編輯個人資料</ButtonHollow>
-            </div>
-            <div className="self-content">
-              <div className="self-content-username">{realNameRef.current}</div>
-              <div className="self-content-account">@{accountRef.current}</div>
-              <div className="self-content-text">{remarkRef.current}</div>
-              <div className="self-content-footer">
-                <div className="content-footer-following" onClick={() => {
-                  setFollowPage(true)
-                  setFollowTabControl(0)}}>34個<span className="footer-following-span">跟隨中</span></div>
-                <div className="content-footer-following" onClick={() => {
-                  setFollowPage(true) 
-                  setFollowTabControl(1)}}>59位<span className="footer-following-span">跟隨者</span></div>
-              </div>
-            </div>
-          </div>
-          <div className="informationContainer-tabs">
-            <div className={clsx('tabs-tab', {active: infoTabControl === 0})} onClick={() => setInfoTabControl(0)}>推文</div>
-            <div className={clsx('tabs-tab', {active: infoTabControl === 1})} onClick={() => setInfoTabControl(1)}>回覆</div>
-            <div className={clsx('tabs-tab', {active: infoTabControl === 2})} onClick={() => setInfoTabControl(2)}>喜歡的內容</div>
-          </div>
-          {/* tab post */}
-          <div className={clsx('informationContainer-post', {active: infoTabControl === 0})}>
-            {postList.map((post) => {
-              if (post.account === personInfo.account) {
-                return (
-                  <PostCard key={post.id} onClickReply={handleClickReply} postData={post} personInfo={personInfo} onClickLike={handleClickLike}></PostCard>
-                )
-              }
-            })}
-          </div>
-          {/* tab reply */}
-          <div className={clsx('informationContainer-reply', {active: infoTabControl === 1})}>
-            {postList.map(post => { 
-              return(
-              post.reply.map(item => {
-                if (item.account === personInfo.account) {
-                  return (
-                    <ReplyCard key={item.id} type='typeA' replyData={item} personInfo={personInfo}></ReplyCard>
-                  )
-                } 
-              })
-            )
-              
-            })}
-          </div>
-          {/* tab like */}
-          <div className={clsx('informationContainer-like', {active: infoTabControl === 2})}>
-            {postList.map((post) => {
-              if (post.like.includes(personInfo.account_id)) {
-                return (
-                  <PostCard key={post.id} onClickReply={handleClickReply} postData={post} personInfo={personInfo} onClickLike={handleClickLike}></PostCard>
-                )
-              }
-            })}
-          </div>
-          {/* 推文modal */}
-          <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='informationContainer-posting-modal' btnText='推文' type='typeA'>
-            <div className="posting-modal-content">
-              <Photo src={ownPhoto} alt="ownPhoto" className="modal-content-img" />
-              <textarea rows='6' cols='100' className="modal-content-textarea" placeholder='有什麼新鮮事?' value={postingContent} onChange={(postingTextareaValue) => setPostingContent(postingTextareaValue.target.value)}></textarea>
-            </div>
-            <Button className='posting-modal-btn' onClick={handleClickPost}>推文</Button>
-          </Modal>
-          {/* 編輯個人資料modal */}
-          <Modal active={editInfoModal} onClickModalCancel={() => setEditInfoModal(false)} className='informationContainer-editInfo-modal' btnText='儲存' title='編輯個人資料' type='typeB'>
-            <div className="editInfo-modal-picture">
-              <div className="modal-picture-background">
-                <img src={backgroundUrl? backgroundUrl: baseBackground} alt="background" className="picture-background-img" />
-                <div className="picture-background-edit">
-                  <label className="background-edit-icon">
-                    <img src={editPhoto} alt="editIcon" className="edit-icon-img"/>
-                    <input type="file" accept= "image/png, image/jpeg" className="edit-icon-input" onChange={handleUploadBackground}/>
-                  </label>
-                  <img src={backgroundDelete} alt="delete-background" className="background-edit-delete" onClick={() => 
-                    setBackgroundUrl('')}
-                  />
-                </div>
-              </div>
-              <div className="modal-picture-photo">
-                <img src={photoUrl ? photoUrl : ownPhoto} alt="photo1" className="picture-photo-img" />
-                <div className="picture-photo-edit">
-                  <label className="photo-edit-icon">
-                    <img src={editPhoto} alt="editIcon" className="edit-icon-img"/>
-                    <input type="file" className="edit-icon-input" onChange={handleUploadPhoto}/>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="editInfo-modal-input">
-              <div className="modal-input-username">
-                <AuthInput 
-                  value={personInfo.real_name} name='username' label='名稱' className='input-username-input' onChange={(realNameInputValue) => setPersonInfo({
-                    ...personInfo,
-                    real_name: realNameInputValue
-                    })}
-                />
-                <div className="input-username-count">{personInfo.real_name.toString().length}/50</div>
-              </div>
-              
-              <div className="modal-input-introduction">
-                <label htmlFor='introduction' className="input-introduction-label">自我介紹</label>
-                <textarea id='introduction' className='input-introduction-textarea' rows='6' cols='100' placeholder="請輸入自我介紹" value={personInfo.remark} onChange={(remarkTextareaValue) => setPersonInfo({
-                  ...personInfo,
-                  remark: remarkTextareaValue.target.value
-                  })
-                }></textarea>
-                <div className="input-introduction-count">{personInfo.remark? personInfo.remark.toString().length : 0}/160</div>
-              </div>
-            </div>
-            <Button className='editInfo-modal-btn' onClick={handleClickEditInfo}>儲存</Button>
-          </Modal>
-        </div>
+
+        <InformationContainer
+          isOpenReplyPage= {isOpenReplyPage}
+          isOpenFollowPage= {isOpenFollowPage}
+          realNameRef= {realNameRef}
+          accountRef= {accountRef}
+          remarkRef= {remarkRef}
+          userData= {userData}
+          postList= {postList}
+          personInfo= {personInfo}
+          backgroundUrl= {backgroundUrl}
+          photoUrl= {photoUrl}
+          onClickEditInfoModal= {(boolean) => setEditInfoModal(boolean)}
+          onClickFollowPage= {(boolean) => setIsOpenFollowPage(boolean)}
+          onClickFollowTabControl= {(e) => setFollowTabControl(e)}
+          infoTabControl= {infoTabControl}
+          onClickInfoTabControl= {(e) => setInfoTabControl(e)}
+          onClickReply= {handleClickReply}
+          onClickLike= {handleClickLike}
+          onClickName= {handleClickName}
+          postingModal= {postingModal}
+          onClickPostingModal= {(boolean) => setPostingModal(boolean)}
+          postingContent= {postingContent}
+          onClickPostingContent= {(boolean) => setPostingContent(boolean)}
+          onClickPost= {handleClickPost}
+          editInfoModal= {editInfoModal}
+          onChangeUploadBackground= {handleUploadBackground}
+          onClickBackgroundUrl= {(e) => setBackgroundUrl(e)}
+          onChangeUploadPhoto= {handleUploadPhoto}
+          onChangePersonInfo= {(personInfo) => setPersonInfo(personInfo)}
+          onClickEditInfo= {handleClickEditInfo}
+        >
+        </InformationContainer>
 
         <ReplyListContainer
           isOpenReplyPage={isOpenReplyPage} 
@@ -404,9 +316,9 @@ const InformationPage = () => {
         </ReplyListContainer>
 
         {/* followListContainer */}
-        <div className={clsx("followListContainer", { follow: followPage})}>
+        <div className={clsx("followListContainer", { follow: isOpenFollowPage})}>
           <div className="followListContainer-header">
-            <img src={leftArrow} alt="leftArrow" className="header-back" onClick={() => setFollowPage(false)}/>
+            <img src={leftArrow} alt="leftArrow" className="header-back" onClick={() => setIsOpenFollowPage(false)}/>
             <div className="header-content">
               <div className="header-content-username">John Doe</div>
               <div className="header-content-postCount">25 推文</div>

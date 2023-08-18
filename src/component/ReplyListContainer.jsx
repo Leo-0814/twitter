@@ -46,12 +46,12 @@ export const ReplyListContainer = ({isOpenReplyPage, isOpenReplyModal, onClickOp
       <div className="replyList-reply">
         {postData.reply.map((item) => {
           return (
-            <ReplyCard key={item.id} type='typeA' replyData={item} personInfo={personInfo}></ReplyCard>
+            <ReplyCard key={item.id} type='typeA' postData={postData} replyData={item} personInfo={personInfo}></ReplyCard>
           )
         })}
       </div>
       <Modal active={isOpenReplyModal} onClickModalCancel={() => onClickOpenReplyModal?.(false)} className='replyList-reply-modal' btnText='回覆' type='typeA'>
-        <ReplyCard className='reply-modal-replyCard' replyData={postData} personInfo={personInfo}></ReplyCard>
+        <ReplyCard className='reply-modal-replyCard' replyData={postData} personInfo={personInfo} postData={postData}></ReplyCard>
         <div className="reply-modal-ownReply">
           <Photo src={ownPhoto} alt="ownPhoto" className="modal-ownReply-img" />
           <textarea rows='8' cols='100' className="modal-ownReply-textarea" placeholder='推你的回覆' value={replyModalInputValue} onChange={(replyModalInputValue) => onChange?.(replyModalInputValue)}></textarea>

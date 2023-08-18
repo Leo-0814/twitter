@@ -40,6 +40,11 @@ const HomePage = () => {
     reply: [],
     like: []
   })
+  const [ userData, setUserData ] = useState({
+    account: '',
+    real_name: '',
+    remark: '',
+  })
   const [ replyModalInputValue, setReplyModalInputValue ] = useState('') 
   
   // 推薦跟隨
@@ -96,7 +101,7 @@ const HomePage = () => {
   }
 
   // 點擊推文回覆跳轉replyListContainer
-  const handleClickReply = async (postData) => {
+  const handleClickReply = (postData) => {
     setIsOpenReplyPage(true)
     setReplyContainerData(postData)
   }
@@ -123,6 +128,16 @@ const HomePage = () => {
     } catch (error) {
       console.log(error)
     }
+  }
+
+  // 點擊名字查看user資料
+  const handleClickName = (postData) => {
+    setUserData({
+      account: postData.account,
+      account_id: postData.account_id,
+      real_name: postData.real_name,
+      remark: postData.remark,
+    })
   }
 
   // 判斷token拿取個人資料
@@ -202,7 +217,7 @@ const HomePage = () => {
           <div className="centerContainer-post">
             {postList.map((post) => {
               return (
-                <PostCard key={post.id} onClickReply={handleClickReply} postData={post} personInfo={personInfo} onClickLike={handleClickLike}></PostCard>
+                <PostCard key={post.id} onClickReply={handleClickReply} postData={post} personInfo={personInfo} onClickLike={handleClickLike} onClickName={handleClickName} userData={userData}></PostCard>
               )
             })}
           </div>
