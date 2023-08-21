@@ -75,7 +75,7 @@ const SettingPage = () => {
   
   return (
     <div className="mainContainer">
-      <LeftContainer setting={settingActive}></LeftContainer>
+      <LeftContainer setting={settingActive} account_id={personInfo.account_id}></LeftContainer>
         <div className="settingContainer">
           <div className="setting-title">帳戶設定</div>
           <div className="setting-form">

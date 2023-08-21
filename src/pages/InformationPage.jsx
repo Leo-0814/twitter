@@ -12,8 +12,9 @@ import { adminToken } from '../component/common/adminToken'
 import { createPost, editPost, getPosts } from "../api/posts"
 import { ReplyListContainer } from "../component/ReplyListContainer"
 import { InformationContainer } from "../component/InformationContainer"
+import { useParams } from "react-router-dom"
 
-const InformationPage = () => {
+const InformationPage = (props) => {
   const [ postingModal, setPostingModal ] = useState(false)
   const [ isOpenReplyPage, setIsOpenReplyPage ] = useState(false)
   const [ isOpenReplyModal, setIsOpenReplyModal ] = useState(false)
@@ -33,9 +34,9 @@ const InformationPage = () => {
     mobile: '',
   })
   const [postingContent, setPostingContent] = useState('')
-  const realNameRef = useRef(personInfo.real_name)
-  const accountRef = useRef(personInfo.account)
-  const remarkRef = useRef(personInfo.remark)
+  const realNameRef = useRef()
+  const accountRef = useRef()
+  const remarkRef = useRef()
   const [ backgroundUrl, setBackgroundUrl ] = useState('')
   const [ photoUrl, setPhotoUrl] = useState('')
   const [ replyContainerData, setReplyContainerData ] = useState({
@@ -56,9 +57,12 @@ const InformationPage = () => {
     remark: '',
   })
   const [ replyModalInputValue, setReplyModalInputValue ] = useState('') 
+  const account_id = useParams();
+  
 
   const area_code = ''
   const user_level_id = 22
+  
 
   // 發文
   const handleClickPost = async () => {
@@ -192,17 +196,6 @@ const InformationPage = () => {
     }
   }
 
-  // 點擊名字查看user資料
-  const handleClickName = (postData) => {
-    setUserData({
-      account: postData.account,
-      account_id: postData.account_id,
-      real_name: postData.real_name,
-      remark: postData.remark,
-    })
-    setInfoTabControl(0)
-  }
-
   // 初始拿個人資料
   useEffect(() => {
     const getInfoAsync = async () => {
@@ -232,6 +225,33 @@ const InformationPage = () => {
     getInfoAsync()
   }, [editInfoModal])
 
+  // 初始拿推文
+  useEffect(() => {
+    const getPostsAsync = async () => {
+      try {
+        const res = await getPosts()
+        setPostList(res)
+
+        // userDataTarget = postList.find(post => {
+        //   if (post.account_id === account_id.account_id) {
+        //     return ({
+        //       account: post.account,
+        //       account_id: post.account_id,
+        //       real_name: post.real_name,
+        //       remark: post.remark,
+        //     })
+        //   }
+        // })
+          
+        // setUserData(userDataTarget)
+        
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getPostsAsync()
+  },[account_id.account_id])
+
   // 初始拿用戶列表
   useEffect(() => {
     const getUsersAsync = async () => {
@@ -248,26 +268,21 @@ const InformationPage = () => {
     getUsersAsync()
   },[])
 
-  // 初始拿推文
-  useEffect(() => {
-    const getPostsAsync = async () => {
-      try {
-        const res = await getPosts()
-        setPostList(res)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getPostsAsync()
-  },[])
   
+
+      
+
   return (
     <>
       <div className="mainContainer">
-        <LeftContainer information={informationActive} onClickPost={() => {
+        <LeftContainer 
+          information={informationActive} 
+          onClickPost={() => {
           setPostingModal(true)
           setIsOpenReplyPage(false)
-          setIsOpenFollowPage(false)}}></LeftContainer>
+          setIsOpenFollowPage(false)}}
+          account_id={personInfo.account_id}
+        ></LeftContainer>
 
 
         <InformationContainer
@@ -288,7 +303,6 @@ const InformationPage = () => {
           onClickInfoTabControl= {(e) => setInfoTabControl(e)}
           onClickReply= {handleClickReply}
           onClickLike= {handleClickLike}
-          onClickName= {handleClickName}
           postingModal= {postingModal}
           onClickPostingModal= {(boolean) => setPostingModal(boolean)}
           postingContent= {postingContent}

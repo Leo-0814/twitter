@@ -132,12 +132,22 @@ const HomePage = () => {
 
   // 點擊名字查看user資料
   const handleClickName = (postData) => {
-    setUserData({
-      account: postData.account,
-      account_id: postData.account_id,
-      real_name: postData.real_name,
-      remark: postData.remark,
-    })
+    if (postData.account === personInfo.account) {
+      setUserData({
+        account: personInfo.account,
+        account_id: personInfo.account_id,
+        real_name: personInfo.real_name,
+        remark: personInfo.remark,
+      })
+    } else {
+      setUserData({
+        account: postData.account,
+        account_id: postData.account_id,
+        real_name: postData.real_name,
+        remark: postData.remark,
+      })
+    }
+
   }
 
   // 判斷token拿取個人資料
@@ -202,9 +212,15 @@ const HomePage = () => {
   return (
     <>
       <div className="mainContainer">
-        <LeftContainer home={homeActive} onClickPost={() => {
-          setPostingModal(true)
-          setIsOpenReplyPage(false)}}>'</LeftContainer>
+        <LeftContainer 
+          home={homeActive} 
+          onClickPost={() => {
+            setPostingModal(true)
+            setIsOpenReplyPage(false)
+          }}
+          account_id={personInfo.account_id}  
+        >
+        </LeftContainer>
 
         {/* centerContainer */}
         <div className={clsx("centerContainer", { reply: isOpenReplyPage })}>
@@ -241,7 +257,6 @@ const HomePage = () => {
           onChange={(value) => setReplyModalInputValue(value.target.value)} 
           onClickReply={handleReply}>
         </ReplyListContainer>
-
 
         <RightContainer onClick={handleClickFollowUser} userList={userList}></RightContainer>
       </div>

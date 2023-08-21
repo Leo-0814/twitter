@@ -15,7 +15,7 @@ import editPhoto from '../images/_base/edit-photo.png'
 import backgroundDelete from '../images/_base/background-delete.png'
 import AuthInput from "./AuthInput"
 
-export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNameRef, accountRef, remarkRef, userData, postList, personInfo, backgroundUrl, photoUrl, onClickEditInfoModal, onClickFollowPage, onClickFollowTabControl, infoTabControl, onClickInfoTabControl, onClickReply, onClickLike, onClickName, postingModal, onClickPostingModal, postingContent, onClickPostingContent, onClickPost, editInfoModal, onChangeUploadBackground, onClickBackgroundUrl, onChangeUploadPhoto, onChangePersonInfo, onClickEditInfo}) => {
+export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNameRef, accountRef, remarkRef, userData, postList, personInfo, backgroundUrl, photoUrl, onClickEditInfoModal, onClickFollowPage, onClickFollowTabControl, infoTabControl, onClickInfoTabControl, onClickReply, onClickLike, postingModal, onClickPostingModal, postingContent, onClickPostingContent, onClickPost, editInfoModal, onChangeUploadBackground, onClickBackgroundUrl, onChangeUploadPhoto, onChangePersonInfo, onClickEditInfo}) => {
   
   return (
     <div className={clsx("informationContainer", { reply: isOpenReplyPage, follow: isOpenFollowPage})}>
@@ -38,9 +38,9 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
       </div>
       <div className="informationContainer-self">
         <div className="self-picture">
-          <img src={backgroundUrl? backgroundUrl: userData.account? userBackground: baseBackground} alt="background" className="self-picture-background" />
+          <img src={backgroundUrl? backgroundUrl: userData.account_id? userData.account_id === personInfo.account_id? baseBackground: userBackground: baseBackground} alt="background" className="self-picture-background" />
           <div className="self-picture-photo">
-            <img src={photoUrl? photoUrl: userData.account? userPhoto: ownPhoto} alt="photo1" className="picture-photo-img" />
+            <img src={photoUrl? photoUrl: userData.account_id? userData.account_id === personInfo.account_id? ownPhoto: userPhoto: ownPhoto} alt="photo1" className="picture-photo-img" />
           </div>
           {userData.account? 
           <></>: // 要改寫
@@ -72,13 +72,13 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
           if (!userData.account) {
             if (post.account === personInfo.account) {
               return (
-                <PostCard key={post.id} onClickReply={(postData) => onClickReply?.(postData)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)} onClickName={(postData) => onClickName?.(postData)}></PostCard>
+                <PostCard key={post.id} onClickReply={(postData) => onClickReply?.(postData)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)}></PostCard>
               )
             }
           } else {
             if (post.account === userData.account) {
               return (
-                <PostCard key={post.id} onClickReply={(postData) => onClickReply?.(postData)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)} onClickName={(postData) => onClickName?.(postData)}></PostCard>
+                <PostCard key={post.id} onClickReply={(postData) => onClickReply?.(postData)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)}></PostCard>
               )
             }
           }
@@ -112,13 +112,13 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
           if (!userData.account) {
             if (post.like.includes(personInfo.account_id)) {
               return (
-                <PostCard key={post.id} onClickReply={(postData) => onClickReply?.(postData)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)} onClickName={(postData) => onClickName?.(postData)}></PostCard>
+                <PostCard key={post.id} onClickReply={(postData) => onClickReply?.(postData)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)}></PostCard>
               )
             }
           } else {
             if (post.like.includes(userData.account_id)) {
               return (
-                <PostCard key={post.id} onClickReply={(postData) => onClickReply?.(postData)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)} onClickName={(postData) => onClickName?.(postData)}></PostCard>
+                <PostCard key={post.id} onClickReply={(postData) => onClickReply?.(postData)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)}></PostCard>
               )
             }
           }

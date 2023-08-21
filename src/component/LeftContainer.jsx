@@ -9,7 +9,7 @@ import baseSetting from '../images/_base/setting.png'
 import { clsx } from "clsx"
 import { logout } from "../api/auth"
 
-const LeftContainer = ({home, information, setting, onClickPost}) => {
+const LeftContainer = ({home, information, setting, onClickPost, account_id}) => {
   const navigate = useNavigate()
 
   const handleClick = async () => {
@@ -30,7 +30,7 @@ const LeftContainer = ({home, information, setting, onClickPost}) => {
           <img src={home || baseHome} alt="home" className="leftContainer-list-icon" />
           <div className={clsx('leftContainer-list-text', { active: home })}>首頁</div>
         </Link>
-        <Link to='/information' className="leftContainer-list-item">
+        <Link to={`/information/${account_id}`} className="leftContainer-list-item">
           <img src={information || baseInformation} alt="information" className="leftContainer-list-icon" />
           <div className={clsx('leftContainer-list-text', { active: information })}>個人資料</div>
         </Link>

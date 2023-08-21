@@ -6,6 +6,7 @@ import likeActive from '../images/_base/likeActive.png'
 import { styled } from 'styled-components'
 import { Photo } from './common/photo.styled'
 import { timeDifferent } from './common/time'
+import { Link } from 'react-router-dom'
 
 const StyledPostCard = styled.div`
   width: 100%;
@@ -85,20 +86,21 @@ const StyledPostCard = styled.div`
 `
 
 
-const PostCard = ({ onClickReply, postData, onClickLike, personInfo, onClickName, userData}) => {
+const PostCard = ({ onClickReply, postData, onClickLike, personInfo, userData}) => {
 
   const timeDif = timeDifferent(postData.getTime)
   const isLike = postData.like.includes(personInfo.account_id)
 
   return (
     <StyledPostCard>
-      {userData.account? 
-        <Photo src={postData.account === userData.account? userPhoto: ownPhoto} alt="userPhoto" />
+      {userData.account_id? postData.account_id === personInfo.account_id? 
+        <Photo src={ownPhoto} alt="ownPhoto" />
+        : <Photo src={userPhoto} alt="userPhoto" />
         : <Photo src={postData.account === personInfo.account? ownPhoto: userPhoto} alt="userPhoto" />
       }
       <div className='post-card-data' >
         <div className='card-data-header' >
-          <div className='data-header-username' onClick={() => onClickName?.(postData)}>{postData.real_name}</div>
+          <Link to={`/information/${postData.account_id}`}><div className='data-header-username'>{postData.real_name}</div></Link>
           <div className='data-header-account' >@{postData.account}</div>
           <span className='data-header-dot'>．</span>
           <div className='data-header-time'>{timeDif}</div>
