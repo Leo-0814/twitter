@@ -535,6 +535,34 @@ a:visited {
             bottom: 5px;
           }
         }
+
+        .self-picture-tool {
+          position: absolute;
+          right: 16px;
+          bottom: -60px;
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          width: 208px;
+
+          .picture-tool-msg, .picture-tool-notify {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+          }
+          .picture-tool-follow, .picture-tool-unFollow {
+            width: 96px;
+            height: 40px;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 24px;
+            padding: 0;
+          }
+          .picture-tool-unFollow {
+            width: 64px;
+          }
+        }
+
         .self-picture-btn {
           width: 128px;
           height: 40px;
@@ -542,6 +570,9 @@ a:visited {
           position: absolute;
           right: 16px;
           bottom: -60px;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
         }
       }
       

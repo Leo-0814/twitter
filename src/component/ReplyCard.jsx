@@ -78,7 +78,7 @@ const StyledReplyCard = styled.div`
 `
 
 
-const ReplyCard = ({type, className, replyData, personInfo, postData, userData}) => {
+const ReplyCard = ({type, className, replyData, personInfo, postData, onClickName}) => {
   
   const timeDif = timeDifferent(replyData.getTime)
 
@@ -88,7 +88,7 @@ const ReplyCard = ({type, className, replyData, personInfo, postData, userData})
         <Photo src={replyData.account === personInfo.account? ownPhoto: userPhoto} alt="userPhoto" />
         <div className='reply-card-data' >
           <div className='card-data-header' >
-            <Link to={`/information/${replyData.account_id}`}><div className='data-header-username' >{replyData.real_name}</div></Link>
+            <Link to={`/information/${replyData.account_id}`}><div className='data-header-username' onClick={() => onClickName?.()}>{replyData.real_name}</div></Link>
             <div className='data-header-account' >@{replyData.account}</div>
             <span className='data-header-dot'>．</span>
             <div className='data-header-time'>{timeDif}</div>

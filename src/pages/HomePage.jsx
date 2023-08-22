@@ -13,13 +13,13 @@ import { useNavigate } from 'react-router-dom'
 import { adminToken } from '../component/common/adminToken'
 import { createPost, editPost, getPosts } from '../api/posts'
 import { ReplyListContainer } from '../component/ReplyListContainer'
+import queryString from "query-string";
 
 const HomePage = () => {
   const [ postingModal, setPostingModal ] = useState(false)
   const [ isOpenReplyPage, setIsOpenReplyPage ] = useState(false)
   const [ isOpenReplyModal, setIsOpenReplyModal ] = useState(false)
   const [ userList, setUserList ] = useState([])
-  const navigate = useNavigate()
   const [ personInfo, setPersonInfo ] = useState({
     account_id: '',
     account: '',
@@ -46,6 +46,9 @@ const HomePage = () => {
     remark: '',
   })
   const [ replyModalInputValue, setReplyModalInputValue ] = useState('') 
+  const navigate = useNavigate()
+  const parsed = queryString.parse(window.location.search);
+  
   
   // 推薦跟隨
   const handleClickFollowUser = async (id) => {
@@ -130,26 +133,6 @@ const HomePage = () => {
     }
   }
 
-  // 點擊名字查看user資料
-  const handleClickName = (postData) => {
-    if (postData.account === personInfo.account) {
-      setUserData({
-        account: personInfo.account,
-        account_id: personInfo.account_id,
-        real_name: personInfo.real_name,
-        remark: personInfo.remark,
-      })
-    } else {
-      setUserData({
-        account: postData.account,
-        account_id: postData.account_id,
-        real_name: postData.real_name,
-        remark: postData.remark,
-      })
-    }
-
-  }
-
   // 判斷token拿取個人資料
   useEffect(() => {
     const getInfoAsync = async () => {
@@ -202,6 +185,10 @@ const HomePage = () => {
       try {
         const res = await getPosts()
         setPostList(res)
+
+        if (parsed.from === 'setting') {
+          setPostingModal(true)
+        }
       } catch (error) {
         console.log(error)
       }
@@ -233,7 +220,7 @@ const HomePage = () => {
           <div className="centerContainer-post">
             {postList.map((post) => {
               return (
-                <PostCard key={post.id} onClickReply={handleClickReply} postData={post} personInfo={personInfo} onClickLike={handleClickLike} onClickName={handleClickName} userData={userData}></PostCard>
+                <PostCard key={post.id} onClickReply={handleClickReply} postData={post} personInfo={personInfo} onClickLike={handleClickLike} userData={userData}></PostCard>
               )
             })}
           </div>

@@ -4,7 +4,6 @@ import { Photo } from "./common/photo.styled"
 import ButtonHollow from "./Button-hollow"
 
 const RightContainer = ({onClick, userList}) => {
-
   return (
     <div className="rightContainer">
       <div className="rightContainer-area">

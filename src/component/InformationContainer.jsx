@@ -1,6 +1,8 @@
 import clsx from "clsx"
 import leftArrow from '../images/_base/leftArrow.png'
-import { Link, useNavigate } from "react-router-dom"
+import btn_msg from '../images/_base/btn_msg.png'
+import btn_notFi from '../images/_base/btn_notFi.png'
+import { useNavigate } from "react-router-dom"
 import ownPhoto from '../images/ownPhoto.png'
 import userPhoto from '../images/userPhoto.png'
 import baseBackground from '../images/baseBackground.png'
@@ -15,7 +17,7 @@ import editPhoto from '../images/_base/edit-photo.png'
 import backgroundDelete from '../images/_base/background-delete.png'
 import AuthInput from "./AuthInput"
 
-export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNameRef, accountRef, remarkRef, userData, postList, personInfo, backgroundUrl, photoUrl, onClickEditInfoModal, onClickFollowPage, onClickFollowTabControl, infoTabControl, onClickInfoTabControl, onClickReply, onClickLike, postingModal, onClickPostingModal, postingContent, onClickPostingContent, onClickPost, editInfoModal, onChangeUploadBackground, onClickBackgroundUrl, onChangeUploadPhoto, onChangePersonInfo, onClickEditInfo}) => {
+export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNameRef, accountRef, remarkRef, userData, postList, personInfo, backgroundUrl, photoUrl, onClickEditInfoModal, onClickFollowPage, onClickFollowTabControl, infoTabControl, onClickInfoTabControl, onClickReply, onClickLike, postingModal, onClickPostingModal, postingContent, onClickPostingContent, onClickPost, editInfoModal, onChangeUploadBackground, onClickBackgroundUrl, onChangeUploadPhoto, onChangePersonInfo, onClickEditInfo, isFollow, onClickFollow, onClickName}) => {
 
   const navigate = useNavigate()
   
@@ -45,9 +47,18 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
           <div className="self-picture-photo">
             <img src={photoUrl? photoUrl: userData.account_id? userData.account_id === personInfo.account_id? ownPhoto: userPhoto: ownPhoto} alt="photo1" className="picture-photo-img" />
           </div>
-          {userData.account? 
-          <></>: // 要改寫
-          <ButtonHollow className='self-picture-btn' onClick={() => onClickEditInfoModal?.(true)}>編輯個人資料</ButtonHollow>
+          {userData.account_id === personInfo.account_id
+            ? 
+            <ButtonHollow className='self-picture-btn' onClick={() => onClickEditInfoModal?.(true)}>編輯個人資料</ButtonHollow>
+            : 
+            <div className="self-picture-tool">
+              <img src={btn_msg} alt="msg" className="picture-tool-msg"/>
+              <img src={btn_notFi} alt="notify" className="picture-tool-notify"/>
+              {isFollow?
+                <Button className='picture-tool-follow' onClick={() => {onClickFollow?.(userData.account_id)}}>正在跟隨</Button>:
+                <ButtonHollow className='picture-tool-unFollow' onClick={() => {onClickFollow?.(userData.account_id)}}>跟隨</ButtonHollow>
+              }
+            </div>
           }
         </div>
         <div className="self-content">
@@ -115,13 +126,13 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
           if (!userData.account) {
             if (post.like.includes(personInfo.account_id)) {
               return (
-                <PostCard key={post.id} onClickReply={(postData) => onClickReply?.(postData)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)}></PostCard>
+                <PostCard key={post.id} onClickReply={(postData) => onClickReply?.(postData)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)} onClickName={() => onClickName?.()}></PostCard>
               )
             }
           } else {
             if (post.like.includes(userData.account_id)) {
               return (
-                <PostCard key={post.id} onClickReply={(postData) => onClickReply?.(postData)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)}></PostCard>
+                <PostCard key={post.id} onClickReply={(postData) => onClickReply?.(postData)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)} onClickName={() => onClickName?.()}></PostCard>
               )
             }
           }

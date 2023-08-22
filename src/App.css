@@ -492,6 +492,31 @@ a:visited {
   left: 5px;
   bottom: 5px;
 }
+.mainContainer .informationContainer .informationContainer-self .self-picture .self-picture-tool {
+  position: absolute;
+  right: 16px;
+  bottom: -60px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 208px;
+}
+.mainContainer .informationContainer .informationContainer-self .self-picture .self-picture-tool .picture-tool-msg, .mainContainer .informationContainer .informationContainer-self .self-picture .self-picture-tool .picture-tool-notify {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+.mainContainer .informationContainer .informationContainer-self .self-picture .self-picture-tool .picture-tool-follow, .mainContainer .informationContainer .informationContainer-self .self-picture .self-picture-tool .picture-tool-unFollow {
+  width: 96px;
+  height: 40px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  padding: 0;
+}
+.mainContainer .informationContainer .informationContainer-self .self-picture .self-picture-tool .picture-tool-unFollow {
+  width: 64px;
+}
 .mainContainer .informationContainer .informationContainer-self .self-picture .self-picture-btn {
   width: 128px;
   height: 40px;
@@ -499,6 +524,9 @@ a:visited {
   position: absolute;
   right: 16px;
   bottom: -60px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
 }
 .mainContainer .informationContainer .informationContainer-self .self-content {
   margin: 70px 16px 16px 16px;

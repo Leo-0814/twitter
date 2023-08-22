@@ -20,9 +20,11 @@ const SettingPage = () => {
     new_login_password: '',
     new_login_password_confirmation: '',
   }) 
+  
   const area_code = ''
   const user_level_id = 22
 
+  // 點擊儲存更改個人資料
   const handleClick = async () => {
     try {
       const res = await editInfo({area_code, user_level_id, adminToken, ...personInfo})
@@ -49,12 +51,13 @@ const SettingPage = () => {
     }
   }
 
+  // 初始拿個人資料
   useEffect(() => {
     const getInfoAsync = async () => {
       const token = localStorage.getItem('token')
 
       try {
-        const { account, real_name, email, account_id, remark, mobile
+        const { account, real_name, email, account_id, remark
  } = await getInfo(token)
         setPersonInfo((prop) => {
           return {
@@ -64,7 +67,6 @@ const SettingPage = () => {
           email,
           account_id,
           remark,
-          mobile,
         }})
       } catch (error) {
         console.log(error)
@@ -75,7 +77,7 @@ const SettingPage = () => {
   
   return (
     <div className="mainContainer">
-      <LeftContainer setting={settingActive} account_id={personInfo.account_id}></LeftContainer>
+      <LeftContainer setting={settingActive} account_id={personInfo.account_id} isClickAtSetting={true}></LeftContainer>
         <div className="settingContainer">
           <div className="setting-title">帳戶設定</div>
           <div className="setting-form">

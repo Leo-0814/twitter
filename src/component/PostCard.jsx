@@ -91,7 +91,7 @@ const StyledPostCard = styled.div`
 `
 
 
-const PostCard = ({ onClickReply, postData, onClickLike, personInfo, userData}) => {
+const PostCard = ({ onClickReply, postData, onClickLike, personInfo, userData, onClickName}) => {
 
   const timeDif = timeDifferent(postData.getTime)
   const isLike = postData.like.includes(personInfo.account_id)
@@ -105,7 +105,7 @@ const PostCard = ({ onClickReply, postData, onClickLike, personInfo, userData}) 
       }
       <div className='post-card-data' >
         <div className='card-data-header' >
-          <Link to={`/information/${postData.account_id}`}><div className='data-header-username'>{postData.real_name}</div></Link>
+          <Link to={`/information/${postData.account_id}`}><div className='data-header-username' onClick={onClickName}>{postData.real_name}</div></Link>
           <div className='data-header-account' >@{postData.account}</div>
           <span className='data-header-dot'>．</span>
           <div className='data-header-time'>{timeDif}</div>

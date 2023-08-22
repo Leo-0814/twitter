@@ -14,7 +14,7 @@ import { ReplyListContainer } from "../component/ReplyListContainer"
 import { InformationContainer } from "../component/InformationContainer"
 import { useParams } from "react-router-dom"
 
-const InformationPage = (props) => {
+const InformationPage = () => {
   const [ postingModal, setPostingModal ] = useState(false)
   const [ isOpenReplyPage, setIsOpenReplyPage ] = useState(false)
   const [ isOpenReplyModal, setIsOpenReplyModal ] = useState(false)
@@ -34,9 +34,6 @@ const InformationPage = (props) => {
     mobile: '',
   })
   const [postingContent, setPostingContent] = useState('')
-  const realNameRef = useRef()
-  const accountRef = useRef()
-  const remarkRef = useRef()
   const [ backgroundUrl, setBackgroundUrl ] = useState('')
   const [ photoUrl, setPhotoUrl] = useState('')
   const [ replyContainerData, setReplyContainerData ] = useState({
@@ -55,11 +52,14 @@ const InformationPage = (props) => {
     account_id: '',
     real_name: '',
     remark: '',
+    email_status: '',
   })
   const [ replyModalInputValue, setReplyModalInputValue ] = useState('') 
+  const realNameRef = useRef()
+  const accountRef = useRef()
+  const remarkRef = useRef()
   const params = useParams();
   
-
   const area_code = ''
   const user_level_id = 22
   
@@ -130,7 +130,7 @@ const InformationPage = (props) => {
     }
 
     try {
-      const res = await editInfo({ area_code, user_level_id, adminToken, ...personInfo, mobile: '', send_sms_time: ''})
+      const res = await editInfo({ area_code, user_level_id, adminToken, ...personInfo})
 
       if (res) {
         // window.location.reload()
@@ -166,12 +166,6 @@ const InformationPage = (props) => {
     }
   }
 
-  // 點擊推文回覆跳轉replyListContainer
-  const handleClickReply = (postData) => {
-    setIsOpenReplyPage(true)
-    setReplyContainerData(postData)
-  }
-
   // 回覆推文
   const handleReply = async (postId) => {
     const token = localStorage.getItem('token')
@@ -202,7 +196,7 @@ const InformationPage = (props) => {
       const token = localStorage.getItem('token')
 
       try {
-        let { account, real_name, account_id, remark, email, mobile
+        let { mobile, account, real_name, account_id, remark, email
  } = await getInfo(token)
         if (!remark) {
           remark = ''
@@ -253,23 +247,35 @@ const InformationPage = (props) => {
       }
     }
     getUsersAsync()
-  },[])
+  },[params.account_id])
 
   // 從其他頁面跳轉過來拿userData
   useEffect(() => {
     const listenPostList = () => {
       if (postList.length > 0) {
         let userDataTarget = postList.find(post => post.account_id === Number(params.account_id))
-        setUserData({
-          account: userDataTarget.account,
-          account_id: userDataTarget.account_id,
-          real_name: userDataTarget.real_name,
-          remark: userDataTarget.remark,
+        setUserData((preProp) => {
+          return ({
+            ...preProp,
+            account: userDataTarget.account,
+            account_id: userDataTarget.account_id,
+            real_name: userDataTarget.real_name,
+            remark: userDataTarget.remark,
+          })
+        })
+      }
+      if (userList.length > 0) {
+        let userDataTarget = userList.find(user => user.account_id === Number(params.account_id))
+        setUserData((preProp) => {
+          return ({
+            ...preProp,
+            email_status: userDataTarget.email_status,
+          })
         })
       }
     }
     listenPostList()
-  },[postList])
+  },[postList,userList])
 
       
 
@@ -279,9 +285,11 @@ const InformationPage = (props) => {
         <LeftContainer 
           information={personInfo.account_id === userData.account_id? informationActive: ''} 
           onClickPost={() => {
-          setPostingModal(true)
-          setIsOpenReplyPage(false)
-          setIsOpenFollowPage(false)}}
+            setPostingModal(true)
+            setIsOpenReplyPage(false)
+            setIsOpenFollowPage(false)
+            setInfoTabControl(0)
+          }}
           account_id={personInfo.account_id}
         ></LeftContainer>
 
@@ -302,7 +310,10 @@ const InformationPage = (props) => {
           onClickFollowTabControl= {(e) => setFollowTabControl(e)}
           infoTabControl= {infoTabControl}
           onClickInfoTabControl= {(e) => setInfoTabControl(e)}
-          onClickReply= {handleClickReply}
+          onClickReply= {(postData) => {
+            setIsOpenReplyPage(true)
+            setReplyContainerData(postData)
+          }}
           onClickLike= {handleClickLike}
           postingModal= {postingModal}
           onClickPostingModal= {(boolean) => setPostingModal(boolean)}
@@ -315,6 +326,9 @@ const InformationPage = (props) => {
           onChangeUploadPhoto= {handleUploadPhoto}
           onChangePersonInfo= {(personInfo) => setPersonInfo(personInfo)}
           onClickEditInfo= {handleClickEditInfo}
+          isFollow={userData.email_status === 1}
+          onClickFollow={handleClickFollowUser}
+          onClickName={() => setInfoTabControl(0)}
         >
         </InformationContainer>
 
@@ -327,7 +341,11 @@ const InformationPage = (props) => {
           personInfo={personInfo} 
           replyModalInputValue={replyModalInputValue} 
           onChange={(value) => setReplyModalInputValue(value.target.value)} 
-          onClickReply={handleReply}>
+          onClickReply={handleReply}
+          onClickName={() => {
+            setIsOpenReplyPage(false)
+            setInfoTabControl(0)
+          }}>
         </ReplyListContainer>
 
         {/* followListContainer */}

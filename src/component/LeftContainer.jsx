@@ -9,7 +9,7 @@ import baseSetting from '../images/_base/setting.png'
 import { clsx } from "clsx"
 import { logout } from "../api/auth"
 
-const LeftContainer = ({home, information, setting, onClickPost, account_id}) => {
+const LeftContainer = ({home, information, setting, onClickPost, account_id, isClickAtSetting}) => {
   const navigate = useNavigate()
 
   const handleClick = async () => {
@@ -38,7 +38,10 @@ const LeftContainer = ({home, information, setting, onClickPost, account_id}) =>
           <img src={setting || baseSetting} alt="setting" className="leftContainer-list-icon" />
           <div className={clsx('leftContainer-list-text', { active: setting })}>設定</div>
         </Link>
-        <Button className="leftContainer-list-postBtn" onClick={() => onClickPost?.()}>推文</Button>
+        {isClickAtSetting? 
+          <Link to={`/home?from=setting`}><Button className="leftContainer-list-postBtn" onClick={() => onClickPost?.()}>推文</Button></Link>: 
+          <Button className="leftContainer-list-postBtn" onClick={() => onClickPost?.()}>推文</Button>
+        }
 
         <div className="leftContainer-list-item leftContainer-list-logOut" onClick={handleClick}>
           <img src={logOut} alt="logOut" className="leftContainer-list-icon" />
