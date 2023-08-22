@@ -22,6 +22,11 @@ const StyledPostCard = styled.div`
       display: flex;
       align-items: center;
 
+      & > a {
+        text-decoration: none;
+        color: black;
+      }
+
       .data-header-username {
         font-weight: 700;
         font-size: 16px;

@@ -49,6 +49,7 @@ export const editPost = async ({post, personInfo, token, replyModalInputValue, c
     postReply.unshift({
       id: postReply.length,
       account: personInfo.account,
+      account_id: personInfo.account_id,
       real_name: personInfo.real_name,
       create_at,
       getTime,

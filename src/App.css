@@ -231,10 +231,17 @@ a:visited {
 .mainContainer .replyListContainer .replyList-content .replyList-content-header .content-header-data {
   margin-left: 3px;
 }
+.mainContainer .replyListContainer .replyList-content .replyList-content-header .content-header-data > a {
+  text-decoration: none;
+  color: black;
+}
 .mainContainer .replyListContainer .replyList-content .replyList-content-header .content-header-data .header-data-username {
   font-size: 16px;
   font-weight: 700;
   line-height: 26px;
+}
+.mainContainer .replyListContainer .replyList-content .replyList-content-header .content-header-data .header-data-username:hover {
+  opacity: 0.9;
 }
 .mainContainer .replyListContainer .replyList-content .replyList-content-header .content-header-data .header-data-account {
   font-size: 14px;

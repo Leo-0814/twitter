@@ -3,6 +3,7 @@ import ownPhoto from '../images/ownPhoto.png'
 import { styled } from 'styled-components'
 import { Photo } from './common/photo.styled'
 import { timeDifferent } from './common/time'
+import { Link } from 'react-router-dom'
 
 const StyledReplyCard = styled.div`
   width: 100%;
@@ -18,12 +19,21 @@ const StyledReplyCard = styled.div`
       display: flex;
       align-items: center;
 
+      & > a {
+        text-decoration: none;
+        color: black;
+      }
+
       .data-header-username {
         font-weight: 700;
         font-size: 16px;
         line-height: 26px;
         margin-right: 5px;
         white-space: nowrap;
+
+        &:hover {
+          opacity: .9
+        }
       }
       .data-header-account {
         color: rgba(108, 117, 125, 1);
@@ -78,7 +88,7 @@ const ReplyCard = ({type, className, replyData, personInfo, postData, userData})
         <Photo src={replyData.account === personInfo.account? ownPhoto: userPhoto} alt="userPhoto" />
         <div className='reply-card-data' >
           <div className='card-data-header' >
-            <div className='data-header-username' >{replyData.real_name}</div>
+            <Link to={`/information/${replyData.account_id}`}><div className='data-header-username' >{replyData.real_name}</div></Link>
             <div className='data-header-account' >@{replyData.account}</div>
             <span className='data-header-dot'>．</span>
             <div className='data-header-time'>{timeDif}</div>

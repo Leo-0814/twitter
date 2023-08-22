@@ -57,7 +57,7 @@ const InformationPage = (props) => {
     remark: '',
   })
   const [ replyModalInputValue, setReplyModalInputValue ] = useState('') 
-  const account_id = useParams();
+  const params = useParams();
   
 
   const area_code = ''
@@ -231,26 +231,13 @@ const InformationPage = (props) => {
       try {
         const res = await getPosts()
         setPostList(res)
-
-        // userDataTarget = postList.find(post => {
-        //   if (post.account_id === account_id.account_id) {
-        //     return ({
-        //       account: post.account,
-        //       account_id: post.account_id,
-        //       real_name: post.real_name,
-        //       remark: post.remark,
-        //     })
-        //   }
-        // })
-          
-        // setUserData(userDataTarget)
         
       } catch (error) {
         console.log(error)
       }
     }
     getPostsAsync()
-  },[account_id.account_id])
+  },[params.account_id])
 
   // 初始拿用戶列表
   useEffect(() => {
@@ -268,7 +255,21 @@ const InformationPage = (props) => {
     getUsersAsync()
   },[])
 
-  
+  // 從其他頁面跳轉過來拿userData
+  useEffect(() => {
+    const listenPostList = () => {
+      if (postList.length > 0) {
+        let userDataTarget = postList.find(post => post.account_id === Number(params.account_id))
+        setUserData({
+          account: userDataTarget.account,
+          account_id: userDataTarget.account_id,
+          real_name: userDataTarget.real_name,
+          remark: userDataTarget.remark,
+        })
+      }
+    }
+    listenPostList()
+  },[postList])
 
       
 
@@ -276,7 +277,7 @@ const InformationPage = (props) => {
     <>
       <div className="mainContainer">
         <LeftContainer 
-          information={informationActive} 
+          information={personInfo.account_id === userData.account_id? informationActive: ''} 
           onClickPost={() => {
           setPostingModal(true)
           setIsOpenReplyPage(false)

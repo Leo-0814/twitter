@@ -9,6 +9,7 @@ import ReplyCard from "./ReplyCard"
 import { Modal } from "./Modal"
 import { Photo } from "./common/photo.styled"
 import Button from './Button'
+import { Link } from "react-router-dom"
 
 export const ReplyListContainer = ({isOpenReplyPage, isOpenReplyModal, onClickOpenReplyPage, onClickOpenReplyModal, postData, onClick, personInfo, replyModalInputValue, onChange, onClickReply}) => {
 
@@ -24,7 +25,7 @@ export const ReplyListContainer = ({isOpenReplyPage, isOpenReplyModal, onClickOp
         <div className="replyList-content-header">
           <Photo src={postData.account === personInfo.account? ownPhoto: userPhoto} alt="" className="content-header-photo" />
           <div className="content-header-data">
-            <div className="header-data-username">{postData.real_name}</div>
+            <Link to={`/information/${postData.account_id}`}><div className="header-data-username">{postData.real_name}</div></Link>
             <div className="header-data-account">@{postData.account}</div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import clsx from "clsx"
 import leftArrow from '../images/_base/leftArrow.png'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import ownPhoto from '../images/ownPhoto.png'
 import userPhoto from '../images/userPhoto.png'
 import baseBackground from '../images/baseBackground.png'
@@ -16,11 +16,14 @@ import backgroundDelete from '../images/_base/background-delete.png'
 import AuthInput from "./AuthInput"
 
 export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNameRef, accountRef, remarkRef, userData, postList, personInfo, backgroundUrl, photoUrl, onClickEditInfoModal, onClickFollowPage, onClickFollowTabControl, infoTabControl, onClickInfoTabControl, onClickReply, onClickLike, postingModal, onClickPostingModal, postingContent, onClickPostingContent, onClickPost, editInfoModal, onChangeUploadBackground, onClickBackgroundUrl, onChangeUploadPhoto, onChangePersonInfo, onClickEditInfo}) => {
+
+  const navigate = useNavigate()
   
   return (
     <div className={clsx("informationContainer", { reply: isOpenReplyPage, follow: isOpenFollowPage})}>
       <div className="informationContainer-header">
-        <Link to='/home'><img src={leftArrow} alt="leftArrow" className="header-back" /></Link>
+        {/* <Link to='/home'><img src={leftArrow} alt="leftArrow" className="header-back" /></Link> */}
+        <img src={leftArrow} alt="leftArrow" className="header-back" onClick={() => navigate(-1)}/>
         <div className="header-content">
           <div className="header-content-username">{userData.real_name? userData.real_name: realNameRef.current}</div>
           <div className="header-content-postCount">{postList.filter(post => {
