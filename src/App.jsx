@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { HashRouter, Route, Routes } from 'react-router-dom'
 import { HomePage, InformationPage, LoginPage, SettingPage, SignUpPage } from './pages';
 import AdminLoginPage from './pages/AdminLoginPage';
 
@@ -7,7 +7,7 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path='adminlogin' element={<AdminLoginPage />} /> 
           <Route path='login' element={<LoginPage />} /> 
@@ -17,7 +17,7 @@ function App() {
           <Route path='setting' element={<SettingPage />} /> 
           <Route path='*' element={<LoginPage />} /> 
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 }
