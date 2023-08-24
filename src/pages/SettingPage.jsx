@@ -3,13 +3,14 @@ import AuthInput from "../component/AuthInput"
 import Button from "../component/Button"
 import LeftContainer from "../component/LeftContainer"
 import settingActive from '../images/_base/settingActive.png'
-import { editInfo, getInfo } from "../api/info"
+import { editInfo, getInfo, getUsers } from "../api/info"
 import Swal from "sweetalert2"
-import { adminToken } from '../component/common/adminToken'
+import { useNavigate } from "react-router-dom"
 
 
 
 const SettingPage = () => {
+  const navigate = useNavigate()
   const [ personInfo, setPersonInfo ] = useState({
     account_id: '',
     account: '',
@@ -26,6 +27,8 @@ const SettingPage = () => {
 
   // 點擊儲存更改個人資料
   const handleClick = async () => {
+    const adminToken = localStorage.getItem('adminToken')
+    
     try {
       const res = await editInfo({area_code, user_level_id, adminToken, ...personInfo})
 
@@ -55,6 +58,10 @@ const SettingPage = () => {
   useEffect(() => {
     const getInfoAsync = async () => {
       const token = localStorage.getItem('token')
+      if (!token) {
+        navigate('/login')
+        return
+      }
 
       try {
         const { account, real_name, email, account_id, remark
@@ -69,11 +76,37 @@ const SettingPage = () => {
           remark,
         }})
       } catch (error) {
+        localStorage.removeItem('token')
         console.log(error)
+        navigate('/login')
       }
     }
     getInfoAsync()
-  }, [])
+  }, [navigate])
+
+  // 初始拿用戶列表 > 測adminToken
+  useEffect(() => {
+    const getUsersAsync = async () => {
+      const adminToken = localStorage.getItem('adminToken')
+
+      if (!adminToken) {
+        navigate('/adminlogin')
+        return
+      }
+
+      try {
+        const res = await getUsers(adminToken)
+
+        if (!res) {
+          localStorage.removeItem('adminToken')
+          navigate('/adminlogin')
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getUsersAsync()
+  },[navigate])
   
   return (
     <div className="mainContainer">

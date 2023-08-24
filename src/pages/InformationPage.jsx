@@ -8,11 +8,10 @@ import clsx from "clsx"
 import FollowCard from "../component/FollowCard"
 import { editInfo, followUser, getInfo, getUsers } from "../api/info"
 import Swal from "sweetalert2"
-import { adminToken } from '../component/common/adminToken'
 import { createPost, editPost, getPosts } from "../api/posts"
 import { ReplyListContainer } from "../component/ReplyListContainer"
 import { InformationContainer } from "../component/InformationContainer"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 const InformationPage = () => {
   const [ postingModal, setPostingModal ] = useState(false)
@@ -59,6 +58,7 @@ const InformationPage = () => {
   const accountRef = useRef()
   const remarkRef = useRef()
   const params = useParams();
+  const navigate = useNavigate()
   
   const area_code = ''
   const user_level_id = 22
@@ -114,6 +114,8 @@ const InformationPage = () => {
   
   //推薦跟隨
   const handleClickFollowUser = async (id) => {
+    const adminToken = localStorage.getItem('adminToken')
+
     try {
       await followUser(id, adminToken)
       const res = await getUsers(adminToken)
@@ -128,6 +130,8 @@ const InformationPage = () => {
     if (personInfo.real_name.length === 0) {
       return
     }
+
+    const adminToken = localStorage.getItem('adminToken')
 
     try {
       const res = await editInfo({ area_code, user_level_id, adminToken, ...personInfo})
@@ -194,10 +198,15 @@ const InformationPage = () => {
   useEffect(() => {
     const getInfoAsync = async () => {
       const token = localStorage.getItem('token')
+      if (!token) {
+        navigate('/login')
+        return
+      }
 
       try {
         let { mobile, account, real_name, account_id, remark, email
  } = await getInfo(token)
+
         if (!remark) {
           remark = ''
         }
@@ -213,11 +222,13 @@ const InformationPage = () => {
         accountRef.current = account
         remarkRef.current = remark
       } catch (error) {
+        localStorage.removeItem('token')
         console.log(error)
+        navigate('/login')
       }
     }
     getInfoAsync()
-  }, [editInfoModal])
+  }, [editInfoModal, navigate])
 
   // 初始拿推文
   useEffect(() => {
@@ -236,21 +247,36 @@ const InformationPage = () => {
   // 初始拿用戶列表
   useEffect(() => {
     const getUsersAsync = async () => {
+      const adminToken = localStorage.getItem('adminToken')
+
+      if (!adminToken) {
+        navigate('/adminlogin')
+        return
+      }
+
       try {
         const res = await getUsers(adminToken)
         
         if (res) {
           setUserList(res)
+        } else {
+          localStorage.removeItem('adminToken')
+          navigate('/adminlogin')
         }
+
       } catch (error) {
         console.log(error)
       }
     }
     getUsersAsync()
-  },[params.account_id])
+  },[params.account_id, navigate])
 
   // 從其他頁面跳轉過來拿userData
   useEffect(() => {
+    if (!params.account_id) {
+      return
+    }
+    
     const listenPostList = () => {
       if (postList.length > 0) {
         let userDataTarget = postList.find(post => post.account_id === Number(params.account_id))
@@ -275,7 +301,7 @@ const InformationPage = () => {
       }
     }
     listenPostList()
-  },[postList,userList])
+  },[postList, userList])
 
       
 
@@ -283,7 +309,7 @@ const InformationPage = () => {
     <>
       <div className="mainContainer">
         <LeftContainer 
-          information={personInfo.account_id === userData.account_id? informationActive: ''} 
+          information={params.account_id? Number(params.account_id) === personInfo.account_id? informationActive: '': informationActive} 
           onClickPost={() => {
             setPostingModal(true)
             setIsOpenReplyPage(false)
@@ -291,6 +317,17 @@ const InformationPage = () => {
             setInfoTabControl(0)
           }}
           account_id={personInfo.account_id}
+          onClickInfoTab= {() => {
+            setUserData({
+              account: '',
+              account_id: personInfo.account_id,
+              real_name: '',
+              remark: '',
+              email_status: '',
+            })
+            setInfoTabControl(0)
+            setIsOpenReplyPage(false)
+          }}
         ></LeftContainer>
 
 
@@ -326,9 +363,9 @@ const InformationPage = () => {
           onChangeUploadPhoto= {handleUploadPhoto}
           onChangePersonInfo= {(personInfo) => setPersonInfo(personInfo)}
           onClickEditInfo= {handleClickEditInfo}
-          isFollow={userData.email_status === 1}
-          onClickFollow={handleClickFollowUser}
-          onClickName={() => setInfoTabControl(0)}
+          isFollow= {userData.email_status === 1}
+          onClickFollow= {handleClickFollowUser}
+          onClickName= {() => setInfoTabControl(0)}
         >
         </InformationContainer>
 

@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react'
 import { register } from '../api/auth'
 import Swal from 'sweetalert2'
 import { editInfo, getInfo } from '../api/info'
-import { adminToken } from '../component/common/adminToken'
 
 const SignUpPage = () => {
   const [account, setAccount] = useState('')
@@ -37,6 +36,7 @@ const SignUpPage = () => {
         localStorage.setItem('token', token)
         const { account_id } = await getInfo(token)
         
+        const adminToken = localStorage.getItem('adminToken')
         const res = await editInfo({area_code, mobile, user_level_id, adminToken, account_id, email, real_name})
 
         if (res) {
@@ -49,6 +49,9 @@ const SignUpPage = () => {
             timer: 1000,
             position: 'top'
           })
+        } else {
+          localStorage.removeItem('adminToken')
+          navigate('/adminlogin')
         }
       }
     } catch (error) {
@@ -58,6 +61,12 @@ const SignUpPage = () => {
 
   useEffect(() => {
     const getInfoAsync = async () => {
+      const adminToken = localStorage.getItem('adminToken')
+      if (!adminToken) {
+        navigate('/adminlogin')
+        return
+      }
+
       const token = localStorage.getItem('token')
       if (!token) {
         return

@@ -9,7 +9,7 @@ import baseSetting from '../images/_base/setting.png'
 import { clsx } from "clsx"
 import { logout } from "../api/auth"
 
-const LeftContainer = ({home, information, setting, onClickPost, account_id, isClickAtSetting}) => {
+const LeftContainer = ({home, information, setting, onClickPost,  isClickAtSetting, onClickInfoTab}) => {
   const navigate = useNavigate()
 
   const handleClick = async () => {
@@ -27,15 +27,15 @@ const LeftContainer = ({home, information, setting, onClickPost, account_id, isC
       <LogoIcon src={logo} alt="" className="leftContainer-logo" />
       <div className="leftContainer-list">
         <Link to='/home'className="leftContainer-list-item">
-          <img src={home || baseHome} alt="home" className="leftContainer-list-icon" />
+          <img src={home? home: baseHome} alt="home" className="leftContainer-list-icon" />
           <div className={clsx('leftContainer-list-text', { active: home })}>首頁</div>
         </Link>
-        <Link to={`/information/${account_id}`} className="leftContainer-list-item">
-          <img src={information || baseInformation} alt="information" className="leftContainer-list-icon" />
+        <Link to={`/information`} className="leftContainer-list-item" onClick={() => onClickInfoTab?.()}>
+          <img src={information? information: baseInformation} alt="information" className="leftContainer-list-icon" />
           <div className={clsx('leftContainer-list-text', { active: information })}>個人資料</div>
         </Link>
         <Link to='/setting' className="leftContainer-list-item">
-          <img src={setting || baseSetting} alt="setting" className="leftContainer-list-icon" />
+          <img src={setting? setting: baseSetting} alt="setting" className="leftContainer-list-icon" />
           <div className={clsx('leftContainer-list-text', { active: setting })}>設定</div>
         </Link>
         {isClickAtSetting? 

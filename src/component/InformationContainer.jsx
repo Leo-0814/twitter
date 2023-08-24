@@ -24,7 +24,6 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
   return (
     <div className={clsx("informationContainer", { reply: isOpenReplyPage, follow: isOpenFollowPage})}>
       <div className="informationContainer-header">
-        {/* <Link to='/home'><img src={leftArrow} alt="leftArrow" className="header-back" /></Link> */}
         <img src={leftArrow} alt="leftArrow" className="header-back" onClick={() => navigate(-1)}/>
         <div className="header-content">
           <div className="header-content-username">{userData.real_name? userData.real_name: realNameRef.current}</div>
@@ -47,7 +46,7 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
           <div className="self-picture-photo">
             <img src={photoUrl? photoUrl: userData.account_id? userData.account_id === personInfo.account_id? ownPhoto: userPhoto: ownPhoto} alt="photo1" className="picture-photo-img" />
           </div>
-          {userData.account_id === personInfo.account_id
+          {userData.account_id? userData.account_id === personInfo.account_id
             ? 
             <ButtonHollow className='self-picture-btn' onClick={() => onClickEditInfoModal?.(true)}>編輯個人資料</ButtonHollow>
             : 
@@ -58,7 +57,8 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
                 <Button className='picture-tool-follow' onClick={() => {onClickFollow?.(userData.account_id)}}>正在跟隨</Button>:
                 <ButtonHollow className='picture-tool-unFollow' onClick={() => {onClickFollow?.(userData.account_id)}}>跟隨</ButtonHollow>
               }
-            </div>
+            </div>:
+            <ButtonHollow className='self-picture-btn' onClick={() => onClickEditInfoModal?.(true)}>編輯個人資料</ButtonHollow>
           }
         </div>
         <div className="self-content">
@@ -106,13 +106,13 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
               if (!userData.account) {
                 if (item.account === personInfo.account) {
                   return (
-                    <ReplyCard key={item.id} type='typeA' replyData={item} personInfo={personInfo} postData={post} userData={userData}></ReplyCard>
+                    <ReplyCard key={item.id} type='typeA' replyData={item} personInfo={personInfo} postData={post} userData={userData} onClickName={() => onClickName?.()}></ReplyCard>
                   )
                 } 
               } else {
                 if (item.account === userData.account) {
                   return (
-                    <ReplyCard key={item.id} type='typeA' replyData={item} personInfo={personInfo} postData={post} userData={userData}></ReplyCard>
+                    <ReplyCard key={item.id} type='typeA' replyData={item} personInfo={personInfo} postData={post} userData={userData} onClickName={() => onClickName?.()}></ReplyCard>
                   )
                 } 
               }

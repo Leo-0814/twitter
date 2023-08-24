@@ -11,7 +11,6 @@ export const getInfo = async (token) => {
       }
     })
 
-    console.log(res.data.data)
     return res.data.data
   } catch (error) {
     console.error('[get info]', error)

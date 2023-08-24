@@ -3,7 +3,7 @@ import Swal from "sweetalert2"
 
 const baseUrl = 'https://adminapi.ball188.cc'
 
-export const login = async({account, password, gcode}) => {
+export const adminLogin = async({account, password, gcode}) => {
   try {
     const res = await axios.post(`${baseUrl}/admin/login`, {account, password, gcode})
 

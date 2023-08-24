@@ -10,7 +10,6 @@ import clsx from 'clsx'
 import { Photo } from '../component/common/photo.styled'
 import { followUser, getInfo, getUsers } from '../api/info'
 import { useNavigate } from 'react-router-dom'
-import { adminToken } from '../component/common/adminToken'
 import { createPost, editPost, getPosts } from '../api/posts'
 import { ReplyListContainer } from '../component/ReplyListContainer'
 import queryString from "query-string";
@@ -40,18 +39,16 @@ const HomePage = () => {
     reply: [],
     like: []
   })
-  const [ userData, setUserData ] = useState({
-    account: '',
-    real_name: '',
-    remark: '',
-  })
   const [ replyModalInputValue, setReplyModalInputValue ] = useState('') 
   const navigate = useNavigate()
   const parsed = queryString.parse(window.location.search);
   
   
+  
   // 推薦跟隨
   const handleClickFollowUser = async (id) => {
+    const adminToken = localStorage.getItem('adminToken')
+
     try {
       await followUser(id, adminToken)
       window.location.reload()
@@ -166,18 +163,28 @@ const HomePage = () => {
   // 初始拿用戶列表
   useEffect(() => {
     const getUsersAsync = async () => {
+      const adminToken = localStorage.getItem('adminToken')
+
+      if (!adminToken) {
+        navigate('/adminlogin')
+        return
+      }
+
       try {
         const res = await getUsers(adminToken)
         
         if (res) {
           setUserList(res)
+        } else {
+          localStorage.removeItem('adminToken')
+          navigate('/adminlogin')
         }
       } catch (error) {
         console.log(error)
       }
     }
     getUsersAsync()
-  },[])
+  },[navigate])
 
   // 初始拿推文
   useEffect(() => {
@@ -194,7 +201,7 @@ const HomePage = () => {
       }
     }
     getPostsAsync()
-  },[])
+  },[parsed.from])
 
   return (
     <>
@@ -205,7 +212,7 @@ const HomePage = () => {
             setPostingModal(true)
             setIsOpenReplyPage(false)
           }}
-          account_id={personInfo.account_id}  
+          account_id={personInfo.account_id}
         >
         </LeftContainer>
 
@@ -220,7 +227,7 @@ const HomePage = () => {
           <div className="centerContainer-post">
             {postList.map((post) => {
               return (
-                <PostCard key={post.id} onClickReply={handleClickReply} postData={post} personInfo={personInfo} onClickLike={handleClickLike} userData={userData}></PostCard>
+                <PostCard key={post.id} onClickReply={handleClickReply} postData={post} personInfo={personInfo} onClickLike={handleClickLike} userData={''}></PostCard>
               )
             })}
           </div>
