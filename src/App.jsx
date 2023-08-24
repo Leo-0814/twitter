@@ -7,7 +7,7 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter basename="/twitter">
+      <BrowserRouter>
         <Routes>
           <Route path='adminlogin' element={<AdminLoginPage />} /> 
           <Route path='login' element={<LoginPage />} /> 
