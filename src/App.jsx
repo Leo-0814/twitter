@@ -4,9 +4,10 @@ import { HomePage, InformationPage, LoginPage, SettingPage, SignUpPage } from '.
 import AdminLoginPage from './pages/AdminLoginPage';
 
 function App() {
+
   return (
     <div className="App">
-      <BrowserRouter>
+      <BrowserRouter basename="/twitter">
         <Routes>
           <Route path='adminlogin' element={<AdminLoginPage />} /> 
           <Route path='login' element={<LoginPage />} /> 
