@@ -9,10 +9,9 @@ import { Modal, ModalBackground } from '../component/Modal'
 import clsx from 'clsx'
 import { Photo } from '../component/common/photo.styled'
 import { followUser, getInfo, getUsers } from '../api/info'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { createPost, editPost, getPosts } from '../api/posts'
 import { ReplyListContainer } from '../component/ReplyListContainer'
-import queryString from "query-string";
 
 const HomePage = () => {
   const [ postingModal, setPostingModal ] = useState(false)
@@ -41,7 +40,7 @@ const HomePage = () => {
   })
   const [ replyModalInputValue, setReplyModalInputValue ] = useState('') 
   const navigate = useNavigate()
-  const parsed = queryString.parse(window.location.search);
+  const [searchParams] = useSearchParams()
   
   
   
@@ -193,7 +192,7 @@ const HomePage = () => {
         const res = await getPosts()
         setPostList(res)
 
-        if (parsed.from === 'setting') {
+        if (searchParams.get('from') === 'setting') {
           setPostingModal(true)
         }
       } catch (error) {
@@ -201,7 +200,7 @@ const HomePage = () => {
       }
     }
     getPostsAsync()
-  },[parsed.from])
+  },[searchParams])
 
   return (
     <>
