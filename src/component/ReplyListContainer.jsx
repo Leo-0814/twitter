@@ -25,7 +25,7 @@ export const ReplyListContainer = ({isOpenReplyPage, isOpenReplyModal, onClickOp
         <div className="replyList-content-header">
           <Photo src={postData.account === personInfo.account? ownPhoto: userPhoto} alt="" className="content-header-photo" />
           <div className="content-header-data">
-            <Link to={`/information/${postData.account_id}`}><div className="header-data-username">{postData.real_name}</div></Link>
+            <Link to={`/information/${postData.account_id}`}><div className="header-data-username" onClick={() => onClickName?.()}>{postData.real_name}</div></Link>
             <div className="header-data-account">@{postData.account}</div>
           </div>
         </div>

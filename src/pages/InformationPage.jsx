@@ -18,6 +18,7 @@ const InformationPage = () => {
   const [ isOpenReplyPage, setIsOpenReplyPage ] = useState(false)
   const [ isOpenReplyModal, setIsOpenReplyModal ] = useState(false)
   const [ isOpenFollowPage, setIsOpenFollowPage ] = useState(false)
+  const [ isNotify, setIsNotify ] = useState(false)
   const [ editInfoModal, setEditInfoModal ] = useState(false)
   const [ infoTabControl, setInfoTabControl ] = useState(0)
   const [ followTabControl, setFollowTabControl ] = useState(0)
@@ -274,6 +275,13 @@ const InformationPage = () => {
   // 從其他頁面跳轉過來拿userData
   useEffect(() => {
     if (!params.account_id) {
+      setUserData({
+        account: '',
+        account_id: personInfo.account_id,
+        real_name: '',
+        remark: '',
+        email_status: '',
+      })
       return
     }
     
@@ -366,6 +374,8 @@ const InformationPage = () => {
           isFollow= {userData.email_status === 1}
           onClickFollow= {handleClickFollowUser}
           onClickName= {() => setInfoTabControl(0)}
+          isNotify= {isNotify}
+          onClickNotify= {() => setIsNotify(!isNotify)}
         >
         </InformationContainer>
 

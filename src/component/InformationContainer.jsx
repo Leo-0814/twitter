@@ -2,6 +2,7 @@ import clsx from "clsx"
 import leftArrow from '../images/_base/leftArrow.png'
 import btn_msg from '../images/_base/btn_msg.png'
 import btn_notFi from '../images/_base/btn_notFi.png'
+import btn_notFi_active from '../images/_base/btn_notFi_active.png'
 import { useNavigate } from "react-router-dom"
 import ownPhoto from '../images/ownPhoto.png'
 import userPhoto from '../images/userPhoto.png'
@@ -17,7 +18,8 @@ import editPhoto from '../images/_base/edit-photo.png'
 import backgroundDelete from '../images/_base/background-delete.png'
 import AuthInput from "./AuthInput"
 
-export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNameRef, accountRef, remarkRef, userData, postList, personInfo, backgroundUrl, photoUrl, onClickEditInfoModal, onClickFollowPage, onClickFollowTabControl, infoTabControl, onClickInfoTabControl, onClickReply, onClickLike, postingModal, onClickPostingModal, postingContent, onClickPostingContent, onClickPost, editInfoModal, onChangeUploadBackground, onClickBackgroundUrl, onChangeUploadPhoto, onChangePersonInfo, onClickEditInfo, isFollow, onClickFollow, onClickName}) => {
+
+export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNameRef, accountRef, remarkRef, userData, postList, personInfo, backgroundUrl, photoUrl, onClickEditInfoModal, onClickFollowPage, onClickFollowTabControl, infoTabControl, onClickInfoTabControl, onClickReply, onClickLike, postingModal, onClickPostingModal, postingContent, onClickPostingContent, onClickPost, editInfoModal, onChangeUploadBackground, onClickBackgroundUrl, onChangeUploadPhoto, onChangePersonInfo, onClickEditInfo, isFollow, onClickFollow, onClickName, isNotify, onClickNotify}) => {
 
   const navigate = useNavigate()
   
@@ -52,7 +54,7 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
             : 
             <div className="self-picture-tool">
               <img src={btn_msg} alt="msg" className="picture-tool-msg"/>
-              <img src={btn_notFi} alt="notify" className="picture-tool-notify"/>
+              <img src={isNotify? btn_notFi_active: btn_notFi} alt="notify" className="picture-tool-notify" onClick={() => onClickNotify?.()}/>
               {isFollow?
                 <Button className='picture-tool-follow' onClick={() => {onClickFollow?.(userData.account_id)}}>正在跟隨</Button>:
                 <ButtonHollow className='picture-tool-unFollow' onClick={() => {onClickFollow?.(userData.account_id)}}>跟隨</ButtonHollow>
