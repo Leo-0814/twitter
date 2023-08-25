@@ -251,7 +251,7 @@ const HomePage = () => {
           onClickReply={handleReply}>
         </ReplyListContainer>
 
-        <RightContainer onClick={handleClickFollowUser} userList={userList}></RightContainer>
+        <RightContainer onClick={handleClickFollowUser} userList={userList.slice(0, 20)}></RightContainer>
       </div>
 
       <ModalBackground active={postingModal || isOpenReplyModal}></ModalBackground>

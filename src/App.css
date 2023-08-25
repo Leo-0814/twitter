@@ -912,6 +912,27 @@ a:visited {
   font-size: 20px;
   line-height: 30px;
 }
+.mainContainer .promotionContainer .swiper {
+  width: 700px;
+  height: 300px;
+  margin: 24px auto;
+}
+.mainContainer .promotionContainer .swiper .banner {
+  width: 100%;
+  height: auto;
+}
+.mainContainer .promotionContainer .banner-container {
+  display: flex;
+  margin: 24px auto;
+  width: 700px;
+  height: 300px;
+  overflow: hidden;
+}
+.mainContainer .promotionContainer .banner-container .banner {
+  width: 100%;
+  height: auto;
+  cursor: grab;
+}
 
 @media screen and (max-width: 1200px) {
   .mainContainer .informationContainer .information-content .content-post {

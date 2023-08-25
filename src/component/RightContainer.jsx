@@ -4,16 +4,12 @@ import { Photo } from "./common/photo.styled"
 import ButtonHollow from "./Button-hollow"
 
 const RightContainer = ({onClick, userList}) => {
-  let followUserCount = 0
   return (
     <div className="rightContainer">
       <div className="rightContainer-area">
         <div className="rightContainer-area-title">推薦跟隨</div>
         <div className="rightContainer-area-list">
           {userList.map((user) => {
-            if (followUserCount > 20) {
-              return <></>
-            }
             let short_account_id = ''
             let short_account = ''
             if (user.email_status === 1) {
@@ -23,7 +19,6 @@ const RightContainer = ({onClick, userList}) => {
               short_account = user.account.slice(0,10) + ' ...'
               short_account_id = user.account_id.toString()
             }
-            followUserCount ++
 
             if (user.email_status === 1) {
               return(

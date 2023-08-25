@@ -998,6 +998,36 @@ a:visited {
       line-height: 30px;
     }
   }
+
+  //Promotion頁
+  .promotionContainer {
+    
+    .swiper {
+      width: 700px;
+      height: 300px;
+      margin: 24px auto;
+
+      .banner {
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    
+    .banner-container {
+      display: flex;
+      margin: 24px auto;
+      width: 700px;
+      height: 300px;
+      overflow: hidden;
+
+      .banner {
+        width: 100%;
+        height: auto;
+        cursor: grab;
+      }
+    }
+  }
 }
 
 

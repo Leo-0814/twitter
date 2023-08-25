@@ -38,6 +38,10 @@ const LeftContainer = ({home, information, setting, onClickPost,  isClickAtSetti
           <img src={setting? setting: baseSetting} alt="setting" className="leftContainer-list-icon" />
           <div className={clsx('leftContainer-list-text', { active: setting })}>設定</div>
         </Link>
+        <Link to='/promotion' className="leftContainer-list-item">
+          <img src={setting? setting: baseSetting} alt="setting" className="leftContainer-list-icon" />
+          <div className={clsx('leftContainer-list-text', { active: setting })}>輪播圖</div>
+        </Link>
         {isClickAtSetting? 
           <Link to={`/home?from=setting`}><Button className="leftContainer-list-postBtn" onClick={() => onClickPost?.()}>推文</Button></Link>: 
           <Button className="leftContainer-list-postBtn" onClick={() => onClickPost?.()}>推文</Button>
