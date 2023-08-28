@@ -40,7 +40,7 @@ const SignUpPage = () => {
         const res = await editInfo({area_code, mobile, user_level_id, adminToken, account_id, email, real_name})
 
         if (res) {
-          navigate('/home')
+          navigate('/promotion')
           Swal.fire({
             icon: 'success',
             title: '註冊成功',
@@ -74,7 +74,7 @@ const SignUpPage = () => {
 
       const res = await getInfo(token)
       if (res) {
-        navigate('/home')
+        navigate('/promotion')
       }
     }
     getInfoAsync()

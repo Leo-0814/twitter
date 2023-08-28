@@ -32,7 +32,7 @@ const LoginPage = () => {
           timer: 1000,
           position: 'top'
         })
-        navigate('/home')
+        navigate('/promotion')
         return
       }
     } catch (error) {
@@ -55,7 +55,7 @@ const LoginPage = () => {
 
       const res = await getInfo(token)
       if (res) {
-        navigate('/home')
+        navigate('/promotion')
       } else {
         localStorage.removeItem('token')
       }
