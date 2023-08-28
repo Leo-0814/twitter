@@ -6,10 +6,11 @@ import { Link, useNavigate } from "react-router-dom"
 import baseHome from '../images/_base/home.png'
 import baseInformation from '../images/_base/information.png'
 import baseSetting from '../images/_base/setting.png'
+import basePromotion from '../images/_base/setting.png'
 import { clsx } from "clsx"
 import { logout } from "../api/auth"
 
-const LeftContainer = ({home, information, setting, onClickPost,  isClickAtSetting, onClickInfoTab}) => {
+const LeftContainer = ({home, information, setting, promotion, onClickPost,  isClickAtSetting, onClickInfoTab}) => {
   const navigate = useNavigate()
 
   const handleClick = async () => {
@@ -39,8 +40,8 @@ const LeftContainer = ({home, information, setting, onClickPost,  isClickAtSetti
           <div className={clsx('leftContainer-list-text', { active: setting })}>設定</div>
         </Link>
         <Link to='/promotion' className="leftContainer-list-item">
-          <img src={setting? setting: baseSetting} alt="setting" className="leftContainer-list-icon" />
-          <div className={clsx('leftContainer-list-text', { active: setting })}>輪播圖</div>
+          <img src={promotion? promotion: basePromotion} alt="setting" className="leftContainer-list-icon" />
+          <div className={clsx('leftContainer-list-text', { active: promotion })}>輪播圖</div>
         </Link>
         {isClickAtSetting? 
           <Link to={`/home?from=setting`}><Button className="leftContainer-list-postBtn" onClick={() => onClickPost?.()}>推文</Button></Link>: 

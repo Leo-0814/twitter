@@ -913,25 +913,47 @@ a:visited {
   line-height: 30px;
 }
 .mainContainer .promotionContainer .swiper {
-  width: 700px;
+  margin-top: 24px;
   height: 300px;
-  margin: 24px auto;
-}
-.mainContainer .promotionContainer .swiper .banner {
   width: 100%;
-  height: auto;
+  border-radius: 20px;
 }
-.mainContainer .promotionContainer .banner-container {
-  display: flex;
-  margin: 24px auto;
-  width: 700px;
-  height: 300px;
-  overflow: hidden;
-}
-.mainContainer .promotionContainer .banner-container .banner {
+.mainContainer .promotionContainer .swiper .swiper-wrapper {
+  height: 100%;
   width: 100%;
-  height: auto;
+}
+.mainContainer .promotionContainer .swiper .swiper-wrapper .swiper-slide {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+.mainContainer .promotionContainer .swiper .swiper-wrapper .swiper-slide .swiper-banner {
+  width: auto;
+  height: 100%;
   cursor: grab;
+  border-radius: 20px;
+}
+.mainContainer .promotionContainer .swiper .swiper-button-next, .mainContainer .promotionContainer .swiper .swiper-button-prev {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #B5B5BE;
+  opacity: 0.9;
+}
+.mainContainer .promotionContainer .swiper .swiper-button-next::after, .mainContainer .promotionContainer .swiper .swiper-button-prev::after {
+  transform: scale(0.6);
+  color: black;
+}
+.mainContainer .promotionContainer .swiper .swiper-pagination-bullet, .mainContainer .promotionContainer .swiper .swiper-pagination-bullet-active {
+  transform: scale(1.5);
+  margin: 0 10px;
+}
+.mainContainer .promotionContainer .swiper .swiper-pagination-bullet {
+  opacity: 0.9;
+  background-color: #B5B5BE;
+}
+.mainContainer .promotionContainer .swiper .swiper-pagination-bullet-active {
+  background-color: rgb(56, 130, 241);
 }
 
 @media screen and (max-width: 1200px) {
