@@ -1,5 +1,4 @@
-import { LogoIcon } from "./common/logo.styled"
-import logo from '../images/logo.png'
+import LogoIcon from './LogoIcon'
 import logOut from '../images/_base/logOut.png'
 import Button from "./Button"
 import { Link, useNavigate } from "react-router-dom"
@@ -25,7 +24,7 @@ const LeftContainer = ({home, information, setting, promotion, onClickPost,  isC
   }  
   return (
     <div className="leftContainer">
-      <LogoIcon src={logo} alt="" className="leftContainer-logo" />
+      <LogoIcon></LogoIcon>
       <div className="leftContainer-list">
         <Link to='/home'className="leftContainer-list-item">
           <img src={home? home: baseHome} alt="home" className="leftContainer-list-icon" />

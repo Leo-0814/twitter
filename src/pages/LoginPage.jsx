@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import AuthInput from '../component/AuthInput'
 import logo from '../images/logo.png'
 import { AuthContainer, AuthLinkContainer, AuthLinkSpan, AuthLinkText, AuthTitle } from '../component/common/auth.styled'
-import { LogoIcon } from '../component/common/logo.styled'
+import LogoIcon from '../component/LogoIcon'
 import Button from '../component/Button'
 import { useEffect, useState } from 'react'
 import { login } from '../api/auth'
@@ -65,7 +65,7 @@ const LoginPage = () => {
 
   return (
     <AuthContainer>
-      <LogoIcon src={logo} alt="logo"/>
+      <LogoIcon></LogoIcon>
       <AuthTitle>登入 Alphitter</AuthTitle>
         <AuthInput 
           value={account} name='account' placeholder='請輸入帳號' label='帳號' className='authInput' onChange={(accountInputValue) => setAccount(accountInputValue)}
