@@ -81,11 +81,8 @@ const LoginPage = () => {
           <AuthLinkText >註冊</AuthLinkText>
         </Link>
         <AuthLinkSpan >． </AuthLinkSpan>
-        <Link to='/admin'>
-          <AuthLinkText onClick={() => {
-            localStorage.removeItem('adminToken')
-            navigate('adminlogin')  
-          }}>後台登出</AuthLinkText>
+        <Link to='https://leo-0814.github.io/twitteradmin' target="_blank">
+          <AuthLinkText>後台登入</AuthLinkText>
         </Link>
       </AuthLinkContainer>
     </AuthContainer>
