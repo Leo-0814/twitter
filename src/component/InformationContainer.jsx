@@ -181,7 +181,7 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
                 real_name: realNameInputValue
                 })}
             />
-            <div className="input-username-count">{personInfo.real_name.toString().length}/50</div>
+            <div className="input-username-count">{personInfo.real_name? personInfo.real_name.toString().length: 0}/50</div>
           </div>
           
           <div className="modal-input-introduction">
@@ -191,7 +191,7 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
               remark: remarkTextareaValue.target.value
               })
             }></textarea>
-            <div className="input-introduction-count">{personInfo.remark? personInfo.remark.toString().length : 0}/160</div>
+            <div className="input-introduction-count">{personInfo.remark? personInfo.remark.toString().length: 0}/160</div>
           </div>
         </div>
         <Button className='editInfo-modal-btn' onClick={() => onClickEditInfo?.()}>儲存</Button>

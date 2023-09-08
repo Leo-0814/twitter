@@ -195,41 +195,35 @@ const InformationPage = () => {
     }
   }
 
-  // 初始拿個人資料
+  // 確認token
   useEffect(() => {
-    const getInfoAsync = async () => {
+    const checkTokenAsync = async () => {
       const token = localStorage.getItem('token')
-      if (!token) {
+      const adminToken = localStorage.getItem('adminToken')
+      if (!token || !adminToken) {
         navigate('/login')
         return
       }
 
-      try {
-        let { mobile, account, real_name, account_id, remark, email
- } = await getInfo(token)
-
-        if (!remark) {
-          remark = ''
+      const resGetInfo = await getInfo(token)
+      const resGetUsers = await getUsers(adminToken)
+      if (resGetInfo && resGetUsers) {
+        if (!resGetInfo.remark) {
+          resGetInfo.remark = ''
         }
-        setPersonInfo({
-          email,
-          account,
-          real_name,
-          account_id,
-          remark,
-          mobile,
-        })
-        realNameRef.current = real_name
-        accountRef.current = account
-        remarkRef.current = remark
-      } catch (error) {
+        setPersonInfo(resGetInfo)
+        realNameRef.current = resGetInfo.real_name
+        accountRef.current = resGetInfo.account
+        remarkRef.current = resGetInfo.remark
+        setUserList(resGetUsers)
+      } else {
         localStorage.removeItem('token')
-        console.log(error)
+        localStorage.removeItem('adminToken')
         navigate('/login')
       }
     }
-    getInfoAsync()
-  }, [editInfoModal, navigate])
+    checkTokenAsync()
+  },[params.account_id, navigate])
 
   // 初始拿推文
   useEffect(() => {
@@ -244,33 +238,6 @@ const InformationPage = () => {
     }
     getPostsAsync()
   },[params.account_id])
-
-  // 初始拿用戶列表
-  useEffect(() => {
-    const getUsersAsync = async () => {
-      const adminToken = localStorage.getItem('adminToken')
-
-      if (!adminToken) {
-        navigate('/adminlogin')
-        return
-      }
-
-      try {
-        const res = await getUsers(adminToken)
-        
-        if (res) {
-          setUserList(res)
-        } else {
-          localStorage.removeItem('adminToken')
-          navigate('/adminlogin')
-        }
-
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getUsersAsync()
-  },[params.account_id, navigate])
 
   // 從其他頁面跳轉過來拿userData
   useEffect(() => {
@@ -300,17 +267,18 @@ const InformationPage = () => {
       }
       if (userList.length > 0) {
         let userDataTarget = userList.find(user => user.account_id === Number(params.account_id))
-        setUserData((preProp) => {
-          return ({
-            ...preProp,
-            email_status: userDataTarget.email_status,
+        if (userDataTarget) {
+          setUserData((preProp) => {
+            return ({
+              ...preProp,
+              email_status: userDataTarget.email_status,
+            })
           })
-        })
+        }
       }
     }
     listenPostList()
   },[postList, userList])
-
       
 
   return (

@@ -17,6 +17,7 @@ const LeftContainer = ({home, information, setting, promotion, onClickPost,  isC
     try {
       await logout(token)
       localStorage.removeItem('token')
+      localStorage.removeItem('adminToken')
       navigate('/login')
     } catch (error) {
       console.log(error)
@@ -44,7 +45,9 @@ const LeftContainer = ({home, information, setting, promotion, onClickPost,  isC
         </Link>
         {isClickAtSetting? 
           <Link to={`/home?from=setting`}><Button className="leftContainer-list-postBtn" onClick={() => onClickPost?.()}>推文</Button></Link>: 
-          <Button className="leftContainer-list-postBtn" onClick={() => onClickPost?.()}>推文</Button>
+          promotion?
+            '':
+            <Button className="leftContainer-list-postBtn" onClick={() => onClickPost?.()}>推文</Button>
         }
 
         <div className="leftContainer-list-item leftContainer-list-logOut" onClick={handleClick}>

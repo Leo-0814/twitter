@@ -129,62 +129,6 @@ const HomePage = () => {
     }
   }
 
-  // 判斷token拿取個人資料
-  useEffect(() => {
-    const getInfoAsync = async () => {
-      const token = localStorage.getItem('token')
-      if (!token) {
-        navigate('/login')
-        return
-      } 
-
-      try {
-        const res = await getInfo(token)
-        if (!res) {
-          localStorage.removeItem('token')
-          navigate('/login')
-        } else {
-          setPersonInfo({
-          email: res.email,
-          account: res.account,
-          real_name: res.real_name,
-          account_id: res.account_id,
-          remark: res.remark,
-        })
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getInfoAsync()
-  },[navigate])
-
-  // 初始拿用戶列表
-  useEffect(() => {
-    const getUsersAsync = async () => {
-      const adminToken = localStorage.getItem('adminToken')
-
-      if (!adminToken) {
-        navigate('/adminlogin')
-        return
-      }
-
-      try {
-        const res = await getUsers(adminToken)
-        
-        if (res) {
-          setUserList(res)
-        } else {
-          localStorage.removeItem('adminToken')
-          navigate('/adminlogin')
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getUsersAsync()
-  },[navigate])
-
   // 初始拿推文
   useEffect(() => {
     const getPostsAsync = async () => {
@@ -201,6 +145,30 @@ const HomePage = () => {
     }
     getPostsAsync()
   },[searchParams])
+
+    // 確認token
+  useEffect(() => {
+    const checkTokenAsync = async () => {
+      const token = localStorage.getItem('token')
+      const adminToken = localStorage.getItem('adminToken')
+      if (!token || !adminToken) {
+        navigate('/login')
+        return
+      }
+
+      const resGetInfo = await getInfo(token)
+      const resGetUsers = await getUsers(adminToken)
+      if (resGetInfo && resGetUsers) {
+        setPersonInfo(resGetInfo)
+        setUserList(resGetUsers)
+      } else {
+        localStorage.removeItem('token')
+        localStorage.removeItem('adminToken')
+        navigate('/login')
+      }
+    }
+    checkTokenAsync()
+  },[navigate])
 
   return (
     <>

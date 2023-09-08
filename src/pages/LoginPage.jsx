@@ -1,13 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom'
 import AuthInput from '../component/AuthInput'
-import logo from '../images/logo.png'
 import { AuthContainer, AuthLinkContainer, AuthLinkSpan, AuthLinkText, AuthTitle } from '../component/common/auth.styled'
 import LogoIcon from '../component/LogoIcon'
 import Button from '../component/Button'
 import { useEffect, useState } from 'react'
 import { login } from '../api/auth'
 import Swal from 'sweetalert2'
-import { getInfo } from '../api/info'
+import { getInfo, getUsers } from '../api/info'
+import { adminLogin } from '../api/admin'
 
 
 const LoginPage = () => {
@@ -22,8 +22,10 @@ const LoginPage = () => {
 
     try {
       const { success, token } = await login({account, password})
-      if (success) {
+      const adminToken = await adminLogin('superadmin03', 123456, 1478963)
+      if (success && adminToken) {
         localStorage.setItem('token', token)
+        localStorage.setItem('adminToken', adminToken)
         Swal.fire({
           icon: 'success',
           title: '登入成功',
@@ -40,27 +42,25 @@ const LoginPage = () => {
     }
   }
 
+  // 確認token
   useEffect(() => {
-    const getInfoAsync = async () => {
-      const adminToken = localStorage.getItem('adminToken')
-      if (!adminToken) {
-        navigate('/adminlogin')
-        return
-      }
-      
+    const checkTokenAsync = async () => {
       const token = localStorage.getItem('token')
-      if (!token) {
+      const adminToken = localStorage.getItem('adminToken')
+      if (!token || !adminToken) {
         return
       }
 
-      const res = await getInfo(token)
-      if (res) {
+      const resGetInfo = await getInfo(token)
+      const resGetUsers = await getUsers(adminToken)
+      if (resGetInfo && resGetUsers) {
         navigate('/promotion')
       } else {
         localStorage.removeItem('token')
+        localStorage.removeItem('adminToken')
       }
     }
-    getInfoAsync()
+    checkTokenAsync()
   },[navigate])
 
   return (

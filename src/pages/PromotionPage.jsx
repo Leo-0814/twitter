@@ -1,7 +1,7 @@
 import LeftContainer from '../component/LeftContainer'
 import settingActive from '../images/_base/settingActive.png'
 import React, { useEffect, useState } from 'react'
-import { getInfo } from '../api/info'
+import { getInfo, getUsers } from '../api/info'
 import { useNavigate } from 'react-router-dom'
 import { getBanner, getBannerOfPromotion } from '../api/banner'
 import { Swiper, SwiperSlide } from 'swiper/react'; 
@@ -11,8 +11,6 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 const PromotionPage = () => {
-  const [ postingModal, setPostingModal ] = useState(false)
-  const [ isOpenReplyPage, setIsOpenReplyPage ] = useState(false)
   const [ personInfo, setPersonInfo ] = useState({
     account_id: '',
     account: '',
@@ -23,36 +21,6 @@ const PromotionPage = () => {
   const navigate = useNavigate()
 
   const [ bannerList, setBannerList ] = useState([])
-
-  // 判斷token拿取個人資料
-  useEffect(() => {
-    const getInfoAsync = async () => {
-      const token = localStorage.getItem('token')
-      if (!token) {
-        navigate('/login')
-        return
-      } 
-
-      try {
-        const res = await getInfo(token)
-        if (!res) {
-          localStorage.removeItem('token')
-          navigate('/login')
-        } else {
-          setPersonInfo({
-          email: res.email,
-          account: res.account,
-          real_name: res.real_name,
-          account_id: res.account_id,
-          remark: res.remark,
-        })
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getInfoAsync()
-  },[navigate])
 
   // 初始拿Banner
   useEffect(() => {
@@ -72,15 +40,34 @@ const PromotionPage = () => {
     gerBannerAsync()
   },[])
 
+  // 確認token
+  useEffect(() => {
+    const checkTokenAsync = async () => {
+      const token = localStorage.getItem('token')
+      const adminToken = localStorage.getItem('adminToken')
+      if (!token || !adminToken) {
+        navigate('/login')
+        return
+      }
+
+      const resGetInfo = await getInfo(token)
+      const resGetUsers = await getUsers(adminToken)
+      if (resGetInfo && resGetUsers) {
+        setPersonInfo(resGetInfo)
+      } else {
+        localStorage.removeItem('token')
+        localStorage.removeItem('adminToken')
+        navigate('/login')
+      }
+    }
+    checkTokenAsync()
+  },[navigate])
+
   return (
     <>
       <div className="mainContainer">
         <LeftContainer 
-          promotion={settingActive} 
-          onClickPost={() => {
-            setPostingModal(true)
-            setIsOpenReplyPage(false)
-          }}
+          promotion={settingActive}
           account_id={personInfo.account_id}
         >
         </LeftContainer>

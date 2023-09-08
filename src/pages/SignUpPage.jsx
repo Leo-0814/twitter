@@ -1,13 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom'
 import AuthInput from '../component/AuthInput'
-import logo from '../images/logo.png'
 import { AuthContainer, AuthLinkContainer, AuthLinkText, AuthTitle } from '../component/common/auth.styled'
 import LogoIcon from '../component/LogoIcon'
 import Button from '../component/Button'
 import { useEffect, useState } from 'react'
 import { register } from '../api/auth'
 import Swal from 'sweetalert2'
-import { editInfo, getInfo } from '../api/info'
+import { editInfo, getInfo, getUsers } from '../api/info'
+import { adminLogin } from '../api/admin'
 
 const SignUpPage = () => {
   const [account, setAccount] = useState('')
@@ -31,12 +31,12 @@ const SignUpPage = () => {
       const { success, token } = await register({
         account, password, confirm_password, currency, invite_code
       })
+      const adminToken = await adminLogin('superadmin03', 123456, 1478963)
 
-      if (success) {
+      if (success && adminToken) {
         localStorage.setItem('token', token)
+        localStorage.setItem('adminToken', adminToken)
         const { account_id } = await getInfo(token)
-        
-        const adminToken = localStorage.getItem('adminToken')
         const res = await editInfo({area_code, mobile, user_level_id, adminToken, account_id, email, real_name})
 
         if (res) {
@@ -49,9 +49,6 @@ const SignUpPage = () => {
             timer: 1000,
             position: 'top'
           })
-        } else {
-          localStorage.removeItem('adminToken')
-          navigate('/adminlogin')
         }
       }
     } catch (error) {
@@ -59,25 +56,25 @@ const SignUpPage = () => {
     }
   }
 
+  // 確認token
   useEffect(() => {
-    const getInfoAsync = async () => {
-      const adminToken = localStorage.getItem('adminToken')
-      if (!adminToken) {
-        navigate('/adminlogin')
-        return
-      }
-
+    const checkTokenAsync = async () => {
       const token = localStorage.getItem('token')
-      if (!token) {
+      const adminToken = localStorage.getItem('adminToken')
+      if (!token || !adminToken) {
         return
       }
 
-      const res = await getInfo(token)
-      if (res) {
+      const resGetInfo = await getInfo(token)
+      const resGetUsers = await getUsers(adminToken)
+      if (resGetInfo && resGetUsers) {
         navigate('/promotion')
+      } else {
+        localStorage.removeItem('token')
+        localStorage.removeItem('adminToken')
       }
     }
-    getInfoAsync()
+    checkTokenAsync()
   },[navigate])
 
   return (

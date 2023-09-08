@@ -53,59 +53,37 @@ const SettingPage = () => {
       console.log(error)
     }
   }
-
-  // 初始拿個人資料
+  
+  // 確認token
   useEffect(() => {
-    const getInfoAsync = async () => {
+    const checkTokenAsync = async () => {
       const token = localStorage.getItem('token')
-      if (!token) {
+      const adminToken = localStorage.getItem('adminToken')
+      if (!token || !adminToken) {
         navigate('/login')
         return
       }
 
-      try {
-        const { account, real_name, email, account_id, remark
- } = await getInfo(token)
+      const resGetInfo = await getInfo(token)
+      const resGetUsers = await getUsers(adminToken)
+      if (resGetInfo && resGetUsers) {
         setPersonInfo((prop) => {
           return {
-          ...prop,
-          account,
-          real_name,
-          email,
-          account_id,
-          remark,
-        }})
-      } catch (error) {
+            ...prop,
+            email: resGetInfo.email,
+            account: resGetInfo.account,
+            real_name: resGetInfo.real_name,
+            account_id: resGetInfo.account_id,
+            remark: resGetInfo.remark,
+          }
+        })
+      } else {
         localStorage.removeItem('token')
-        console.log(error)
+        localStorage.removeItem('adminToken')
         navigate('/login')
       }
     }
-    getInfoAsync()
-  }, [navigate])
-
-  // 初始拿用戶列表 > 測adminToken
-  useEffect(() => {
-    const getUsersAsync = async () => {
-      const adminToken = localStorage.getItem('adminToken')
-
-      if (!adminToken) {
-        navigate('/adminlogin')
-        return
-      }
-
-      try {
-        const res = await getUsers(adminToken)
-
-        if (!res) {
-          localStorage.removeItem('adminToken')
-          navigate('/adminlogin')
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getUsersAsync()
+    checkTokenAsync()
   },[navigate])
   
   return (
