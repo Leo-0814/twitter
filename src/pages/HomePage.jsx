@@ -46,10 +46,10 @@ const HomePage = () => {
   
   // 推薦跟隨
   const handleClickFollowUser = async (id) => {
-    const adminToken = localStorage.getItem('adminToken')
+    const adminToken2 = localStorage.getItem('adminToken2')
 
     try {
-      await followUser(id, adminToken)
+      await followUser(id, adminToken2)
       window.location.reload()
     } catch (error) {
       console.log(error)
@@ -150,20 +150,20 @@ const HomePage = () => {
   useEffect(() => {
     const checkTokenAsync = async () => {
       const token = localStorage.getItem('token')
-      const adminToken = localStorage.getItem('adminToken')
-      if (!token || !adminToken) {
+      const adminToken2 = localStorage.getItem('adminToken2')
+      if (!token || !adminToken2) {
         navigate('/login')
         return
       }
 
       const resGetInfo = await getInfo(token)
-      const resGetUsers = await getUsers(adminToken)
+      const resGetUsers = await getUsers(adminToken2)
       if (resGetInfo && resGetUsers) {
         setPersonInfo(resGetInfo)
         setUserList(resGetUsers)
       } else {
         localStorage.removeItem('token')
-        localStorage.removeItem('adminToken')
+        localStorage.removeItem('adminToken2')
         navigate('/login')
       }
     }

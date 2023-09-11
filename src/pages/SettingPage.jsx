@@ -27,10 +27,10 @@ const SettingPage = () => {
 
   // 點擊儲存更改個人資料
   const handleClick = async () => {
-    const adminToken = localStorage.getItem('adminToken')
+    const adminToken2 = localStorage.getItem('adminToken2')
     
     try {
-      const res = await editInfo({area_code, user_level_id, adminToken, ...personInfo})
+      const res = await editInfo({area_code, user_level_id, adminToken2, ...personInfo})
 
       if (res) {
         setPersonInfo((prop) => {
@@ -58,14 +58,14 @@ const SettingPage = () => {
   useEffect(() => {
     const checkTokenAsync = async () => {
       const token = localStorage.getItem('token')
-      const adminToken = localStorage.getItem('adminToken')
-      if (!token || !adminToken) {
+      const adminToken2 = localStorage.getItem('adminToken2')
+      if (!token || !adminToken2) {
         navigate('/login')
         return
       }
 
       const resGetInfo = await getInfo(token)
-      const resGetUsers = await getUsers(adminToken)
+      const resGetUsers = await getUsers(adminToken2)
       if (resGetInfo && resGetUsers) {
         setPersonInfo((prop) => {
           return {
@@ -79,7 +79,7 @@ const SettingPage = () => {
         })
       } else {
         localStorage.removeItem('token')
-        localStorage.removeItem('adminToken')
+        localStorage.removeItem('adminToken2')
         navigate('/login')
       }
     }

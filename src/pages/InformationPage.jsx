@@ -115,11 +115,11 @@ const InformationPage = () => {
   
   //推薦跟隨
   const handleClickFollowUser = async (id) => {
-    const adminToken = localStorage.getItem('adminToken')
+    const adminToken2 = localStorage.getItem('adminToken2')
 
     try {
-      await followUser(id, adminToken)
-      const res = await getUsers(adminToken)
+      await followUser(id, adminToken2)
+      const res = await getUsers(adminToken2)
       setUserList(res)
     } catch (error) {
       console.log(error)
@@ -132,10 +132,10 @@ const InformationPage = () => {
       return
     }
 
-    const adminToken = localStorage.getItem('adminToken')
+    const adminToken2 = localStorage.getItem('adminToken2')
 
     try {
-      const res = await editInfo({ area_code, user_level_id, adminToken, ...personInfo})
+      const res = await editInfo({ area_code, user_level_id, adminToken2, ...personInfo})
 
       if (res) {
         // window.location.reload()
@@ -199,14 +199,14 @@ const InformationPage = () => {
   useEffect(() => {
     const checkTokenAsync = async () => {
       const token = localStorage.getItem('token')
-      const adminToken = localStorage.getItem('adminToken')
-      if (!token || !adminToken) {
+      const adminToken2 = localStorage.getItem('adminToken2')
+      if (!token || !adminToken2) {
         navigate('/login')
         return
       }
 
       const resGetInfo = await getInfo(token)
-      const resGetUsers = await getUsers(adminToken)
+      const resGetUsers = await getUsers(adminToken2)
       if (resGetInfo && resGetUsers) {
         if (!resGetInfo.remark) {
           resGetInfo.remark = ''
@@ -218,7 +218,7 @@ const InformationPage = () => {
         setUserList(resGetUsers)
       } else {
         localStorage.removeItem('token')
-        localStorage.removeItem('adminToken')
+        localStorage.removeItem('adminToken2')
         navigate('/login')
       }
     }

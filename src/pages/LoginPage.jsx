@@ -22,10 +22,10 @@ const LoginPage = () => {
 
     try {
       const { success, token } = await login({account, password})
-      const adminToken = await adminLogin('superadmin03', 123456, 1478963)
-      if (success && adminToken) {
+      const adminToken2 = await adminLogin('superadmin03', 123456, 1478963)
+      if (success && adminToken2) {
         localStorage.setItem('token', token)
-        localStorage.setItem('adminToken', adminToken)
+        localStorage.setItem('adminToken2', adminToken2)
         Swal.fire({
           icon: 'success',
           title: '登入成功',
@@ -46,18 +46,18 @@ const LoginPage = () => {
   useEffect(() => {
     const checkTokenAsync = async () => {
       const token = localStorage.getItem('token')
-      const adminToken = localStorage.getItem('adminToken')
-      if (!token || !adminToken) {
+      const adminToken2 = localStorage.getItem('adminToken2')
+      if (!token || !adminToken2) {
         return
       }
 
       const resGetInfo = await getInfo(token)
-      const resGetUsers = await getUsers(adminToken)
+      const resGetUsers = await getUsers(adminToken2)
       if (resGetInfo && resGetUsers) {
         navigate('/promotion')
       } else {
         localStorage.removeItem('token')
-        localStorage.removeItem('adminToken')
+        localStorage.removeItem('adminToken2')
       }
     }
     checkTokenAsync()
