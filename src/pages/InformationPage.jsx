@@ -139,6 +139,8 @@ const InformationPage = () => {
 
       if (res) {
         // window.location.reload()
+        realNameRef.current = personInfo.real_name
+        remarkRef.current = personInfo.remark
         setEditInfoModal(false)
         Swal.fire({
           icon: 'success',

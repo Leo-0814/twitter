@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom'
 import AuthInput from '../component/AuthInput'
-import logo from '../images/logo.png'
 import { AuthContainer, AuthTitle } from '../component/common/auth.styled'
 import LogoIcon from '../component/LogoIcon'
 import Button from '../component/Button'

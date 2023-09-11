@@ -17,7 +17,7 @@ const LeftContainer = ({home, information, setting, promotion, onClickPost,  isC
     try {
       await logout(token)
       localStorage.removeItem('token')
-      localStorage.removeItem('adminToken')
+      localStorage.removeItem('adminToken2')
       navigate('/login')
     } catch (error) {
       console.log(error)

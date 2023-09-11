@@ -50,7 +50,9 @@ const HomePage = () => {
 
     try {
       await followUser(id, adminToken2)
-      window.location.reload()
+      const res = await getUsers(adminToken2)
+      setUserList(res)
+      // window.location.reload()
     } catch (error) {
       console.log(error)
     }
