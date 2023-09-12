@@ -6,9 +6,9 @@ const StyledLogoIcon = styled.img`
   height: 50px
 `
 
-const LogoIcon = () => {
+const LogoIcon = ({className}) => {
   return (
-    <StyledLogoIcon src={logo} alt="logo"></StyledLogoIcon>
+    <StyledLogoIcon src={logo} alt="logo" className={className}></StyledLogoIcon>
   )
 }
 

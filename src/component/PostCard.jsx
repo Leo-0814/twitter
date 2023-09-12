@@ -15,12 +15,11 @@ const StyledPostCard = styled.div`
   display: flex;
 
   .post-card-data {
-    margin-left: 3px;
+    margin-left: 5px;
     margin-top: 5px;
 
     .card-data-header {
       display: flex;
-      align-items: center;
 
       & > a {
         text-decoration: none;
@@ -75,7 +74,7 @@ const StyledPostCard = styled.div`
         .footer-item-icon {
           width: 16px;
           height: 16px;
-          margin-right: 3px;
+          margin-right: 5px;
           cursor: pointer;
         }
         .footer-item-count {
@@ -91,13 +90,13 @@ const StyledPostCard = styled.div`
 `
 
 
-const PostCard = ({ onClickReply, postData, onClickLike, personInfo, userData, onClickName}) => {
+const PostCard = ({ onClickReply, postData, onClickLike, personInfo, userData, onClickName, className}) => {
 
   const timeDif = timeDifferent(postData.getTime)
   const isLike = postData.like.includes(personInfo.account_id)
 
   return (
-    <StyledPostCard>
+    <StyledPostCard className={className}>
       {userData.account_id? postData.account_id === personInfo.account_id? 
         <Photo src={ownPhoto} alt="ownPhoto" />
         : <Photo src={userPhoto} alt="userPhoto" />

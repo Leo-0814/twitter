@@ -645,8 +645,21 @@
       "getTime": 1694178368998,
       "content": "welottery不會讓我失望",
       "photo": "",
-      "reply": [],
-      "like": []
+      "reply": [
+        {
+          "id": 0,
+          "account": "twitter006",
+          "account_id": 39677967,
+          "real_name": "我是測試號006",
+          "create_at": "2023/9/11 下午3:22:55",
+          "getTime": 1694416975335,
+          "content": "123456"
+        }
+      ],
+      "like": [
+        39677967,
+        17761540
+      ]
     }
   ]
 }

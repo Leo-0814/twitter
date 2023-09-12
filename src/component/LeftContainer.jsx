@@ -6,6 +6,7 @@ import baseHome from '../images/_base/home.png'
 import baseInformation from '../images/_base/information.png'
 import baseSetting from '../images/_base/setting.png'
 import basePromotion from '../images/_base/setting.png'
+import post from '../images/_base/post.png'
 import { clsx } from "clsx"
 import { logout } from "../api/auth"
 
@@ -25,12 +26,15 @@ const LeftContainer = ({home, information, setting, promotion, onClickPost,  isC
   }  
   return (
     <div className="leftContainer">
-      <LogoIcon></LogoIcon>
+      <LogoIcon className='leftContainer-logo'></LogoIcon>
       <div className="leftContainer-list">
         <Link to='/home'className="leftContainer-list-item">
           <img src={home? home: baseHome} alt="home" className="leftContainer-list-icon" />
           <div className={clsx('leftContainer-list-text', { active: home })}>首頁</div>
         </Link>
+        <div className="leftContainer-list-item leftContainer-list-item-post">
+          <img src={post} alt="post" className="leftContainer-list-icon" />
+        </div>
         <Link to={`/information`} className="leftContainer-list-item" onClick={() => onClickInfoTab?.()}>
           <img src={information? information: baseInformation} alt="information" className="leftContainer-list-icon" />
           <div className={clsx('leftContainer-list-text', { active: information })}>個人資料</div>

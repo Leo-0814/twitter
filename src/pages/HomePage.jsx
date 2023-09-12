@@ -187,16 +187,17 @@ const HomePage = () => {
 
         {/* centerContainer */}
         <div className={clsx("centerContainer", { reply: isOpenReplyPage })}>
+          <Photo src={ownPhoto} alt="ownPhoto" className="centerContainer-ownPhoto" />
           <div className="centerContainer-title">首頁</div>
           <div className="centerContainer-posting">
-            <Photo src={ownPhoto} alt="logo" className="posting-img" />
+            <Photo src={ownPhoto} alt="ownPhoto" className="posting-img" />
             <textarea rows='3' cols='100' className="posting-textarea" placeholder='有什麼新鮮事?' value={postingContent} onChange={(e) => setPostingContent(e.target.value)}></textarea>
             <Button className='posting-btn' onClick={handleClickPost}>推文</Button>
           </div>
           <div className="centerContainer-post">
             {postList.map((post) => {
               return (
-                <PostCard key={post.id} onClickReply={handleClickReply} postData={post} personInfo={personInfo} onClickLike={handleClickLike} userData={''}></PostCard>
+                <PostCard key={post.id} className='centerContainer-post-card' onClickReply={handleClickReply} postData={post} personInfo={personInfo} onClickLike={handleClickLike} userData={''}></PostCard>
               )
             })}
           </div>
