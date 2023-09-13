@@ -12,8 +12,10 @@ import { followUser, getInfo, getUsers } from '../api/info'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { createPost, editPost, getPosts } from '../api/posts'
 import { ReplyListContainer } from '../component/ReplyListContainer'
+import db from "../configs/config"
 
 const HomePage = () => {
+  const myData = db.ref('posts')
   const [ postingModal, setPostingModal ] = useState(false)
   const [ isOpenReplyPage, setIsOpenReplyPage ] = useState(false)
   const [ isOpenReplyModal, setIsOpenReplyModal ] = useState(false)
@@ -133,18 +135,29 @@ const HomePage = () => {
 
   // 初始拿推文
   useEffect(() => {
-    const getPostsAsync = async () => {
-      try {
-        const res = await getPosts()
-        setPostList(res)
+    const getPostsAsync = () => {
+    //   try {
+    //     const res = await getPosts()
+    //     setPostList(res)
 
-        if (searchParams.get('from') === 'setting') {
-          setPostingModal(true)
-        }
-      } catch (error) {
-        console.log(error)
-      }
+    //     if (searchParams.get('from') === 'setting') {
+    //       setPostingModal(true)
+    //     }
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // }
+    
+    myData.once('value', snapshot => {
+      const posts = snapshot.val()
+      console.log(posts)
+      setPostList(posts)
+    })
+
+    if (searchParams.get('from') === 'setting') {
+      setPostingModal(true)
     }
+  }
     getPostsAsync()
   },[searchParams])
 

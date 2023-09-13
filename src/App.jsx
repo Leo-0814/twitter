@@ -1,7 +1,6 @@
 import './App.css';
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import { HomePage, InformationPage, LoginPage, SettingPage, SignUpPage } from './pages';
-import AdminLoginPage from './pages/AdminLoginPage';
 import PromotionPage from './pages/PromotionPage';
 
 function App() {

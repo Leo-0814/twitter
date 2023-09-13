@@ -7,8 +7,6 @@ import { editInfo, getInfo, getUsers } from "../api/info"
 import Swal from "sweetalert2"
 import { useNavigate } from "react-router-dom"
 
-
-
 const SettingPage = () => {
   const navigate = useNavigate()
   const [ personInfo, setPersonInfo ] = useState({
@@ -63,7 +61,7 @@ const SettingPage = () => {
         navigate('/login')
         return
       }
-
+      
       const resGetInfo = await getInfo(token)
       const resGetUsers = await getUsers(adminToken2)
       if (resGetInfo && resGetUsers) {
