@@ -15,7 +15,7 @@ import { ReplyListContainer } from '../component/ReplyListContainer'
 import db from "../configs/config"
 
 const HomePage = () => {
-  const myData = db.ref('posts')
+  const myPosts = db.ref('posts')
   const [ postingModal, setPostingModal ] = useState(false)
   const [ isOpenReplyPage, setIsOpenReplyPage ] = useState(false)
   const [ isOpenReplyModal, setIsOpenReplyModal ] = useState(false)
@@ -62,45 +62,72 @@ const HomePage = () => {
 
   // 發文
   const handleClickPost = async () => {
+    // if (postingContent.length === 0) {
+    //   return
+    // }
+    // const token = localStorage.getItem('token')
+    // const id = postList[0].id + 1
+    // const time = new Date()
+    // const getTime = time.getTime()
+    // const create_at = time.toLocaleString()
+
+    // try {
+    //   const res = await createPost({token, id, create_at, getTime, postingContent, ...personInfo})
+      
+    //   if (res) {
+    //     const newPostList = [res,...postList]
+    //     setPostList(newPostList)
+    //     setPostingContent('')
+    //     setPostingModal(false)
+    //   }
+    // } catch (error) {
+    //   console.log(error)
+    // }
     if (postingContent.length === 0) {
       return
     }
-
-    const token = localStorage.getItem('token')
-    const id = postList[0].id + 1
     const time = new Date()
     const getTime = time.getTime()
     const create_at = time.toLocaleString()
+    const id = postList[0].id + 1
 
-    try {
-      const res = await createPost({token, id, create_at, getTime, postingContent, ...personInfo})
-      
-      if (res) {
-        const newPostList = [res,...postList]
-        setPostList(newPostList)
-        setPostingContent('')
-        setPostingModal(false)
-      }
-    } catch (error) {
-      console.log(error)
+    const fields = {
+      account: personInfo.account,
+      account_id: personInfo.account_id,
+      content: postingContent,
+      create_at,
+      getTime,
+      id,
+      real_name: personInfo.real_name,
+      like: [],
+      reply: [],
     }
+
+    myPosts.push(fields)
   }
 
   // 對推文按喜歡
   const handleClickLike = async (postId) => {
-    const token = localStorage.getItem('token')
-    const post = postList.filter(item => item.id === postId)
-    try {
-      const res = await editPost({post, personInfo, token})
+    // const token = localStorage.getItem('token')
+    // const post = postList.filter(item => item.id === postId)
+    // try {
+    //   const res = await editPost({post, personInfo, token})
       
-      if (res) {
-        setReplyContainerData(res)
-        const posts = await getPosts()
-        setPostList(posts)
-      }
-    } catch (error) {
-      console.log(error)
-    }
+    //   if (res) {
+    //     setReplyContainerData(res)
+    //     const posts = await getPosts()
+    //     setPostList(posts)
+    //   }
+    // } catch (error) {
+    //   console.log(error)
+    // }
+    let postKey = ''
+    myPosts.orderByChild('id').equalTo(postId).once('value',snapshot => {
+      postKey = Object.keys(snapshot.val())
+    })
+    console.log(postKey)
+    db.ref(`posts/${postKey[0]}/like`).update({a: 1})
+    
   }
 
   // 點擊推文回覆跳轉replyListContainer
@@ -147,18 +174,23 @@ const HomePage = () => {
     //     console.log(error)
     //   }
     // }
-    
-    myData.once('value', snapshot => {
-      const posts = snapshot.val()
-      console.log(posts)
-      setPostList(posts)
+    const myPosts = db.ref('posts')
+    myPosts.on('value', snapshot => {
+      let data = []
+      snapshot.forEach(item => {
+        data.push(item.val())
+      })
+      setPostList(data.reverse())
     })
-
-    if (searchParams.get('from') === 'setting') {
-      setPostingModal(true)
-    }
+console.log(postList)
   }
-    getPostsAsync()
+  getPostsAsync()
+},[])
+
+  useEffect(() => {
+  if (searchParams.get('from') === 'setting') {
+    setPostingModal(true)
+  }
   },[searchParams])
 
     // 確認token
@@ -208,11 +240,11 @@ const HomePage = () => {
             <Button className='posting-btn' onClick={handleClickPost}>推文</Button>
           </div>
           <div className="centerContainer-post">
-            {postList.map((post) => {
+            {/* {postList.map((post) => {
               return (
                 <PostCard key={post.id} className='centerContainer-post-card' onClickReply={handleClickReply} postData={post} personInfo={personInfo} onClickLike={handleClickLike} userData={''}></PostCard>
               )
-            })}
+            })} */}
           </div>
           <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='centerContainer-posting-modal' btnText='推文' type='typeA'>
             <div className="posting-modal-content">
