@@ -12,6 +12,7 @@ import { createPost, editPost, getPosts } from "../api/posts"
 import { ReplyListContainer } from "../component/ReplyListContainer"
 import { InformationContainer } from "../component/InformationContainer"
 import { useNavigate, useParams } from "react-router-dom"
+import db from "../configs/config"
 
 const InformationPage = () => {
   const [ postingModal, setPostingModal ] = useState(false)
@@ -36,17 +37,7 @@ const InformationPage = () => {
   const [postingContent, setPostingContent] = useState('')
   const [ backgroundUrl, setBackgroundUrl ] = useState('')
   const [ photoUrl, setPhotoUrl] = useState('')
-  const [ replyContainerData, setReplyContainerData ] = useState({
-    id: '',
-    account: '',
-    real_name: '',
-    create_at: '',
-    getTime: '',
-    content: '',
-    photo: '',
-    reply: [],
-    like: []
-  })
+  const [ replyContainerId, setReplyContainerId ] = useState('')
   const [ userData, setUserData ] = useState({
     account: '',
     account_id: '',
@@ -67,28 +58,51 @@ const InformationPage = () => {
 
   // 發文
   const handleClickPost = async () => {
+    // if (postingContent.length === 0) {
+    //   return
+    // }
+
+    // const token = localStorage.getItem('token')
+    // const id = postList[0].id + 1
+    // const time = new Date()
+    // const getTime = time.getTime()
+    // const create_at = time.toLocaleString()
+
+    // try {
+    //   const res = await createPost({token, id, create_at, getTime, postingContent, ...personInfo})
+      
+    //   if (res) {
+    //     const newPostList = [res,...postList]
+    //     setPostList(newPostList)
+    //     setPostingContent('')
+    //     setPostingModal(false)
+    //   }
+    // } catch (error) {
+    //   console.log(error)
+    // }
     if (postingContent.length === 0) {
       return
     }
-
-    const token = localStorage.getItem('token')
-    const id = postList[0].id + 1
     const time = new Date()
     const getTime = time.getTime()
     const create_at = time.toLocaleString()
+    const id = postList[0].id + 1
 
-    try {
-      const res = await createPost({token, id, create_at, getTime, postingContent, ...personInfo})
-      
-      if (res) {
-        const newPostList = [res,...postList]
-        setPostList(newPostList)
-        setPostingContent('')
-        setPostingModal(false)
-      }
-    } catch (error) {
-      console.log(error)
+    const fields = {
+      account: personInfo.account,
+      account_id: personInfo.account_id,
+      content: postingContent,
+      create_at,
+      getTime,
+      id,
+      real_name: personInfo.real_name,
+      like: [],
+      reply: [],
     }
+
+    db.ref('/posts').update({[id]: fields})
+    setPostingContent('')
+    setPostingModal(false)
   }
 
   // 上傳背景圖
@@ -158,43 +172,74 @@ const InformationPage = () => {
 
   // 對推文按喜歡
   const handleClickLike = async (postId) => {
-    const token = localStorage.getItem('token')
-    const post = postList.filter(item => item.id === postId)
-    try {
-      const res = await editPost({post, personInfo, token})
+    // const token = localStorage.getItem('token')
+    // const post = postList.filter(item => item.id === postId)
+    // try {
+    //   const res = await editPost({post, personInfo, token})
       
-      if (res) {
-        setReplyContainerData(res)
-        const posts = await getPosts()
-        setPostList(posts)
-      }
-    } catch (error) {
-      console.log(error)
+    //   if (res) {
+    //     setReplyContainerId(res)
+    //     const posts = await getPosts()
+    //     setPostList(posts)
+    //   }
+    // } catch (error) {
+    //   console.log(error)
+    // }
+    let account_id = personInfo.account_id
+    let post = postList.filter(post => post.id === postId)
+    let postLike = post[0].like
+
+    if (postLike.includes(personInfo.account_id)) {
+      db.ref(`posts/${postId}/like/${account_id}`).remove()
+    } else {
+      db.ref(`posts/${postId}/like`).update({[account_id]: account_id})
     }
   }
 
   // 回覆推文
   const handleReply = async (postId) => {
-    const token = localStorage.getItem('token')
-    const post = postList.filter(item => item.id === postId)
+    // const token = localStorage.getItem('token')
+    // const post = postList.filter(item => item.id === postId)
+    // const time = new Date()
+    // const getTime = time.getTime()
+    // const create_at = time.toLocaleString()
+
+    // try {
+    //   const res = await editPost({post, personInfo, token, replyModalInputValue, create_at, getTime})
+      
+    //   if (res) {
+    //     setReplyModalInputValue('')
+    //     const posts = await getPosts()
+    //     setPostList(posts)
+    //     const newPostData = posts.filter(post => post.id === postId)
+    //     setReplyContainerId(newPostData[0])
+    //     setIsOpenReplyModal(false)
+    //   }
+    // } catch (error) {
+    //   console.log(error)
+    // }
+    if (replyModalInputValue.length === 0) {
+      return
+    }
+    let post = postList.filter(post => post.id === postId)
+    post = post[0]
     const time = new Date()
     const getTime = time.getTime()
     const create_at = time.toLocaleString()
-
-    try {
-      const res = await editPost({post, personInfo, token, replyModalInputValue, create_at, getTime})
-      
-      if (res) {
-        setReplyModalInputValue('')
-        const posts = await getPosts()
-        setPostList(posts)
-        const newPostData = posts.filter(post => post.id === postId)
-        setReplyContainerData(newPostData[0])
-        setIsOpenReplyModal(false)
-      }
-    } catch (error) {
-      console.log(error)
+    const id = post.reply.length
+    const fields = {
+      account: personInfo.account,
+      account_id: personInfo.account_id,
+      content: replyModalInputValue,
+      create_at,
+      getTime,
+      id,
+      real_name: personInfo.real_name,
     }
+
+    db.ref(`/posts/${postId}/reply`).update({[id]: fields})
+    setReplyModalInputValue('')
+    setIsOpenReplyModal(false)
   }
 
   // 確認token
@@ -229,14 +274,45 @@ const InformationPage = () => {
 
   // 初始拿推文
   useEffect(() => {
-    const getPostsAsync = async () => {
-      try {
-        const res = await getPosts()
-        setPostList(res)
+    // const getPostsAsync = async () => {
+    //   try {
+    //     const res = await getPosts()
+    //     setPostList(res)
         
-      } catch (error) {
-        console.log(error)
-      }
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // }
+    // getPostsAsync()
+    const getPostsAsync = async () => {
+      db.ref('posts').on('value', snapshot => {
+        let data = []
+        snapshot.forEach(item => {
+          data.push(item.val())
+        })
+        for (let item in data) {
+          let post = data[item]
+          if (!post.hasOwnProperty('like')) {
+            post['like'] = []
+          } else {
+            let likeArr = []
+            for (let item in post.like) {
+              likeArr.push(post.like[item])
+            }
+            post.like = likeArr
+          }
+          if (!post.hasOwnProperty('reply')) {
+            post['reply'] = []
+          } else {
+            let replyArr = []
+            for (let item in post.reply) {
+              replyArr.push(post.reply[item])
+            }
+            post.reply = replyArr.reverse()
+          }
+        }
+        setPostList(data.reverse())
+      })
     }
     getPostsAsync()
   },[params.account_id])
@@ -325,9 +401,9 @@ const InformationPage = () => {
           onClickFollowTabControl= {(e) => setFollowTabControl(e)}
           infoTabControl= {infoTabControl}
           onClickInfoTabControl= {(e) => setInfoTabControl(e)}
-          onClickReply= {(postData) => {
+          onClickReply= {(postId) => {
             setIsOpenReplyPage(true)
-            setReplyContainerData(postData)
+            setReplyContainerId(postId)
           }}
           onClickLike= {handleClickLike}
           postingModal= {postingModal}
@@ -353,7 +429,9 @@ const InformationPage = () => {
           isOpenReplyPage={isOpenReplyPage} 
           isOpenReplyModal={isOpenReplyModal} 
           onClickOpenReplyPage={(boolean) => setIsOpenReplyPage(boolean)} 
-          onClickOpenReplyModal={(boolean) => setIsOpenReplyModal(boolean)} postData={replyContainerData} 
+          onClickOpenReplyModal={(boolean) => setIsOpenReplyModal(boolean)} 
+          postId={replyContainerId} 
+          postList={postList} 
           onClick={handleClickLike} 
           personInfo={personInfo} 
           replyModalInputValue={replyModalInputValue} 

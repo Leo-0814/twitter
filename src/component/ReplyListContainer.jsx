@@ -11,8 +11,13 @@ import { Photo } from "./common/photo.styled"
 import Button from './Button'
 import { Link } from "react-router-dom"
 
-export const ReplyListContainer = ({isOpenReplyPage, isOpenReplyModal, onClickOpenReplyPage, onClickOpenReplyModal, postData, onClick, personInfo, replyModalInputValue, onChange, onClickReply, onClickName}) => {
+export const ReplyListContainer = ({isOpenReplyPage, isOpenReplyModal, onClickOpenReplyPage, onClickOpenReplyModal, postId, postList, onClick, personInfo, replyModalInputValue, onChange, onClickReply, onClickName}) => {
+  if (postList.length === 0 || !postId) {
+    return
+  }
 
+  let postData = postList.filter(post => post.id === postId)
+  postData = postData[0]
   const isLike = postData.like.includes(personInfo.account_id)
 
   return (
@@ -47,7 +52,7 @@ export const ReplyListContainer = ({isOpenReplyPage, isOpenReplyModal, onClickOp
       <div className="replyList-reply">
         {postData.reply.map((item) => {
           return (
-            <ReplyCard key={item.id} type='typeA' postData={postData} replyData={item} personInfo={personInfo} onClickName={onClickName}></ReplyCard>
+            <ReplyCard key={item.id} type='typeA' postData={postData} replyData={item} personInfo={personInfo}></ReplyCard>
           )
         })}
       </div>

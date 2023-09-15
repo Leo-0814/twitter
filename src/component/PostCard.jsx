@@ -91,13 +91,6 @@ const StyledPostCard = styled.div`
 
 
 const PostCard = ({ onClickReply, postData, onClickLike, personInfo, userData, onClickName, className}) => {
-  if (!postData.hasOwnProperty('like')) {
-    postData['like'] = []
-  }
-  if (!postData.hasOwnProperty('reply')) {
-    postData['reply'] = []
-  }
-
   const timeDif = timeDifferent(postData.getTime)
   const isLike = postData.like.includes(personInfo.account_id)
 
@@ -110,7 +103,7 @@ const PostCard = ({ onClickReply, postData, onClickLike, personInfo, userData, o
       }
       <div className='post-card-data' >
         <div className='card-data-header' >
-          <Link to={`/information/${postData.account_id}`}><div className='data-header-username' onClick={onClickName}>{postData.real_name}</div></Link>
+          <Link to={`/information/${postData.account_id}`}><div className='data-header-username' onClick={() => onClickName?.()}>{postData.real_name}</div></Link>
           <div className='data-header-account' >@{postData.account}</div>
           <span className='data-header-dot'>．</span>
           <div className='data-header-time'>{timeDif}</div>
@@ -118,7 +111,7 @@ const PostCard = ({ onClickReply, postData, onClickLike, personInfo, userData, o
         <div className='card-data-content' >{postData.content}</div>
         <div className='card-data-footer' >
           <div className='data-footer-item' >
-            <img className='footer-item-icon' src={reply} alt="reply" onClick={() => onClickReply?.(postData)}/>
+            <img className='footer-item-icon' src={reply} alt="reply" onClick={() => onClickReply?.(postData.id)}/>
             <div className='footer-item-count' >{postData.reply.length}</div>
           </div>
           <div className='data-footer-item'>

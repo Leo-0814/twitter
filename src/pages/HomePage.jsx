@@ -10,12 +10,10 @@ import clsx from 'clsx'
 import { Photo } from '../component/common/photo.styled'
 import { followUser, getInfo, getUsers } from '../api/info'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { createPost, editPost, getPosts } from '../api/posts'
 import { ReplyListContainer } from '../component/ReplyListContainer'
 import db from "../configs/config"
 
 const HomePage = () => {
-  const myPosts = db.ref('posts')
   const [ postingModal, setPostingModal ] = useState(false)
   const [ isOpenReplyPage, setIsOpenReplyPage ] = useState(false)
   const [ isOpenReplyModal, setIsOpenReplyModal ] = useState(false)
@@ -29,17 +27,7 @@ const HomePage = () => {
   }) 
   const [ postList, setPostList ] = useState([])
   const [ postingContent, setPostingContent ] = useState('')
-  const [ replyContainerData, setReplyContainerData ] = useState({
-    id: '',
-    account: '',
-    real_name: '',
-    create_at: '',
-    getTime: '',
-    content: '',
-    photo: '',
-    reply: [],
-    like: []
-  })
+  const [ replyContainerId, setReplyContainerId ] = useState('')
   const [ replyModalInputValue, setReplyModalInputValue ] = useState('') 
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
@@ -103,7 +91,9 @@ const HomePage = () => {
       reply: [],
     }
 
-    myPosts.push(fields)
+    db.ref('/posts').update({[id]: fields})
+    setPostingContent('')
+    setPostingModal(false)
   }
 
   // 對推文按喜歡
@@ -121,43 +111,67 @@ const HomePage = () => {
     // } catch (error) {
     //   console.log(error)
     // }
-    let postKey = ''
-    myPosts.orderByChild('id').equalTo(postId).once('value',snapshot => {
-      postKey = Object.keys(snapshot.val())
-    })
-    console.log(postKey)
-    db.ref(`posts/${postKey[0]}/like`).update({a: 1})
-    
+    let account_id = personInfo.account_id
+    let post = postList.filter(post => post.id === postId)
+    let postLike = post[0].like
+
+    if (postLike.includes(personInfo.account_id)) {
+      db.ref(`posts/${postId}/like/${account_id}`).remove()
+    } else {
+      db.ref(`posts/${postId}/like`).update({[account_id]: account_id})
+    }
   }
 
   // 點擊推文回覆跳轉replyListContainer
-  const handleClickReply = (postData) => {
+  const handleClickReply = (postId) => {
     setIsOpenReplyPage(true)
-    setReplyContainerData(postData)
+    setReplyContainerId(postId)
   }
 
   // 回覆推文
   const handleReply = async (postId) => {
-    const token = localStorage.getItem('token')
-    const post = postList.filter(item => item.id === postId)
+    // const token = localStorage.getItem('token')
+    // const post = postList.filter(item => item.id === postId)
+    // const time = new Date()
+    // const getTime = time.getTime()
+    // const create_at = time.toLocaleString()
+
+    // try {
+    //   const res = await editPost({post, personInfo, token, replyModalInputValue, create_at, getTime})
+      
+    //   if (res) {
+    //     setReplyModalInputValue('')
+    //     const posts = await getPosts()
+    //     setPostList(posts)
+    //     const newPostData = posts.filter(post => post.id === postId)
+    //     setReplyContainerData(newPostData[0])
+    //     setIsOpenReplyModal(false)
+    //   }
+    // } catch (error) {
+    //   console.log(error)
+    // }
+    if (replyModalInputValue.length === 0) {
+      return
+    }
+    let post = postList.filter(post => post.id === postId)
+    post = post[0]
     const time = new Date()
     const getTime = time.getTime()
     const create_at = time.toLocaleString()
-
-    try {
-      const res = await editPost({post, personInfo, token, replyModalInputValue, create_at, getTime})
-      
-      if (res) {
-        setReplyModalInputValue('')
-        const posts = await getPosts()
-        setPostList(posts)
-        const newPostData = posts.filter(post => post.id === postId)
-        setReplyContainerData(newPostData[0])
-        setIsOpenReplyModal(false)
-      }
-    } catch (error) {
-      console.log(error)
+    const id = post.reply.length
+    const fields = {
+      account: personInfo.account,
+      account_id: personInfo.account_id,
+      content: replyModalInputValue,
+      create_at,
+      getTime,
+      id,
+      real_name: personInfo.real_name,
     }
+
+    db.ref(`/posts/${postId}/reply`).update({[id]: fields})
+    setReplyModalInputValue('')
+    setIsOpenReplyModal(false)
   }
 
   // 初始拿推文
@@ -174,15 +188,34 @@ const HomePage = () => {
     //     console.log(error)
     //   }
     // }
-    const myPosts = db.ref('posts')
-    myPosts.on('value', snapshot => {
+    db.ref('posts').on('value', snapshot => {
       let data = []
       snapshot.forEach(item => {
         data.push(item.val())
       })
+      for (let item in data) {
+        let post = data[item]
+        if (!post.hasOwnProperty('like')) {
+          post['like'] = []
+        } else {
+          let likeArr = []
+          for (let item in post.like) {
+            likeArr.push(post.like[item])
+          }
+          post.like = likeArr
+        }
+        if (!post.hasOwnProperty('reply')) {
+          post['reply'] = []
+        } else {
+          let replyArr = []
+          for (let item in post.reply) {
+            replyArr.push(post.reply[item])
+          }
+          post.reply = replyArr.reverse()
+        }
+      }
       setPostList(data.reverse())
     })
-console.log(postList)
   }
   getPostsAsync()
 },[])
@@ -240,11 +273,11 @@ console.log(postList)
             <Button className='posting-btn' onClick={handleClickPost}>推文</Button>
           </div>
           <div className="centerContainer-post">
-            {/* {postList.map((post) => {
+            {postList.map((post) => {
               return (
                 <PostCard key={post.id} className='centerContainer-post-card' onClickReply={handleClickReply} postData={post} personInfo={personInfo} onClickLike={handleClickLike} userData={''}></PostCard>
               )
-            })} */}
+            })}
           </div>
           <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='centerContainer-posting-modal' btnText='推文' type='typeA'>
             <div className="posting-modal-content">
@@ -259,7 +292,9 @@ console.log(postList)
           isOpenReplyPage={isOpenReplyPage} 
           isOpenReplyModal={isOpenReplyModal} 
           onClickOpenReplyPage={(boolean) => setIsOpenReplyPage(boolean)} 
-          onClickOpenReplyModal={(boolean) => setIsOpenReplyModal(boolean)} postData={replyContainerData} 
+          onClickOpenReplyModal={(boolean) => setIsOpenReplyModal(boolean)} 
+          postId={replyContainerId} 
+          postList={postList}
           onClick={handleClickLike} 
           personInfo={personInfo} 
           replyModalInputValue={replyModalInputValue} 

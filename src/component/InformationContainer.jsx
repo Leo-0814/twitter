@@ -22,13 +22,12 @@ import AuthInput from "./AuthInput"
 export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNameRef, accountRef, remarkRef, userData, postList, personInfo, backgroundUrl, photoUrl, onClickEditInfoModal, onClickFollowPage, onClickFollowTabControl, infoTabControl, onClickInfoTabControl, onClickReply, onClickLike, postingModal, onClickPostingModal, postingContent, onClickPostingContent, onClickPost, editInfoModal, onChangeUploadBackground, onClickBackgroundUrl, onChangeUploadPhoto, onChangePersonInfo, onClickEditInfo, isFollow, onClickFollow, onClickName, isNotify, onClickNotify}) => {
 
   const navigate = useNavigate()
-  
   return (
     <div className={clsx("informationContainer", { reply: isOpenReplyPage, follow: isOpenFollowPage})}>
       <div className="informationContainer-header">
         <img src={leftArrow} alt="leftArrow" className="header-back" onClick={() => navigate(-1)}/>
         <div className="header-content">
-          <div className="header-content-username">{userData.real_name? userData.real_name: realNameRef.current}</div>
+          <div className="header-content-username">{userData.real_name? userData.account_id === personInfo.account_id? personInfo.real_name: userData.real_name: realNameRef.current}</div>
           <div className="header-content-postCount">{postList.filter(post => {
             if (userData.account) {
               return (
@@ -64,7 +63,7 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
           }
         </div>
         <div className="self-content">
-          <div className="self-content-username">{userData.real_name? userData.real_name: realNameRef.current}</div>
+          <div className="self-content-username">{userData.real_name? userData.account_id === personInfo.account_id? personInfo.real_name: userData.real_name: realNameRef.current}</div>
           <div className="self-content-account">@{userData.account? userData.account: accountRef.current}</div>
           <div className="self-content-text">{userData.remark? userData.remark: remarkRef.current}</div>
           <div className="self-content-footer">
@@ -85,18 +84,10 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
       {/* tab post */}
       <div className={clsx('informationContainer-post', {active: infoTabControl === 0})}>
         {postList.map((post) => {
-          if (!userData.account) {
-            if (post.account === personInfo.account) {
-              return (
-                <PostCard key={post.id} onClickReply={(postData) => onClickReply?.(postData)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)}></PostCard>
-              )
-            }
-          } else {
-            if (post.account === userData.account) {
-              return (
-                <PostCard key={post.id} onClickReply={(postData) => onClickReply?.(postData)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)}></PostCard>
-              )
-            }
+          if (!userData.account? post.account === personInfo.account: post.account === userData.account) {
+            return (
+              <PostCard key={post.id} onClickReply={(postId) => onClickReply?.(postId)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)}></PostCard>
+            )
           }
         })}
       </div>
@@ -105,19 +96,11 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
         {postList.map(post => { 
           return(
             post.reply.map(item => {
-              if (!userData.account) {
-                if (item.account === personInfo.account) {
+                if (!userData.account? item.account === personInfo.account: item.account === userData.account) {
                   return (
                     <ReplyCard key={item.id} type='typeA' replyData={item} personInfo={personInfo} postData={post} userData={userData} onClickName={() => onClickName?.()}></ReplyCard>
                   )
                 } 
-              } else {
-                if (item.account === userData.account) {
-                  return (
-                    <ReplyCard key={item.id} type='typeA' replyData={item} personInfo={personInfo} postData={post} userData={userData} onClickName={() => onClickName?.()}></ReplyCard>
-                  )
-                } 
-              }
             })
           )
         })}
@@ -128,13 +111,13 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
           if (!userData.account) {
             if (post.like.includes(personInfo.account_id)) {
               return (
-                <PostCard key={post.id} onClickReply={(postData) => onClickReply?.(postData)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)} onClickName={() => onClickName?.()}></PostCard>
+                <PostCard key={post.id} onClickReply={(postId) => onClickReply?.(postId)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)} onClickName={() => onClickName?.()}></PostCard>
               )
             }
           } else {
             if (post.like.includes(userData.account_id)) {
               return (
-                <PostCard key={post.id} onClickReply={(postData) => onClickReply?.(postData)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)} onClickName={() => onClickName?.()}></PostCard>
+                <PostCard key={post.id} onClickReply={(postId) => onClickReply?.(postId)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)} onClickName={() => onClickName?.()}></PostCard>
               )
             }
           }
