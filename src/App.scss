@@ -28,14 +28,10 @@ a:visited {
 }
 
 .authBtn {
-  margin-top: 40px;
+  margin-top: 20px;
   font-size: 20px;
   width: 356px;
   height: 46px;
-}
-
-.authInput {
-  width: 356px;
 }
 
 .login-linkContainer {
@@ -43,6 +39,38 @@ a:visited {
   right: 0px;
   bottom: -50px;
 }
+
+.ant-form-item {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: rgba(105, 105, 116, 1);
+  background-color: rgba(245, 248, 250, 1);
+  border-radius: 2px;
+  .ant-form-item-label {
+    padding: 3px 0 0 10px;
+  }
+  .ant-input, .ant-input-password {
+    background-color: rgba(245, 248, 250, 1);
+    border: none;
+    border-bottom: 2px solid #657786;
+    box-shadow: none;
+    font-weight: 400;
+    line-height: 26px;
+    font-size: 16px;
+  }
+  .ant-input-password:hover {
+    border-bottom: 2px solid #657786;
+  }
+  .ant-form-item-explain {
+    background-color: white;
+    .ant-form-item-explain-error {
+      background-color: white;
+    }
+  }
+  
+}
+
 
 //Home頁
 .mainContainer {

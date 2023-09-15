@@ -1,5 +1,4 @@
 import { Link, useNavigate } from 'react-router-dom'
-import AuthInput from '../component/AuthInput'
 import { AuthContainer, AuthLinkContainer, AuthLinkSpan, AuthLinkText, AuthTitle } from '../component/common/auth.styled'
 import LogoIcon from '../component/LogoIcon'
 import Button from '../component/Button'
@@ -8,18 +7,18 @@ import { login } from '../api/auth'
 import Swal from 'sweetalert2'
 import { getInfo, getUsers } from '../api/info'
 import { adminLogin } from '../api/admin'
+import BasicAuthInput from '../component/BasicAuthInput'
+import PassWordAuthInput from '../component/PassWordAuthInput'
+import { Form } from 'antd'
 
 
 const LoginPage = () => {
   const [account, setAccount] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
+  const [form] = Form.useForm()
 
-  const handleClick = async () => {
-    if (account.length === 0 || password.length === 0) {
-      return
-    }
-
+  const handleFinish = async () => {
     try {
       const { success, token } = await login({account, password})
       const adminToken2 = await adminLogin('superadmin03', 123456, 1478963)
@@ -40,6 +39,10 @@ const LoginPage = () => {
     } catch (error) {
       console.error(error)
     }
+  }
+
+  const handleFinishFailed = (e) => {
+    console.log('finishFailed', e)
   }
 
   // 確認token
@@ -67,15 +70,55 @@ const LoginPage = () => {
     <AuthContainer>
       <LogoIcon></LogoIcon>
       <AuthTitle>登入 Alphitter</AuthTitle>
-        <AuthInput 
-          value={account} name='account' placeholder='請輸入帳號' label='帳號' className='authInput' onChange={(accountInputValue) => setAccount(accountInputValue)}
-        />
-        <AuthInput 
-          value={password} name='password' placeholder='請輸入密碼' label='密碼' type='number' className='authInput' onChange={(passwordInputValue) => setPassword(passwordInputValue)}
-        />
-
-      <Button className='authBtn' onClick={handleClick}>登入</Button>
-
+        <Form
+          form={form}
+          name="login"
+          // initialValues={{
+          //   remember: true,
+          // }}
+          onFinish={handleFinish}
+          onFinishFailed={handleFinishFailed}
+          requiredMark={false}
+          layout="vertical"
+        >
+          <BasicAuthInput 
+            value={account} 
+            name='account' 
+            placeholder='請輸入帳號' 
+            label='帳號' 
+            onChange={(accountInputValue) => setAccount(accountInputValue)}
+            rules={[
+              {
+                required: true,
+                message: '帳號為必填',
+              },
+              {
+                min: 6,
+                max: 16,
+                message: '帳號需介於6~16字元',
+              },
+            ]}
+          />
+          <PassWordAuthInput
+            value={password} 
+            name='password' 
+            placeholder='請輸入密碼' 
+            label='密碼' 
+            onChange={(passwordInputValue) => setPassword(passwordInputValue)}
+            rules={[
+              {
+                required: true,
+                message: '密碼為必填',
+              },
+              {
+                min: 6,
+                max: 16,
+                message: '密碼需介於6~16字元',
+              },
+            ]}
+          />
+          <Button htmlType="submit" className='authBtn'>登入</Button>
+        </Form>
       <AuthLinkContainer className='login-linkContainer'>
         <Link to='/signup'>
           <AuthLinkText >註冊</AuthLinkText>

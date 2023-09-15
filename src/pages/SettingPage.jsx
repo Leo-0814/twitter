@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
-import AuthInput from "../component/AuthInput"
 import Button from "../component/Button"
 import LeftContainer from "../component/LeftContainer"
 import settingActive from '../images/_base/settingActive.png'
 import { editInfo, getInfo, getUsers } from "../api/info"
 import Swal from "sweetalert2"
 import { useNavigate } from "react-router-dom"
+import BasicAuthInput from "../component/BasicAuthInput"
+import PassWordAuthInput from "../component/PassWordAuthInput"
 
 const SettingPage = () => {
   const navigate = useNavigate()
@@ -90,28 +91,28 @@ const SettingPage = () => {
         <div className="settingContainer">
           <div className="setting-title">帳戶設定</div>
           <div className="setting-form">
-            <AuthInput 
+            <BasicAuthInput 
               value={personInfo.account} name='account' placeholder='請輸入帳號' label='帳號' readOnly
             />
-            <AuthInput 
+            <BasicAuthInput 
               value={personInfo.real_name} name='username' placeholder='請輸入使用者名稱' label='名稱' onChange={(userNameInputValue) => setPersonInfo({
                 ...personInfo,
                 real_name: userNameInputValue
               })}
             />
-            <AuthInput 
+            <BasicAuthInput 
               value={personInfo.email} name='email' placeholder='請輸入Email' label='Email' type='email' onChange={(emailInputValue) => setPersonInfo({
                 ...personInfo,
                 email: emailInputValue
               })}
             />
-            <AuthInput 
+            <PassWordAuthInput 
               value={personInfo.new_login_password} name='password' placeholder='請設定密碼' label='密碼' type='number' onChange={(newPasswordInputValue) => setPersonInfo({
                 ...personInfo,
                 new_login_password: newPasswordInputValue
               })}
             />
-            <AuthInput 
+            <PassWordAuthInput 
               value={personInfo.new_login_password_confirmation} name='prePassword' placeholder='請再次輸入密碼' label='密碼確認' type='number' onChange={(confirmNewPasswordInputValue) => setPersonInfo({
                 ...personInfo,
                 new_login_password_confirmation: confirmNewPasswordInputValue

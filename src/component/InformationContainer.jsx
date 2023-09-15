@@ -16,7 +16,7 @@ import { Photo } from "./common/photo.styled"
 import Button from "./Button"
 import editPhoto from '../images/_base/edit-photo.png'
 import backgroundDelete from '../images/_base/background-delete.png'
-import AuthInput from "./AuthInput"
+import BasicAuthInput from "./BasicAuthInput"
 
 
 export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNameRef, accountRef, remarkRef, userData, postList, personInfo, backgroundUrl, photoUrl, onClickEditInfoModal, onClickFollowPage, onClickFollowTabControl, infoTabControl, onClickInfoTabControl, onClickReply, onClickLike, postingModal, onClickPostingModal, postingContent, onClickPostingContent, onClickPost, editInfoModal, onChangeUploadBackground, onClickBackgroundUrl, onChangeUploadPhoto, onChangePersonInfo, onClickEditInfo, isFollow, onClickFollow, onClickName, isNotify, onClickNotify}) => {
@@ -158,7 +158,7 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
         </div>
         <div className="editInfo-modal-input">
           <div className="modal-input-username">
-            <AuthInput 
+            <BasicAuthInput 
               value={personInfo.real_name} name='username' label='名稱' className='input-username-input' onChange={(realNameInputValue) => onChangePersonInfo({
                 ...personInfo,
                 real_name: realNameInputValue
