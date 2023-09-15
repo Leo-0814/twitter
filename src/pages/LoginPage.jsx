@@ -82,7 +82,6 @@ const LoginPage = () => {
           layout="vertical"
         >
           <BasicAuthInput 
-            value={account} 
             name='account' 
             placeholder='請輸入帳號' 
             label='帳號' 
@@ -100,7 +99,6 @@ const LoginPage = () => {
             ]}
           />
           <PassWordAuthInput
-            value={password} 
             name='password' 
             placeholder='請輸入密碼' 
             label='密碼' 

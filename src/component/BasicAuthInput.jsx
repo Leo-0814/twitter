@@ -5,7 +5,7 @@ const StyledContainer = styled.div`
   margin-top: 30px;
 `
 
-const BasicAuthInput = ({name, value, placeholder, label, onChange, readOnly, rules, dependencies}) => {
+const BasicAuthInput = ({name, placeholder, label, onChange, readOnly, rules, dependencies}) => {
 
     return (
       <StyledContainer>
@@ -18,14 +18,12 @@ const BasicAuthInput = ({name, value, placeholder, label, onChange, readOnly, ru
           {readOnly? (
             <Input
               placeholder={placeholder || ''} 
-              value={value} 
               onChange={(e) => onChange?.(e.target.value)}
               readOnly
             />
           ) : (
             <Input
               placeholder={placeholder || ''} 
-              value={value} 
               onChange={(e) => onChange?.(e.target.value)}
             />
           )}

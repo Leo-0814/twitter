@@ -6,7 +6,7 @@ const StyledContainer = styled.div`
   margin-top: 30px;
 `
 
-const PassWordAuthInput = ({name, value, placeholder, label, onChange, rules, dependencies}) => {
+const PassWordAuthInput = ({name, placeholder, label, onChange, rules, dependencies}) => {
 
     return (
       <StyledContainer>
@@ -19,7 +19,6 @@ const PassWordAuthInput = ({name, value, placeholder, label, onChange, rules, de
           <Input.Password
             placeholder={placeholder || ''} 
             iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-            value={value} 
             onChange={(e) => onChange?.(e.target.value)}
           />
         </Form.Item>

@@ -96,7 +96,6 @@ const SignUpPage = () => {
         layout="vertical"
       >
         <BasicAuthInput 
-          value={account} 
           name='account' 
           placeholder='請輸入帳號' 
           label='帳號' 
@@ -114,7 +113,6 @@ const SignUpPage = () => {
           ]}
         />
         <BasicAuthInput 
-          value={real_name} 
           name='username' 
           placeholder='請輸入使用者名稱' 
           label='名稱' 
@@ -127,7 +125,6 @@ const SignUpPage = () => {
           ]}
         />
         <BasicAuthInput 
-          value={email} 
           name='email' 
           placeholder='請輸入Email' 
           label='Email' 
@@ -144,7 +141,6 @@ const SignUpPage = () => {
           ]}
         />
         <PassWordAuthInput 
-          value={password} 
           name='password' 
           placeholder='請設定密碼' 
           label='密碼' 
@@ -162,7 +158,6 @@ const SignUpPage = () => {
           ]}
         />
         <PassWordAuthInput 
-          value={confirm_password} 
           name='prePassword' 
           placeholder='請再次輸入密碼' 
           label='密碼確認' 
@@ -171,7 +166,7 @@ const SignUpPage = () => {
           rules={[
             {
               required: true,
-              message: '確認密碼為必填',
+              message: '密碼確認為必填',
             },
             ({ getFieldValue }) => ({
             validator(_, value) {
