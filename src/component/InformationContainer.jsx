@@ -16,12 +16,20 @@ import { Photo } from "./common/photo.styled"
 import Button from "./Button"
 import editPhoto from '../images/_base/edit-photo.png'
 import backgroundDelete from '../images/_base/background-delete.png'
-import BasicAuthInput from "./BasicAuthInput"
+import BasicInput from "./BasicInput"
+import { Form } from "antd"
+import TextAreaInput from "./TextAreaInput"
 
 
 export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNameRef, accountRef, remarkRef, userData, postList, personInfo, backgroundUrl, photoUrl, onClickEditInfoModal, onClickFollowPage, onClickFollowTabControl, infoTabControl, onClickInfoTabControl, onClickReply, onClickLike, postingModal, onClickPostingModal, postingContent, onClickPostingContent, onClickPost, editInfoModal, onChangeUploadBackground, onClickBackgroundUrl, onChangeUploadPhoto, onChangePersonInfo, onClickEditInfo, isFollow, onClickFollow, onClickName, isNotify, onClickNotify}) => {
 
   const navigate = useNavigate()
+  const [form] = Form.useForm()
+
+  const handleFinishFailed = (e) => {
+    console.log('finishFailed', e)
+  }
+
   return (
     <div className={clsx("informationContainer", { reply: isOpenReplyPage, follow: isOpenFollowPage})}>
       <div className="informationContainer-header">
@@ -49,7 +57,7 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
           </div>
           {userData.account_id? userData.account_id === personInfo.account_id
             ? 
-            <ButtonHollow className='self-picture-btn' onClick={() => onClickEditInfoModal?.(true)}>編輯個人資料</ButtonHollow>
+            <ButtonHollow className='self-picture-btn' onClick={() => onClickEditInfoModal?.(true,form)}>編輯個人資料</ButtonHollow>
             : 
             <div className="self-picture-tool">
               <img src={btn_msg} alt="msg" className="picture-tool-msg"/>
@@ -59,7 +67,7 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
                 <ButtonHollow className='picture-tool-unFollow' onClick={() => {onClickFollow?.(userData.account_id)}}>跟隨</ButtonHollow>
               }
             </div>:
-            <ButtonHollow className='self-picture-btn' onClick={() => onClickEditInfoModal?.(true)}>編輯個人資料</ButtonHollow>
+            <ButtonHollow className='self-picture-btn' onClick={() => onClickEditInfoModal?.(true, form)}>編輯個人資料</ButtonHollow>
           }
         </div>
         <div className="self-content">
@@ -132,7 +140,7 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
         <Button className='posting-modal-btn' onClick={() => onClickPost?.()}>推文</Button>
       </Modal>
       {/* 編輯個人資料modal */}
-      <Modal active={editInfoModal} onClickModalCancel={() => onClickEditInfoModal?.(false)} className='informationContainer-editInfo-modal' btnText='儲存' title='編輯個人資料' type='typeB'>
+      <Modal active={editInfoModal} onClickModalCancel={() => onClickEditInfoModal?.(false, form)} className='informationContainer-editInfo-modal' btnText='儲存' title='編輯個人資料' type='typeB'>
         <div className="editInfo-modal-picture">
           <div className="modal-picture-background">
             <img src={backgroundUrl? backgroundUrl: baseBackground} alt="background" className="picture-background-img" />
@@ -157,27 +165,54 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
           </div>
         </div>
         <div className="editInfo-modal-input">
-          <div className="modal-input-username">
-            <BasicAuthInput 
-              value={personInfo.real_name} name='username' label='名稱' className='input-username-input' onChange={(realNameInputValue) => onChangePersonInfo({
-                ...personInfo,
-                real_name: realNameInputValue
+          <Form
+            form={form}
+            name="information"
+            onFinish={() => onClickEditInfo?.()}
+            onFinishFailed={handleFinishFailed}
+            requiredMark={false}
+            layout="vertical"
+          >
+            <div className="modal-input-username">
+              <BasicInput 
+                name='username' 
+                label='名稱' 
+                placeholder='請輸入名稱' 
+                maxLength={50}
+                onChange={(realNameInputValue) => onChangePersonInfo({
+                  ...personInfo,
+                  real_name: realNameInputValue
                 })}
-            />
-            <div className="input-username-count">{personInfo.real_name? personInfo.real_name.toString().length: 0}/50</div>
-          </div>
+                rules={[
+                  {
+                    required: true,
+                    message: '名稱為必填',
+                  },
+                ]}
+              />
+              <div className="input-username-count">{personInfo.real_name? personInfo.real_name.toString().length: 0}/50</div>
+            </div>
+            
+            <div className="modal-input-introduction">
+              <TextAreaInput
+                name='introduction'
+                label='自我介紹'
+                // showCount={true}
+                maxLength={160}
+                placeholder="請輸入自我介紹"
+                rows={5}
+                onChange={(remarkTextareaValue) => onChangePersonInfo({
+                  ...personInfo,
+                  remark: remarkTextareaValue
+                })} 
+              >
+              </TextAreaInput>
+              <div className="input-introduction-count">{personInfo.remark ? personInfo.remark.toString().length : 0}/160</div>
+            </div>
           
-          <div className="modal-input-introduction">
-            <label htmlFor='introduction' className="input-introduction-label">自我介紹</label>
-            <textarea id='introduction' className='input-introduction-textarea' rows='6' cols='100' placeholder="請輸入自我介紹" value={personInfo.remark} onChange={(remarkTextareaValue) => onChangePersonInfo({
-              ...personInfo,
-              remark: remarkTextareaValue.target.value
-              })
-            }></textarea>
-            <div className="input-introduction-count">{personInfo.remark? personInfo.remark.toString().length: 0}/160</div>
-          </div>
+            <Button className='editInfo-modal-btn' htmlFor='submit'>儲存</Button>
+          </Form>
         </div>
-        <Button className='editInfo-modal-btn' onClick={() => onClickEditInfo?.()}>儲存</Button>
       </Modal>
     </div>
   )

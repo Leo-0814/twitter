@@ -5,7 +5,7 @@ const StyledContainer = styled.div`
   margin-top: 30px;
 `
 
-const BasicAuthInput = ({name, placeholder, label, onChange, readOnly, rules, dependencies}) => {
+const BasicInput = ({ name, placeholder, label, onChange, readOnly, rules, dependencies, maxLength }) => {
 
     return (
       <StyledContainer>
@@ -25,6 +25,7 @@ const BasicAuthInput = ({name, placeholder, label, onChange, readOnly, rules, de
             <Input
               placeholder={placeholder || ''} 
               onChange={(e) => onChange?.(e.target.value)}
+              maxLength={maxLength}
             />
           )}
         </Form.Item>
@@ -32,4 +33,4 @@ const BasicAuthInput = ({name, placeholder, label, onChange, readOnly, rules, de
     )
   }
 
-export default BasicAuthInput
+export default BasicInput

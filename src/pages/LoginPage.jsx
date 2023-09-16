@@ -7,9 +7,9 @@ import { login } from '../api/auth'
 import Swal from 'sweetalert2'
 import { getInfo, getUsers } from '../api/info'
 import { adminLogin } from '../api/admin'
-import BasicAuthInput from '../component/BasicAuthInput'
-import PassWordAuthInput from '../component/PassWordAuthInput'
 import { Form } from 'antd'
+import BasicInput from '../component/BasicInput'
+import PassWordInput from '../component/PassWordInput'
 
 
 const LoginPage = () => {
@@ -81,7 +81,7 @@ const LoginPage = () => {
           requiredMark={false}
           layout="vertical"
         >
-          <BasicAuthInput 
+          <BasicInput 
             name='account' 
             placeholder='請輸入帳號' 
             label='帳號' 
@@ -98,7 +98,7 @@ const LoginPage = () => {
               },
             ]}
           />
-          <PassWordAuthInput
+          <PassWordInput
             name='password' 
             placeholder='請輸入密碼' 
             label='密碼' 

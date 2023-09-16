@@ -5,8 +5,8 @@ import settingActive from '../images/_base/settingActive.png'
 import { editInfo, getInfo, getUsers } from "../api/info"
 import Swal from "sweetalert2"
 import { useNavigate } from "react-router-dom"
-import BasicAuthInput from "../component/BasicAuthInput"
-import PassWordAuthInput from "../component/PassWordAuthInput"
+import BasicInput from "../component/BasicInput"
+import PassWordInput from "../component/PassWordInput"
 import { Form } from "antd"
 
 const SettingPage = () => {
@@ -94,7 +94,7 @@ const SettingPage = () => {
       }
     }
     checkTokenAsync()
-  },[navigate])
+  },[navigate, form])
   
   return (
     <div className="mainContainer">
@@ -110,13 +110,13 @@ const SettingPage = () => {
             requiredMark={false}
             layout="vertical"
           >
-            <BasicAuthInput 
+            <BasicInput 
               name='account' 
               placeholder='請輸入帳號' 
               label='帳號' 
               readOnly
             />
-            <BasicAuthInput 
+            <BasicInput 
               name='username' 
               placeholder='請輸入使用者名稱' 
               label='名稱' 
@@ -131,7 +131,7 @@ const SettingPage = () => {
                 },
               ]}
             />
-            <BasicAuthInput 
+            <BasicInput 
               name='email' 
               placeholder='請輸入Email' 
               label='Email' 
@@ -150,7 +150,7 @@ const SettingPage = () => {
                 },
               ]}
             />
-            <PassWordAuthInput 
+            <PassWordInput 
               name='password' 
               placeholder='請設定密碼' 
               label='密碼' 
@@ -166,7 +166,7 @@ const SettingPage = () => {
                 },
               ]}
             />
-            <PassWordAuthInput 
+            <PassWordInput 
               name='prePassword' 
               placeholder='請再次輸入密碼' 
               label='密碼確認' 

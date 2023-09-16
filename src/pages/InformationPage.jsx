@@ -241,6 +241,14 @@ const InformationPage = () => {
     setIsOpenReplyModal(false)
   }
 
+  const handleClickEditInfoModal = (isOpenEditInfoModal, form) => {
+    setEditInfoModal(isOpenEditInfoModal)
+    form.setFieldsValue({
+      username: personInfo.real_name,
+      introduction: personInfo.remark? personInfo.remark: '',
+    })
+  }
+
   // 確認token
   useEffect(() => {
     const checkTokenAsync = async () => {
@@ -355,7 +363,7 @@ const InformationPage = () => {
       }
     }
     listenPostList()
-  },[postList, userList])
+  }, [postList, userList, params.account_id, personInfo.account_id])
       
 
   return (
@@ -395,7 +403,7 @@ const InformationPage = () => {
           personInfo= {personInfo}
           backgroundUrl= {backgroundUrl}
           photoUrl= {photoUrl}
-          onClickEditInfoModal= {(boolean) => setEditInfoModal(boolean)}
+          onClickEditInfoModal= {handleClickEditInfoModal}
           onClickFollowPage= {(boolean) => setIsOpenFollowPage(boolean)}
           onClickFollowTabControl= {(e) => setFollowTabControl(e)}
           infoTabControl= {infoTabControl}

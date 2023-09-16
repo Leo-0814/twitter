@@ -7,8 +7,8 @@ import { register } from '../api/auth'
 import Swal from 'sweetalert2'
 import { editInfo, getInfo, getUsers } from '../api/info'
 import { adminLogin } from '../api/admin'
-import BasicAuthInput from '../component/BasicAuthInput'
-import PassWordAuthInput from '../component/PassWordAuthInput'
+import BasicInput from '../component/BasicInput'
+import PassWordInput from '../component/PassWordInput'
 import { Form } from 'antd'
 
 const SignUpPage = () => {
@@ -95,7 +95,7 @@ const SignUpPage = () => {
         requiredMark={false}
         layout="vertical"
       >
-        <BasicAuthInput 
+        <BasicInput 
           name='account' 
           placeholder='請輸入帳號' 
           label='帳號' 
@@ -112,7 +112,7 @@ const SignUpPage = () => {
             },
           ]}
         />
-        <BasicAuthInput 
+        <BasicInput 
           name='username' 
           placeholder='請輸入使用者名稱' 
           label='名稱' 
@@ -124,7 +124,7 @@ const SignUpPage = () => {
             },
           ]}
         />
-        <BasicAuthInput 
+        <BasicInput 
           name='email' 
           placeholder='請輸入Email' 
           label='Email' 
@@ -140,7 +140,7 @@ const SignUpPage = () => {
             },
           ]}
         />
-        <PassWordAuthInput 
+        <PassWordInput 
           name='password' 
           placeholder='請設定密碼' 
           label='密碼' 
@@ -157,7 +157,7 @@ const SignUpPage = () => {
             },
           ]}
         />
-        <PassWordAuthInput 
+        <PassWordInput 
           name='prePassword' 
           placeholder='請再次輸入密碼' 
           label='密碼確認' 

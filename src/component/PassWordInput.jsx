@@ -6,7 +6,7 @@ const StyledContainer = styled.div`
   margin-top: 30px;
 `
 
-const PassWordAuthInput = ({name, placeholder, label, onChange, rules, dependencies}) => {
+const PassWordInput = ({name, placeholder, label, onChange, rules, dependencies}) => {
 
     return (
       <StyledContainer>
@@ -26,4 +26,4 @@ const PassWordAuthInput = ({name, placeholder, label, onChange, rules, dependenc
     )
 }
 
-export default PassWordAuthInput
+export default PassWordInput

@@ -51,15 +51,18 @@ a:visited {
   font-size: 14px;
   line-height: 22px;
   color: rgb(105, 105, 116);
-  background-color: rgb(245, 248, 250);
-  border-radius: 2px;
+  background-color: white;
 }
 .ant-form-item .ant-form-item-label {
   padding: 3px 0 0 10px;
+  background-color: rgb(245, 248, 250);
+  border-radius: 4px 4px 0 0;
+  color: rgb(105, 105, 116);
 }
 .ant-form-item .ant-input, .ant-form-item .ant-input-password {
+  border-radius: 0 0 4px 4px;
   background-color: rgb(245, 248, 250);
-  border: none;
+  border: 1px solid rgb(245, 248, 250);
   border-bottom: 2px solid #657786;
   box-shadow: none;
   font-weight: 400;
@@ -67,13 +70,8 @@ a:visited {
   font-size: 16px;
 }
 .ant-form-item .ant-input-password:hover {
+  border: 1px solid rgb(245, 248, 250);
   border-bottom: 2px solid #657786;
-}
-.ant-form-item .ant-form-item-explain {
-  background-color: white;
-}
-.ant-form-item .ant-form-item-explain .ant-form-item-explain-error {
-  background-color: white;
 }
 
 .mainContainer {
@@ -792,38 +790,22 @@ a:visited {
 .mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-input .modal-input-username {
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 .mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-input .modal-input-username .input-username-count {
   align-self: self-end;
-  margin-top: 5px;
   font-weight: 500;
   font-size: 12px;
   line-height: 20px;
   color: rgb(105, 105, 116);
+  position: absolute;
+  bottom: 5px;
 }
 .mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-input .modal-input-introduction {
-  margin-top: 5px;
   display: flex;
   flex-direction: column;
   margin-bottom: 12px;
-}
-.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-input .modal-input-introduction .input-introduction-label {
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 22px;
-  color: rgb(105, 105, 116);
-  background-color: rgb(245, 248, 250);
-  padding: 3px 6px 0px 6px;
-}
-.mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-input .modal-input-introduction .input-introduction-textarea {
-  border-radius: 0px 0px 4px 4px;
-  background-color: rgb(245, 248, 250);
-  border: none;
-  border-bottom: 2px solid #657786;
-  padding: 0 6px;
-  font-size: 16px;
-  line-height: 26px;
-  font-weight: 400;
+  position: relative;
 }
 .mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-input .modal-input-introduction .input-introduction-count {
   align-self: self-end;
@@ -832,6 +814,8 @@ a:visited {
   font-size: 12px;
   line-height: 20px;
   color: rgb(105, 105, 116);
+  position: absolute;
+  bottom: 5px;
 }
 .mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-btn {
   position: absolute;
