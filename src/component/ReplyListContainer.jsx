@@ -50,6 +50,11 @@ export const ReplyListContainer = ({isOpenReplyPage, isOpenReplyModal, onClickOp
         <img src={isLike ? likeActive : like} alt="like" className="replyList-action-icon" onClick={() => onClick?.(postData.id)}/>
       </div>
       <div className="replyList-reply">
+        <div className="mobile-reply-input">
+          <Photo src={ownPhoto} alt="ownPhoto" className="reply-input-img" />
+          <textarea className="reply-input-textarea" placeholder='推你的回覆' value={replyModalInputValue} onChange={(replyModalInputValue) => onChange?.(replyModalInputValue)}></textarea>
+          <Button className='reply-input-btn' onClick={() => onClickReply?.(postData.id)}>回覆</Button>
+        </div>
         {postData.reply.map((item) => {
           return (
             <ReplyCard key={item.id} type='typeA' postData={postData} replyData={item} personInfo={personInfo}></ReplyCard>

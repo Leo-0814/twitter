@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 
 const StyledReplyCard = styled.div`
   width: 100%;
-  padding: 6px 5px 6px 24px;
+  padding: 6px 24px;
   border-bottom: 1px solid rgba(230, 236, 240, 1);
   display: flex;
 

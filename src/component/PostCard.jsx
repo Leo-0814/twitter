@@ -13,6 +13,7 @@ const StyledPostCard = styled.div`
   padding: 6px 5px 6px 19px;
   border-bottom: 1px solid rgba(230, 236, 240, 1);
   display: flex;
+  overflow-x: hidden;
 
   .post-card-data {
     margin-left: 5px;

@@ -259,7 +259,7 @@ a:visited {
   align-items: center;
 }
 .mainContainer .replyListContainer .replyList-content .replyList-content-header .content-header-data {
-  margin-left: 3px;
+  margin-left: 5px;
 }
 .mainContainer .replyListContainer .replyList-content .replyList-content-header .content-header-data > a {
   text-decoration: none;
@@ -302,6 +302,7 @@ a:visited {
 .mainContainer .replyListContainer .replyList-actionCount .replyList-actionCount-item {
   font-size: 19px;
   margin: 5px;
+  margin-right: 10px;
 }
 .mainContainer .replyListContainer .replyList-actionCount .replyList-actionCount-item .actionCount-item-count {
   font-weight: 700;
@@ -329,6 +330,9 @@ a:visited {
 }
 .mainContainer .replyListContainer .replyList-reply {
   overflow-y: auto;
+}
+.mainContainer .replyListContainer .replyList-reply .mobile-reply-input {
+  display: none;
 }
 .mainContainer .replyListContainer .replyList-reply-modal {
   width: 100%;
@@ -1038,6 +1042,7 @@ a:visited {
     height: 100vh;
     position: relative;
     border: 0;
+    overflow-x: hidden;
   }
   .mainContainer .centerContainer::-webkit-scrollbar-track {
     background-color: rgb(240, 240, 240);
@@ -1154,5 +1159,115 @@ a:visited {
   }
   .mainContainer .centerContainer.reply {
     display: none;
+  }
+  .mainContainer .replyListContainer {
+    border: 0px;
+  }
+  .mainContainer .replyListContainer .replyList-content {
+    margin: 16px 24px;
+  }
+  .mainContainer .replyListContainer .replyList-content .replyList-content-text {
+    font-size: 16px;
+    line-height: 26px;
+  }
+  .mainContainer .replyListContainer .replyList-actionCount {
+    margin: 0px 24px;
+  }
+  .mainContainer .replyListContainer .replyList-action {
+    margin: 12px 24px;
+    margin-bottom: 0;
+    padding: 0 0 12px 0;
+    border-bottom: 0;
+  }
+  .mainContainer .replyListContainer .replyList-action .replyList-action-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 50px;
+  }
+  .mainContainer .replyListContainer .replyList-reply {
+    overflow-y: auto;
+    border-top: 1px solid rgb(230, 236, 240);
+    padding-bottom: 42px;
+  }
+  .mainContainer .replyListContainer .replyList-reply .mobile-reply-input {
+    display: flex;
+    margin-top: 16px;
+    padding: 0 24px;
+    padding-bottom: 16px;
+    align-items: center;
+    border-bottom: 1px solid rgb(230, 236, 240);
+  }
+  .mainContainer .replyListContainer .replyList-reply .mobile-reply-input .reply-input-textarea {
+    flex-grow: 1;
+    padding: 0;
+    height: 20px;
+    margin-left: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+    overflow-y: hidden;
+  }
+  .mainContainer .replyListContainer .replyList-reply .mobile-reply-input .reply-input-btn {
+    width: 64px;
+    height: 40px;
+    padding: 0;
+  }
+  .mainContainer .replyListContainer .replyList-reply .sc-fnqprR {
+    margin: 10px 0;
+  }
+  .mainContainer .replyListContainer .replyList-reply .sc-fnqprR .reply-card-data {
+    margin-left: 6px;
+  }
+  .mainContainer .replyListContainer .replyList-reply-modal {
+    width: 100%;
+    height: 500px;
+  }
+  .mainContainer .replyListContainer .replyList-reply-modal .reply-modal-replyCard {
+    border-bottom: none;
+    height: auto;
+  }
+  .mainContainer .replyListContainer .replyList-reply-modal .reply-modal-ownReply {
+    padding: 6px 24px;
+    display: flex;
+    align-items: flex-start;
+  }
+  .mainContainer .replyListContainer .replyList-reply-modal .reply-modal-ownReply::before {
+    content: "";
+    width: 2px;
+    height: 40px;
+    background-color: #B5B5BE;
+    position: absolute;
+    left: 48px;
+    top: 130px;
+  }
+  .mainContainer .replyListContainer .replyList-reply-modal .reply-modal-ownReply .modal-ownReply-textarea {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px;
+  }
+  .mainContainer .replyListContainer .replyList-reply-modal .reply-modal-ownReply .modal-ownReply-textarea::-moz-placeholder {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px;
+  }
+  .mainContainer .replyListContainer .replyList-reply-modal .reply-modal-ownReply .modal-ownReply-textarea::placeholder {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px;
+  }
+  .mainContainer .replyListContainer .replyList-reply-modal .reply-modal-btn {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    width: 64px;
+    height: 40px;
+    padding: 0;
+    font-weight: 400;
+    line-height: 24px;
+    font-size: 16px;
+  }
+  .mainContainer .replyListContainer.reply {
+    display: flex;
   }
 }/*# sourceMappingURL=App.css.map */
