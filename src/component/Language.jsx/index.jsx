@@ -47,7 +47,7 @@ const Language = ({placement}) => {
       <Dropdown 
         menu={{ items, onClick }}
         trigger={['click']}
-        autoAdjustOverflow={false}
+        autoAdjustOverflow={false} // 下拉框被遮挡时自动调整位置
         placement={placement}
         onOpenChange={(e) => setIsOpen(e)}
       >
