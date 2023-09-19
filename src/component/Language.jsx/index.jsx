@@ -6,7 +6,6 @@ import flag_tw from '../../images/flag/taiwan.png'
 import flag_us from '../../images/flag/united_states.png'
 
 
-const defaultLang = localStorage.getItem('defaultLanguage')
 const LANG_LIST = ['cn', 'en'] // 未來要打API拿
 const LANG_DATA = {
   cn: {
@@ -39,6 +38,7 @@ const Language = ({placement, className}) => {
 
   const [isOpen, setIsOpen] = useState(false)
   const token = localStorage.getItem('token')
+  const [defaultLang, setDefaultLang] = useState('cn') 
 
   // 切換語系
   const onClick = (e) => {
@@ -48,10 +48,16 @@ const Language = ({placement, className}) => {
 
   // 產語系列表
   useEffect(() => {
+    const defaultLangLocal = localStorage.getItem('defaultLanguage')
+    if (!defaultLangLocal) {
+      localStorage.setItem('defaultLanguage', 'cn')
+    } else {
+      setDefaultLang(defaultLangLocal)
+    }
     if (items.length === 0) {
       getItems(LANG_LIST)
     }
-  },[])
+  },[defaultLang])
 
   return (
     <div className={`wrapper ${className}`}>
@@ -64,7 +70,7 @@ const Language = ({placement, className}) => {
       >
         <div className="current-language">
           <img src={LANG_DATA[defaultLang].flag} alt="flag" className="current-language-flag"/>
-          {token? (
+          { token? (
             <span className="current-language-text">{LANG_DATA[defaultLang].text}</span>
           ) : ''}
           <CaretDownOutlined 

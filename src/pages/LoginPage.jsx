@@ -75,9 +75,6 @@ const LoginPage = () => {
   // 設定default語系
   useEffect(() => {
     const defaultLang = localStorage.getItem('defaultLanguage')
-    if (!defaultLang) {
-      localStorage.setItem('defaultLanguage', 'cn')
-    }
     changeLanguage(defaultLang)
   },[])
 
