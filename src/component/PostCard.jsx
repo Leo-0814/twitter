@@ -91,8 +91,8 @@ const StyledPostCard = styled.div`
 `
 
 
-const PostCard = ({ onClickReply, postData, onClickLike, personInfo, userData, onClickName, className}) => {
-  const timeDif = timeDifferent(postData.getTime)
+const PostCard = ({ onClickReply, postData, onClickLike, personInfo, userData, onClickName, className, t}) => {
+  const timeDif = timeDifferent(postData.getTime, t)
   const isLike = postData.like.includes(personInfo.account_id)
 
   return (

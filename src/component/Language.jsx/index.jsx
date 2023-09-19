@@ -1,49 +1,60 @@
 import { Dropdown } from "antd"
 import './style.css'
 import { CaretDownOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import flag_tw from '../../images/flag/taiwan.png'
+import flag_us from '../../images/flag/united_states.png'
 
-const LANG_LIST = ['CN', 'EN'] // 未來要打API拿
+
 const defaultLang = localStorage.getItem('defaultLanguage')
-const lang = {
+const LANG_LIST = ['cn', 'en'] // 未來要打API拿
+const LANG_DATA = {
   cn: {
-    flag: 'fi-tw'
+    flag: flag_tw,
+    text: '繁體中文'
   },
   en: {
-    flag: 'fi-us'
+    flag: flag_us,
+    text: 'English'
   },
 }
-const items = [
-  {
-    key: 'cn',
-    label: (
-      <div>
-        <span className="fi fi-tw"></span>
-        <span className="itemText">繁體中文</span>
-      </div>
-    ),
-  },
-  {
-    key: 'en',
-    label: (
-      <div>
-        <span className="fi fi-us"></span>
-        <span className="itemText">English</span>
-      </div>
-    ),
-  },
-];
+const items = []
+const getItems = (lists) => {
+  lists.forEach(lang => {
+    return (
+      items.push({
+        key: lang,
+        label: (
+          <div className="item">
+            <img src={LANG_DATA[lang].flag} alt="flag" className="item-flag"/>
+            <span className="item-text">{LANG_DATA[lang].text}</span>
+          </div>
+        ),
+      })
+    )
+  })
+}
 
-const Language = ({placement}) => {
-  
+const Language = ({placement, className}) => {
+
   const [isOpen, setIsOpen] = useState(false)
+  const token = localStorage.getItem('token')
+
+  // 切換語系
   const onClick = (e) => {
     localStorage.setItem('defaultLanguage', e.key)
     window.location.reload()
   }
 
+  // 產語系列表
+  useEffect(() => {
+    if (items.length === 0) {
+      getItems(LANG_LIST)
+    }
+  },[])
+
   return (
-    <div className="wrapper">
+    <div className={`wrapper ${className}`}>
       <Dropdown 
         menu={{ items, onClick }}
         trigger={['click']}
@@ -51,8 +62,11 @@ const Language = ({placement}) => {
         placement={placement}
         onOpenChange={(e) => setIsOpen(e)}
       >
-        <div>
-          <span className={`fi ${lang[defaultLang].flag}`}></span>
+        <div className="current-language">
+          <img src={LANG_DATA[defaultLang].flag} alt="flag" className="current-language-flag"/>
+          {token? (
+            <span className="current-language-text">{LANG_DATA[defaultLang].text}</span>
+          ) : ''}
           <CaretDownOutlined 
             rotate={isOpen? 180: 0}
             className="arrow"

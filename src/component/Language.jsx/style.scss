@@ -1,13 +1,31 @@
 .wrapper {
   width: auto;
-  align-self: flex-end;
-  margin-bottom: 20px;
+  margin-bottom: 32px;
   padding: 0 10px;
   .arrow {
     margin-left: 5px;
   }
+  .current-language {
+    display: flex;
+    align-items: center;
+    .current-language-flag {
+      width: 25px;
+      height: 25px;
+    }
+    .current-language-text {
+      margin-left: 5px;
+    }
+  }
 }
-.itemText {
-  margin-left: 10px;
-  font-weight: 500;
+.item {
+  display: flex;
+  align-items: center;
+  .item-flag {
+    width: 25px;
+    height: 25px;
+  }
+  .item-text {
+    margin-left: 10px;
+    font-weight: 500;
+  }
 }

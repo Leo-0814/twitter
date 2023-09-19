@@ -9,6 +9,7 @@ import { Autoplay, Pagination,Navigation } from "swiper/modules";
 import 'swiper/css'; 
 import 'swiper/css/pagination'; 
 import 'swiper/css/navigation';
+import { changeLanguage } from 'i18next'
 
 const PromotionPage = () => {
   const [ personInfo, setPersonInfo ] = useState({
@@ -62,6 +63,12 @@ const PromotionPage = () => {
     }
     checkTokenAsync()
   },[navigate])
+
+    // 設定語系
+  useEffect(() => {
+    const defaultLang = localStorage.getItem('defaultLanguage')
+    changeLanguage(defaultLang)
+  },[])
 
   return (
     <>

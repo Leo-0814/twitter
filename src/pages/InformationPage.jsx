@@ -12,6 +12,8 @@ import { ReplyListContainer } from "../component/ReplyListContainer"
 import { InformationContainer } from "../component/InformationContainer"
 import { useNavigate, useParams } from "react-router-dom"
 import db from "../configs/config"
+import { useTranslation } from "react-i18next"
+import { changeLanguage } from "i18next"
 
 const InformationPage = () => {
   const [ postingModal, setPostingModal ] = useState(false)
@@ -50,6 +52,7 @@ const InformationPage = () => {
   const remarkRef = useRef()
   const params = useParams();
   const navigate = useNavigate()
+  const {t} = useTranslation()
   
   const area_code = ''
   const user_level_id = 22
@@ -157,7 +160,7 @@ const InformationPage = () => {
         setEditInfoModal(false)
         Swal.fire({
           icon: 'success',
-          title: '儲存成功',
+          title: t("normal.save.success"),
           showCancelButton: false,
           showConfirmButton: false,
           timer: 1000,
@@ -364,7 +367,12 @@ const InformationPage = () => {
     }
     listenPostList()
   }, [postList, userList, params.account_id, personInfo.account_id])
-      
+  
+    // 設定語系
+  useEffect(() => {
+    const defaultLang = localStorage.getItem('defaultLanguage')
+    changeLanguage(defaultLang)
+  },[])
 
   return (
     <>
@@ -456,12 +464,12 @@ const InformationPage = () => {
             <img src={leftArrow} alt="leftArrow" className="header-back" onClick={() => setIsOpenFollowPage(false)}/>
             <div className="header-content">
               <div className="header-content-username">John Doe</div>
-              <div className="header-content-postCount">25 推文</div>
+              <div className="header-content-postCount">25 {t("normal.post")}</div>
             </div>
           </div>
           <div className="followListContainer-tabs">
-            <div className={clsx('tabs-tab', {active: followTabControl === 0})} onClick={() => setFollowTabControl(0)}>追隨者</div>
-            <div className={clsx('tabs-tab', {active: followTabControl === 1})} onClick={() => setFollowTabControl(1)}>正在追隨</div>
+            <div className={clsx('tabs-tab', {active: followTabControl === 0})} onClick={() => setFollowTabControl(0)}>{t("normal.follower")}</div>
+            <div className={clsx('tabs-tab', {active: followTabControl === 1})} onClick={() => setFollowTabControl(1)}>{t("normal.following")}</div>
           </div>
           <div className={clsx('followListContainer-follower', {active: followTabControl === 0})}>
             <FollowCard isFollow={isFollow} onClick={() => setIsFollow(!isFollow)}></FollowCard>

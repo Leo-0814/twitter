@@ -19,12 +19,14 @@ import backgroundDelete from '../images/_base/background-delete.png'
 import BasicInput from "./BasicInput"
 import { Form } from "antd"
 import TextAreaInput from "./TextAreaInput"
+import { useTranslation } from "react-i18next"
 
 
 export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNameRef, accountRef, remarkRef, userData, postList, personInfo, backgroundUrl, photoUrl, onClickEditInfoModal, onClickFollowPage, onClickFollowTabControl, infoTabControl, onClickInfoTabControl, onClickReply, onClickLike, postingModal, onClickPostingModal, postingContent, onClickPostingContent, onClickPost, editInfoModal, onChangeUploadBackground, onClickBackgroundUrl, onChangeUploadPhoto, onChangePersonInfo, onClickEditInfo, isFollow, onClickFollow, onClickName, isNotify, onClickNotify}) => {
 
   const navigate = useNavigate()
   const [form] = Form.useForm()
+  const {t} = useTranslation()
 
   const handleFinishFailed = (e) => {
     console.log('finishFailed', e)
@@ -46,7 +48,7 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
                 post.account === personInfo.account
               )
             }
-            }).length} 推文</div>
+            }).length} {t("normal.post")}</div>
         </div>
       </div>
       <div className="informationContainer-self">
@@ -57,17 +59,17 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
           </div>
           {userData.account_id? userData.account_id === personInfo.account_id
             ? 
-            <ButtonHollow className='self-picture-btn' onClick={() => onClickEditInfoModal?.(true,form)}>編輯個人資料</ButtonHollow>
+            <ButtonHollow className='self-picture-btn' onClick={() => onClickEditInfoModal?.(true,form)}>{t("normal.editInfo")}</ButtonHollow>
             : 
             <div className="self-picture-tool">
               <img src={btn_msg} alt="msg" className="picture-tool-msg"/>
               <img src={isNotify? btn_notFi_active: btn_notFi} alt="notify" className="picture-tool-notify" onClick={() => onClickNotify?.()}/>
               {isFollow?
-                <Button className='picture-tool-follow' onClick={() => {onClickFollow?.(userData.account_id)}}>正在跟隨</Button>:
-                <ButtonHollow className='picture-tool-unFollow' onClick={() => {onClickFollow?.(userData.account_id)}}>跟隨</ButtonHollow>
+                <Button className='picture-tool-follow' onClick={() => {onClickFollow?.(userData.account_id)}}>{t("normal.following")}</Button>:
+                <ButtonHollow className='picture-tool-unFollow' onClick={() => {onClickFollow?.(userData.account_id)}}>{t("normal.follow")}</ButtonHollow>
               }
             </div>:
-            <ButtonHollow className='self-picture-btn' onClick={() => onClickEditInfoModal?.(true, form)}>編輯個人資料</ButtonHollow>
+            <ButtonHollow className='self-picture-btn' onClick={() => onClickEditInfoModal?.(true, form)}>{t("normal.editInfo")}</ButtonHollow>
           }
         </div>
         <div className="self-content">
@@ -77,24 +79,24 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
           <div className="self-content-footer">
             <div className="content-footer-following" onClick={() => {
               onClickFollowPage?.(true)
-              onClickFollowTabControl?.(0)}}>34個<span className="footer-following-span">跟隨中</span></div>
+              onClickFollowTabControl?.(0)}}>34{t("normal.followed.unit")}<span className="footer-following-span">{t("normal.followed")}</span></div>
             <div className="content-footer-following" onClick={() => {
               onClickFollowPage(true) 
-              onClickFollowTabControl(1)}}>59位<span className="footer-following-span">跟隨者</span></div>
+              onClickFollowTabControl(1)}}>59{t("normal.follower.unit")}<span className="footer-following-span">{t("normal.follower")}</span></div>
           </div>
         </div>
       </div>
       <div className="informationContainer-tabs">
-        <div className={clsx('tabs-tab', {active: infoTabControl === 0})} onClick={() => onClickInfoTabControl(0)}>推文</div>
-        <div className={clsx('tabs-tab', {active: infoTabControl === 1})} onClick={() => onClickInfoTabControl(1)}>回覆</div>
-        <div className={clsx('tabs-tab', {active: infoTabControl === 2})} onClick={() => onClickInfoTabControl(2)}>喜歡的內容</div>
+        <div className={clsx('tabs-tab', {active: infoTabControl === 0})} onClick={() => onClickInfoTabControl(0)}>{t("normal.post")}</div>
+        <div className={clsx('tabs-tab', {active: infoTabControl === 1})} onClick={() => onClickInfoTabControl(1)}>{t("normal.reply")}</div>
+        <div className={clsx('tabs-tab', {active: infoTabControl === 2})} onClick={() => onClickInfoTabControl(2)}>{t("normal.likeContent")}</div>
       </div>
       {/* tab post */}
       <div className={clsx('informationContainer-post', {active: infoTabControl === 0})}>
         {postList.map((post) => {
           if (!userData.account? post.account === personInfo.account: post.account === userData.account) {
             return (
-              <PostCard key={post.id} onClickReply={(postId) => onClickReply?.(postId)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)}></PostCard>
+              <PostCard key={post.id} onClickReply={(postId) => onClickReply?.(postId)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)} t={t}></PostCard>
             )
           }
         })}
@@ -106,7 +108,7 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
             post.reply.map(item => {
                 if (!userData.account? item.account === personInfo.account: item.account === userData.account) {
                   return (
-                    <ReplyCard key={item.id} type='typeA' replyData={item} personInfo={personInfo} postData={post} userData={userData} onClickName={() => onClickName?.()}></ReplyCard>
+                    <ReplyCard key={item.id} type='typeA' replyData={item} personInfo={personInfo} postData={post} userData={userData} onClickName={() => onClickName?.()} t={t}></ReplyCard>
                   )
                 } 
             })
@@ -119,28 +121,28 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
           if (!userData.account) {
             if (post.like.includes(personInfo.account_id)) {
               return (
-                <PostCard key={post.id} onClickReply={(postId) => onClickReply?.(postId)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)} onClickName={() => onClickName?.()}></PostCard>
+                <PostCard key={post.id} onClickReply={(postId) => onClickReply?.(postId)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)} onClickName={() => onClickName?.()} t={t}></PostCard>
               )
             }
           } else {
             if (post.like.includes(userData.account_id)) {
               return (
-                <PostCard key={post.id} onClickReply={(postId) => onClickReply?.(postId)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)} onClickName={() => onClickName?.()}></PostCard>
+                <PostCard key={post.id} onClickReply={(postId) => onClickReply?.(postId)} postData={post} personInfo={personInfo} userData={userData} onClickLike={(postDataId) => onClickLike?.(postDataId)} onClickName={() => onClickName?.()} t={t}></PostCard>
               )
             }
           }
         })}
       </div>
       {/* 推文modal */}
-      <Modal active={postingModal} onClickModalCancel={() => onClickPostingModal?.(false)} className='informationContainer-posting-modal' btnText='推文' type='typeA'>
+      <Modal active={postingModal} onClickModalCancel={() => onClickPostingModal?.(false)} className='informationContainer-posting-modal' btnText={t("normal.post")} type='typeA'>
         <div className="posting-modal-content">
           <Photo src={ownPhoto} alt="ownPhoto" className="modal-content-img" />
-          <textarea rows='6' cols='100' className="modal-content-textarea" placeholder='有什麼新鮮事?' value={postingContent} onChange={(postingTextareaValue) => onClickPostingContent?.(postingTextareaValue.target.value)}></textarea>
+          <textarea rows='6' cols='100' className="modal-content-textarea" placeholder={t("normal.whatHappened")} value={postingContent} onChange={(postingTextareaValue) => onClickPostingContent?.(postingTextareaValue.target.value)}></textarea>
         </div>
-        <Button className='posting-modal-btn' onClick={() => onClickPost?.()}>推文</Button>
+        <Button className='posting-modal-btn' onClick={() => onClickPost?.()}>{t("normal.post")}</Button>
       </Modal>
       {/* 編輯個人資料modal */}
-      <Modal active={editInfoModal} onClickModalCancel={() => onClickEditInfoModal?.(false, form)} className='informationContainer-editInfo-modal' btnText='儲存' title='編輯個人資料' type='typeB'>
+      <Modal active={editInfoModal} onClickModalCancel={() => onClickEditInfoModal?.(false, form)} className='informationContainer-editInfo-modal' btnText={t("normal.save")} title={t("normal.editInfo")} type='typeB'>
         <div className="editInfo-modal-picture">
           <div className="modal-picture-background">
             <img src={backgroundUrl? backgroundUrl: baseBackground} alt="background" className="picture-background-img" />
@@ -176,8 +178,8 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
             <div className="modal-input-username">
               <BasicInput 
                 name='username' 
-                label='名稱' 
-                placeholder='請輸入名稱' 
+                placeholder={t("normal.inputUserName")}
+                label={t("normal.userName")} 
                 maxLength={50}
                 onChange={(realNameInputValue) => onChangePersonInfo({
                   ...personInfo,
@@ -186,7 +188,7 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
                 rules={[
                   {
                     required: true,
-                    message: '名稱為必填',
+                    message: t("normal.userNameRequired"),
                   },
                 ]}
               />
@@ -196,10 +198,10 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
             <div className="modal-input-introduction">
               <TextAreaInput
                 name='introduction'
-                label='自我介紹'
+                label={t("normal.intro")}
                 // showCount={true}
                 maxLength={160}
-                placeholder="請輸入自我介紹"
+                placeholder={t("normal.inputIntro")}
                 rows={5}
                 onChange={(remarkTextareaValue) => onChangePersonInfo({
                   ...personInfo,
@@ -210,7 +212,7 @@ export const InformationContainer = ({isOpenReplyPage, isOpenFollowPage, realNam
               <div className="input-introduction-count">{personInfo.remark ? personInfo.remark.toString().length : 0}/160</div>
             </div>
           
-            <Button className='editInfo-modal-btn' htmlFor='submit'>儲存</Button>
+            <Button className='editInfo-modal-btn' htmlFor='submit'>{t("normal.save")}</Button>
           </Form>
         </div>
       </Modal>

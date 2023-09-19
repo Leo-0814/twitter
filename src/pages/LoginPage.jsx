@@ -31,7 +31,7 @@ const LoginPage = () => {
         localStorage.setItem('adminToken2', adminToken2)
         Swal.fire({
           icon: 'success',
-          title: '登入成功',
+          title: t("normal.login.success"),
           showCancelButton: false,
           showConfirmButton: false,
           timer: 1000,
@@ -87,6 +87,7 @@ const LoginPage = () => {
       <AuthTitle>{t("normal.login")} Alphitter</AuthTitle>
       <Language
         placement='bottom'
+        className='lang-btn'
       ></Language>
       <Form
         form={form}
@@ -137,7 +138,7 @@ const LoginPage = () => {
       </Form>
       <AuthLinkContainer className='login-linkContainer'>
         <Link to='/signup'>
-          <AuthLinkText >{t("normal.signup")}</AuthLinkText>
+          <AuthLinkText >{t("normal.signUp")}</AuthLinkText>
         </Link>
         <AuthLinkSpan >． </AuthLinkSpan>
         <Link to='https://leo-0814.github.io/twitteradmin' target="_blank">

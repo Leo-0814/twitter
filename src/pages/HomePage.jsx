@@ -12,6 +12,8 @@ import { followUser, getInfo, getUsers } from '../api/info'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ReplyListContainer } from '../component/ReplyListContainer'
 import db from "../configs/config"
+import { useTranslation } from 'react-i18next'
+import { changeLanguage } from 'i18next'
 
 const HomePage = () => {
   const [ postingModal, setPostingModal ] = useState(false)
@@ -31,6 +33,7 @@ const HomePage = () => {
   const [ replyModalInputValue, setReplyModalInputValue ] = useState('') 
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
+  const {t} = useTranslation()
   
   
   
@@ -250,6 +253,12 @@ const HomePage = () => {
     checkTokenAsync()
   },[navigate])
 
+  // 設定語系
+  useEffect(() => {
+    const defaultLang = localStorage.getItem('defaultLanguage')
+    changeLanguage(defaultLang)
+  },[])
+
   return (
     <>
       <div className="mainContainer">
@@ -266,25 +275,25 @@ const HomePage = () => {
         {/* centerContainer */}
         <div className={clsx("centerContainer", { reply: isOpenReplyPage })}>
           <Photo src={ownPhoto} alt="ownPhoto" className="centerContainer-ownPhoto" />
-          <div className="centerContainer-title">首頁</div>
+          <div className="centerContainer-title">{t("normal.home")}</div>
           <div className="centerContainer-posting">
             <Photo src={ownPhoto} alt="ownPhoto" className="posting-img" />
-            <textarea rows='3' cols='100' className="posting-textarea" placeholder='有什麼新鮮事?' value={postingContent} onChange={(e) => setPostingContent(e.target.value)}></textarea>
-            <Button className='posting-btn' onClick={handleClickPost}>推文</Button>
+            <textarea rows='3' cols='100' className="posting-textarea" placeholder={t("normal.whatHappened")} value={postingContent} onChange={(e) => setPostingContent(e.target.value)}></textarea>
+            <Button className='posting-btn' onClick={handleClickPost}>{t("normal.post")}</Button>
           </div>
           <div className="centerContainer-post">
             {postList.map((post) => {
               return (
-                <PostCard key={post.id} className='centerContainer-post-card' onClickReply={handleClickReply} postData={post} personInfo={personInfo} onClickLike={handleClickLike} userData={''}></PostCard>
+                <PostCard key={post.id} className='centerContainer-post-card' onClickReply={handleClickReply} postData={post} personInfo={personInfo} onClickLike={handleClickLike} userData={''} t={t}></PostCard>
               )
             })}
           </div>
-          <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='centerContainer-posting-modal' btnText='推文' type='typeA'>
+          <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='centerContainer-posting-modal' btnText={t("normal.post")} type='typeA'>
             <div className="posting-modal-content">
                 <Photo src={ownPhoto} alt="ownPhoto" className="modal-content-img" />
-              <textarea rows='6' cols='100' className="modal-content-textarea" placeholder='有什麼新鮮事?' value={postingContent} onChange={(postingModalTextareaValue) => setPostingContent(postingModalTextareaValue.target.value)}></textarea>
+              <textarea rows='6' cols='100' className="modal-content-textarea" placeholder={t("normal.whatHappened")} value={postingContent} onChange={(postingModalTextareaValue) => setPostingContent(postingModalTextareaValue.target.value)}></textarea>
             </div>
-            <Button className='posting-modal-btn' onClick={handleClickPost}>推文</Button>
+            <Button className='posting-modal-btn' onClick={handleClickPost}>{t("normal.post")}</Button>
           </Modal>
         </div>
 

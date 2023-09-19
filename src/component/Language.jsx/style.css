@@ -1,14 +1,32 @@
 .wrapper {
   width: auto;
-  align-self: flex-end;
-  margin-bottom: 20px;
+  margin-bottom: 32px;
   padding: 0 10px;
 }
 .wrapper .arrow {
   margin-left: 5px;
 }
+.wrapper .current-language {
+  display: flex;
+  align-items: center;
+}
+.wrapper .current-language .current-language-flag {
+  width: 25px;
+  height: 25px;
+}
+.wrapper .current-language .current-language-text {
+  margin-left: 5px;
+}
 
-.itemText {
+.item {
+  display: flex;
+  align-items: center;
+}
+.item .item-flag {
+  width: 25px;
+  height: 25px;
+}
+.item .item-text {
   margin-left: 10px;
   font-weight: 500;
 }/*# sourceMappingURL=style.css.map */

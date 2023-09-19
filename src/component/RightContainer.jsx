@@ -2,12 +2,15 @@ import Button from "./Button"
 import userPhoto from '../images/userPhoto.png'
 import { Photo } from "./common/photo.styled"
 import ButtonHollow from "./Button-hollow"
+import { useTranslation } from "react-i18next"
 
 const RightContainer = ({onClick, userList}) => {
+  const {t} = useTranslation()
+
   return (
     <div className="rightContainer">
       <div className="rightContainer-area">
-        <div className="rightContainer-area-title">推薦跟隨</div>
+        <div className="rightContainer-area-title">{t("normal.follow.recommend")}</div>
         <div className="rightContainer-area-list">
           {userList.map((user) => {
             let short_account_id = ''
@@ -28,7 +31,7 @@ const RightContainer = ({onClick, userList}) => {
                     <div className="followList-content-username">{short_account}</div>
                     <div className="followList-content-account">@{short_account_id}</div>
                   </div>
-                  <Button className="followList-content-btn" onClick={() => {onClick?.(user.account_id)}}>正在跟隨</Button>
+                  <Button className="followList-content-btn" onClick={() => {onClick?.(user.account_id)}}>{t("normal.following")}</Button>
                 </div>
               )
             } else {
@@ -39,7 +42,7 @@ const RightContainer = ({onClick, userList}) => {
                     <div className="followList-content-username">{short_account}</div>
                     <div className="followList-content-account">@{short_account_id}</div>
                   </div>
-                  <ButtonHollow className="followList-content-btn-hollow" onClick={() => {onClick?.(user.account_id)}}>跟隨</ButtonHollow>
+                  <ButtonHollow className="followList-content-btn-hollow" onClick={() => {onClick?.(user.account_id)}}>{t("normal.follow")}</ButtonHollow>
                 </div>
               )
             }

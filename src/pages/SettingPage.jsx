@@ -8,10 +8,13 @@ import { useNavigate } from "react-router-dom"
 import BasicInput from "../component/BasicInput"
 import PassWordInput from "../component/PassWordInput"
 import { Form } from "antd"
+import { useTranslation } from "react-i18next"
+import { changeLanguage } from "i18next"
 
 const SettingPage = () => {
   const navigate = useNavigate()
   const [form] = Form.useForm()
+  const {t} = useTranslation()
   const [ personInfo, setPersonInfo ] = useState({
     account_id: '',
     account: '',
@@ -95,12 +98,18 @@ const SettingPage = () => {
     }
     checkTokenAsync()
   },[navigate, form])
+
+    // 設定語系
+  useEffect(() => {
+    const defaultLang = localStorage.getItem('defaultLanguage')
+    changeLanguage(defaultLang)
+  },[])
   
   return (
     <div className="mainContainer">
       <LeftContainer setting={settingActive} account_id={personInfo.account_id} isClickAtSetting={true}></LeftContainer>
       <div className="settingContainer">
-        <div className="setting-title">帳戶設定</div>
+        <div className="setting-title">{t("normal.infoSetting")}</div>
         <div className="setting-form">
           <Form
             form={form}
@@ -112,14 +121,14 @@ const SettingPage = () => {
           >
             <BasicInput 
               name='account' 
-              placeholder='請輸入帳號' 
-              label='帳號' 
+              placeholder={t("normal.inputAccount")}
+              label={t("normal.account")}
               readOnly
             />
             <BasicInput 
               name='username' 
-              placeholder='請輸入使用者名稱' 
-              label='名稱' 
+              placeholder={t("normal.inputUserName")}
+              label={t("normal.userName")} 
               onChange={(userNameInputValue) => setPersonInfo({
                 ...personInfo,
                 real_name: userNameInputValue
@@ -127,14 +136,14 @@ const SettingPage = () => {
               rules={[
                 {
                   required: true,
-                  message: '名稱為必填',
+                  message: t("normal.userNameRequired"),
                 },
               ]}
             />
             <BasicInput 
               name='email' 
-              placeholder='請輸入Email' 
-              label='Email' 
+              placeholder={t("normal.inputEmail")}  
+              label={t("normal.email")} 
               onChange={(emailInputValue) => setPersonInfo({
                 ...personInfo,
                 email: emailInputValue
@@ -142,18 +151,18 @@ const SettingPage = () => {
               rules={[
                 {
                   type: 'email',
-                  message: 'Email格式錯誤',
+                  message: t("normal.email.formatError"),
                 },
                 {
                   required: true,
-                  message: 'Email為必填',
+                  message: t("normal.emailRequired"),
                 },
               ]}
             />
             <PassWordInput 
               name='password' 
-              placeholder='請設定密碼' 
-              label='密碼' 
+              placeholder={t("normal.setPassword")}
+              label={t("normal.password")}
               onChange={(newPasswordInputValue) => setPersonInfo({
                 ...personInfo,
                 new_login_password: newPasswordInputValue
@@ -162,14 +171,14 @@ const SettingPage = () => {
                 {
                   min: 6,
                   max: 16,
-                  message: '密碼需介於6~16字元',
+                  message: t("normal.passwordLimit"),
                 },
               ]}
             />
             <PassWordInput 
               name='prePassword' 
-              placeholder='請再次輸入密碼' 
-              label='密碼確認' 
+              placeholder={t("normal.confirmPassword.again")}
+              label={t("normal.confirmPassword")}
               onChange={(confirmNewPasswordInputValue) => setPersonInfo({
                 ...personInfo,
                 new_login_password_confirmation: confirmNewPasswordInputValue
@@ -181,12 +190,12 @@ const SettingPage = () => {
                   if (!value || getFieldValue('password') === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(new Error('與密碼不一致'));
+                  return Promise.reject(new Error(t("normal.confirmPassword.different")));
                 },
               }),
               ]}
             />
-            <Button htmlType="submit" className='settingBtn'>儲存</Button>
+            <Button htmlType="submit" className='settingBtn'>{t("normal.save")}</Button>
           </Form>
         </div>
       </div>

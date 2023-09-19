@@ -46,7 +46,7 @@ const SignUpPage = () => {
           navigate('/promotion')
           Swal.fire({
             icon: 'success',
-            title: '註冊成功',
+            title: t("normal.signUp.success"),
             showCancelButton: false,
             showConfirmButton: false,
             timer: 1000,
@@ -99,6 +99,7 @@ const SignUpPage = () => {
       <AuthTitle>{t("normal.createAccount")}</AuthTitle>
       <Language
         placement='bottom'
+        className='lang-btn'
       ></Language>
       <Form
         form={form}
@@ -195,7 +196,7 @@ const SignUpPage = () => {
           ]}
         />
 
-      <Button htmlType="submit" className='authBtn'>{t("normal.signup")}</Button>
+      <Button htmlType="submit" className='authBtn'>{t("normal.signUp")}</Button>
       </Form>
       <AuthLinkContainer>
         <Link to='/login'>

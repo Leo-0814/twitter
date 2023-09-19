@@ -9,9 +9,12 @@ import basePromotion from '../images/_base/setting.png'
 import post from '../images/_base/post.png'
 import { clsx } from "clsx"
 import { logout } from "../api/auth"
+import Language from './Language.jsx'
+import { useTranslation } from 'react-i18next';
 
 const LeftContainer = ({home, information, setting, promotion, onClickPost,  isClickAtSetting, onClickInfoTab}) => {
   const navigate = useNavigate()
+  const {t} = useTranslation()
 
   const handleClick = async () => {
     const token = localStorage.getItem('token')
@@ -30,33 +33,39 @@ const LeftContainer = ({home, information, setting, promotion, onClickPost,  isC
       <div className="leftContainer-list">
         <Link to='/home'className="leftContainer-list-item">
           <img src={home? home: baseHome} alt="home" className="leftContainer-list-icon" />
-          <div className={clsx('leftContainer-list-text', { active: home })}>首頁</div>
+          <div className={clsx('leftContainer-list-text', { active: home })}>{t("normal.home")}</div>
         </Link>
         <div className="leftContainer-list-item leftContainer-list-item-post">
           <img src={post} alt="post" className="leftContainer-list-icon" />
         </div>
         <Link to={`/information`} className="leftContainer-list-item" onClick={() => onClickInfoTab?.()}>
           <img src={information? information: baseInformation} alt="information" className="leftContainer-list-icon" />
-          <div className={clsx('leftContainer-list-text', { active: information })}>個人資料</div>
+          <div className={clsx('leftContainer-list-text', { active: information })}>{t("normal.info")}</div>
         </Link>
         <Link to='/setting' className="leftContainer-list-item">
           <img src={setting? setting: baseSetting} alt="setting" className="leftContainer-list-icon" />
-          <div className={clsx('leftContainer-list-text', { active: setting })}>設定</div>
+          <div className={clsx('leftContainer-list-text', { active: setting })}>{t("normal.setting")}</div>
         </Link>
         <Link to='/promotion' className="leftContainer-list-item">
           <img src={promotion? promotion: basePromotion} alt="setting" className="leftContainer-list-icon" />
-          <div className={clsx('leftContainer-list-text', { active: promotion })}>輪播圖</div>
+          <div className={clsx('leftContainer-list-text', { active: promotion })}>{t("normal.carousel")}</div>
         </Link>
         {isClickAtSetting? 
-          <Link to={`/home?from=setting`}><Button className="leftContainer-list-postBtn" onClick={() => onClickPost?.()}>推文</Button></Link>: 
+          <Link to={`/home?from=setting`}><Button className="leftContainer-list-postBtn" onClick={() => onClickPost?.()}>{t("normal.post")}</Button></Link>: 
           promotion?
             '':
-            <Button className="leftContainer-list-postBtn" onClick={() => onClickPost?.()}>推文</Button>
+            <Button className="leftContainer-list-postBtn" onClick={() => onClickPost?.()}>{t("normal.post")}</Button>
         }
 
-        <div className="leftContainer-list-item leftContainer-list-logOut" onClick={handleClick}>
-          <img src={logOut} alt="logOut" className="leftContainer-list-icon" />
-          <div className="leftContainer-list-text">登出</div>
+        <div className="leftContainer-list-item leftContainer-list-footer" >
+          <Language
+            placement='top'
+            className='lang-btn'
+          ></Language>
+          <div className='list-item-logout' onClick={handleClick}>
+            <img src={logOut} alt="logOut" className="leftContainer-list-icon" />
+            <div className="leftContainer-list-text">{t("normal.logout")}</div>
+          </div>
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { styled } from 'styled-components'
 import { Photo } from './common/photo.styled'
 import { timeDifferent } from './common/time'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const StyledReplyCard = styled.div`
   width: 100%;
@@ -78,9 +79,9 @@ const StyledReplyCard = styled.div`
 `
 
 
-const ReplyCard = ({type, className, replyData, personInfo, postData, onClickName}) => {
+const ReplyCard = ({type, className, replyData, personInfo, postData, onClickName, t}) => {
   
-  const timeDif = timeDifferent(replyData.getTime)
+  const timeDif = timeDifferent(replyData.getTime, t)
 
   if (type === 'typeA') {
     return (
@@ -93,7 +94,7 @@ const ReplyCard = ({type, className, replyData, personInfo, postData, onClickNam
             <span className='data-header-dot'>．</span>
             <div className='data-header-time'>{timeDif}</div>
           </div>
-          <div className="card-data-target">回覆<span className='data-target-span'>@{postData.account}</span></div>
+          <div className="card-data-target">{t("normal.reply")}<span className='data-target-span'>@{postData.account}</span></div>
           <div className='card-data-content' >{replyData.content} </div>
         </div>
       </StyledReplyCard>
@@ -110,7 +111,7 @@ const ReplyCard = ({type, className, replyData, personInfo, postData, onClickNam
             <div className='data-header-time'>{timeDif}</div>
           </div>
           <div className='card-data-content' >{replyData.content}</div>
-          <div className="card-data-target">回覆給<span className='data-target-span'>@{postData.account}</span></div>
+          <div className="card-data-target">{t("normal.replyTo")}<span className='data-target-span'>@{postData.account}</span></div>
         </div>
       </StyledReplyCard>
     )

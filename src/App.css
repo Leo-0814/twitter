@@ -124,9 +124,18 @@ a:visited {
   line-height: 30px;
   font-weight: 400;
 }
-.mainContainer .leftContainer .leftContainer-list .leftContainer-list-logOut {
+.mainContainer .leftContainer .leftContainer-list .leftContainer-list-footer {
   position: absolute;
-  bottom: 0;
+  bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.mainContainer .leftContainer .leftContainer-list .leftContainer-list-footer .lang-btn {
+  margin-left: 8px;
+}
+.mainContainer .leftContainer .leftContainer-list .leftContainer-list-footer .list-item-logout {
+  display: flex;
+  flex-direction: row;
 }
 .mainContainer .centerContainer {
   width: 100%;
@@ -793,7 +802,7 @@ a:visited {
 }
 .mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-input {
   margin: 0 16px;
-  margin-top: 30px;
+  margin-top: 70px;
 }
 .mainContainer .informationContainer .informationContainer-editInfo-modal .editInfo-modal-input .modal-input-username {
   display: flex;
@@ -924,7 +933,7 @@ a:visited {
   border-bottom: 1px solid rgb(230, 236, 240);
 }
 .mainContainer .settingContainer .setting-form {
-  padding: 0 24px;
+  padding: 24px;
 }
 .mainContainer .settingContainer .settingBtn {
   width: 88px;

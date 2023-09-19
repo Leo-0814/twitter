@@ -4,6 +4,7 @@ import Button from './Button'
 import ButtonHollow from './Button-hollow'
 import { styled } from 'styled-components'
 import { Photo } from './common/photo.styled'
+import { useTranslation } from 'react-i18next'
 
 const StyledFollowCard = styled.div`
   width: 100%;
@@ -67,14 +68,16 @@ const StyledFollowCard = styled.div`
 
 
 const FollowCard = ({isFollow, onClick}) => {
+  const {t} = useTranslation()
+
   return (
     <StyledFollowCard>
       <Photo src={userPhoto} alt="" />
       <div className='follow-card-data' >
         <div className='card-data-header' >
           <div className='data-header-username' >Devon Lane</div>
-          <Button className={clsx('btn-isFollow', {active: isFollow})} onClick={() => onClick?.()}>正在跟隨</Button>
-          <ButtonHollow className={clsx('btn-unFollow', {active: !isFollow})} onClick={() => onClick?.()}>跟隨</ButtonHollow>
+          <Button className={clsx('btn-isFollow', {active: isFollow})} onClick={() => onClick?.()}>{t("normal.following")}</Button>
+          <ButtonHollow className={clsx('btn-unFollow', {active: !isFollow})} onClick={() => onClick?.()}>{t("normal.follow")}</ButtonHollow>
         </div>
         <div className='card-data-content' >Lorem Ipsum is simply dummy text of the printing and typesetting industry. </div>
       </div>
