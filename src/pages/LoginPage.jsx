@@ -3,6 +3,7 @@ import { AuthContainer, AuthLinkContainer, AuthLinkSpan, AuthLinkText, AuthTitle
 import LogoIcon from '../component/LogoIcon'
 import Button from '../component/Button'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next';
 import { login } from '../api/auth'
 import Swal from 'sweetalert2'
 import { getInfo, getUsers } from '../api/info'
@@ -10,6 +11,8 @@ import { adminLogin } from '../api/admin'
 import { Form } from 'antd'
 import BasicInput from '../component/BasicInput'
 import PassWordInput from '../component/PassWordInput'
+import { changeLanguage } from 'i18next'
+import Language from '../component/Language.jsx'
 
 
 const LoginPage = () => {
@@ -17,6 +20,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
   const [form] = Form.useForm()
+  const {t, i18n} = useTranslation()
 
   const handleFinish = async () => {
     try {
@@ -50,6 +54,7 @@ const LoginPage = () => {
     const checkTokenAsync = async () => {
       const token = localStorage.getItem('token')
       const adminToken2 = localStorage.getItem('adminToken2')
+      
       if (!token || !adminToken2) {
         return
       }
@@ -62,69 +67,84 @@ const LoginPage = () => {
         localStorage.removeItem('token')
         localStorage.removeItem('adminToken2')
       }
+      
     }
     checkTokenAsync()
   },[navigate])
 
+  // 設定default語系
+  useEffect(() => {
+    const defaultLang = localStorage.getItem('defaultLanguage')
+    if (!defaultLang) {
+      localStorage.setItem('defaultLanguage', 'cn')
+    }
+    changeLanguage(defaultLang)
+  },[])
+
   return (
     <AuthContainer>
       <LogoIcon></LogoIcon>
-      <AuthTitle>登入 Alphitter</AuthTitle>
-        <Form
-          form={form}
-          name="login"
-          // initialValues={{
-          //   remember: true,
-          // }}
-          onFinish={handleFinish}
-          onFinishFailed={handleFinishFailed}
-          requiredMark={false}
-          layout="vertical"
-        >
-          <BasicInput 
-            name='account' 
-            placeholder='請輸入帳號' 
-            label='帳號' 
-            onChange={(accountInputValue) => setAccount(accountInputValue)}
-            rules={[
-              {
-                required: true,
-                message: '帳號為必填',
-              },
-              {
-                min: 6,
-                max: 16,
-                message: '帳號需介於6~16字元',
-              },
-            ]}
-          />
-          <PassWordInput
-            name='password' 
-            placeholder='請輸入密碼' 
-            label='密碼' 
-            onChange={(passwordInputValue) => setPassword(passwordInputValue)}
-            rules={[
-              {
-                required: true,
-                message: '密碼為必填',
-              },
-              {
-                min: 6,
-                max: 16,
-                message: '密碼需介於6~16字元',
-              },
-            ]}
-          />
-          <Button htmlType="submit" className='authBtn'>登入</Button>
-        </Form>
+      <AuthTitle>{t("normal.login")} Alphitter</AuthTitle>
+      <Language
+        placement='bottom'
+      ></Language>
+      <Form
+        form={form}
+        name="login"
+        // initialValues={{
+        //   remember: true,
+        // }}
+        onFinish={handleFinish}
+        onFinishFailed={handleFinishFailed}
+        requiredMark={false}
+        layout="vertical"
+      >
+        <BasicInput 
+          name='account' 
+          placeholder={t("normal.inputAccount")} 
+          label={t("normal.account")} 
+          onChange={(accountInputValue) => setAccount(accountInputValue)}
+          rules={[
+            {
+              required: true,
+              message: t("normal.accountRequired"),
+            },
+            {
+              min: 6,
+              max: 16,
+              message: t("normal.accountLimit"),
+            },
+          ]}
+        />
+        <PassWordInput
+          name='password' 
+          placeholder={t("normal.inputPassword")} 
+          label={t("normal.password")} 
+          onChange={(passwordInputValue) => setPassword(passwordInputValue)}
+          rules={[
+            {
+              required: true,
+              message: t("normal.passwordRequired"),
+            },
+            {
+              min: 6,
+              max: 16,
+              message: t("normal.passwordLimit"),
+            },
+          ]}
+        />
+        <Button htmlType="submit" className='authBtn'>{t("normal.login")}</Button>
+      </Form>
       <AuthLinkContainer className='login-linkContainer'>
         <Link to='/signup'>
-          <AuthLinkText >註冊</AuthLinkText>
+          <AuthLinkText >{t("normal.signup")}</AuthLinkText>
         </Link>
         <AuthLinkSpan >． </AuthLinkSpan>
         <Link to='https://leo-0814.github.io/twitteradmin' target="_blank">
-          <AuthLinkText>後台登入</AuthLinkText>
+          <AuthLinkText>{t("normal.backstageLogin")}</AuthLinkText>
         </Link>
+        {/* <button onClick={() => changeLanguage('en')}>切換英文</button>
+        <button onClick={() => changeLanguage('cn')}>切換中文</button> */}
       </AuthLinkContainer>
     </AuthContainer>
   )

@@ -2,9 +2,14 @@
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: 'NotoSansTC';
+  src: url('../src/assets/fonts/NotoSansTC/NotoSansTC-VariableFont_wght.ttf')
+}
+
 html,
 body {
-  font-family: 'Lato', 'Noto Sans TC', sans-serif;
+  font-family: 'NotoSansTC';
   height: 100%;
   overflow: hidden;
 }

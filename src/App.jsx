@@ -1,4 +1,5 @@
 import './App.css';
+import "./plugins/i18n";
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import { HomePage, InformationPage, LoginPage, SettingPage, SignUpPage } from './pages';
 import PromotionPage from './pages/PromotionPage';
