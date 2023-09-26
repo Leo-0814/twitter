@@ -34,10 +34,9 @@ const getItems = (lists) => {
   })
 }
 
-const Language = ({placement, className}) => {
+const Language = ({placement, className, showText}) => {
 
   const [isOpen, setIsOpen] = useState(false)
-  const token = localStorage.getItem('token')
   const [defaultLang, setDefaultLang] = useState('cn') 
 
   // 切換語系
@@ -64,13 +63,13 @@ const Language = ({placement, className}) => {
       <Dropdown 
         menu={{ items, onClick }}
         trigger={['click']}
-        autoAdjustOverflow={false} // 下拉框被遮挡时自动调整位置
+        // autoAdjustOverflow={false} // 下拉框被遮挡时自动调整位置
         placement={placement}
         onOpenChange={(e) => setIsOpen(e)}
       >
         <div className="current-language">
           <img src={LANG_DATA[defaultLang].flag} alt="flag" className="current-language-flag"/>
-          { token? (
+          { showText? (
             <span className="current-language-text">{LANG_DATA[defaultLang].text}</span>
           ) : ''}
           <CaretDownOutlined 

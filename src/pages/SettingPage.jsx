@@ -10,11 +10,19 @@ import PassWordInput from "../component/PassWordInput"
 import { Form } from "antd"
 import { useTranslation } from "react-i18next"
 import { changeLanguage } from "i18next"
+import { logout } from "../api/auth"
+import { Photo } from "../component/common/photo.styled"
+import ownPhoto from '../images/ownPhoto.png'
+import db from "../configs/config"
+import { Modal } from "../component/Modal"
 
 const SettingPage = () => {
   const navigate = useNavigate()
   const [form] = Form.useForm()
   const {t} = useTranslation()
+  const [ postingModal, setPostingModal ] = useState(false)
+  const [ postingContent, setPostingContent ] = useState('')
+  const [ postList, setPostList ] = useState([])
   const [ personInfo, setPersonInfo ] = useState({
     account_id: '',
     account: '',
@@ -61,7 +69,113 @@ const SettingPage = () => {
   const handleFinishFailed = (e) => {
     console.log('finishFailed', e)
   }
-  
+
+  const handleClick = async () => {
+    const token = localStorage.getItem('token')
+    try {
+      await logout(token)
+      localStorage.removeItem('token')
+      localStorage.removeItem('adminToken2')
+      navigate('/login')
+    } catch (error) {
+      console.log(error)
+    }
+  }  
+
+    // 發文
+  const handleClickPost = async () => {
+    // if (postingContent.length === 0) {
+    //   return
+    // }
+    // const token = localStorage.getItem('token')
+    // const id = postList[0].id + 1
+    // const time = new Date()
+    // const getTime = time.getTime()
+    // const create_at = time.toLocaleString()
+
+    // try {
+    //   const res = await createPost({token, id, create_at, getTime, postingContent, ...personInfo})
+      
+    //   if (res) {
+    //     const newPostList = [res,...postList]
+    //     setPostList(newPostList)
+    //     setPostingContent('')
+    //     setPostingModal(false)
+    //   }
+    // } catch (error) {
+    //   console.log(error)
+    // }
+    if (postingContent.length === 0) {
+      return
+    }
+    const time = new Date()
+    const getTime = time.getTime()
+    const create_at = time.toLocaleString()
+    const id = postList[0].id + 1
+
+    const fields = {
+      account: personInfo.account,
+      account_id: personInfo.account_id,
+      content: postingContent,
+      create_at,
+      getTime,
+      id,
+      real_name: personInfo.real_name,
+      like: [],
+      reply: [],
+    }
+
+    db.ref('/posts').update({[id]: fields})
+    setPostingContent('')
+    setPostingModal(false)
+  }
+
+    // 初始拿推文
+  useEffect(() => {
+    const getPostsAsync = () => {
+    //   try {
+    //     const res = await getPosts()
+    //     setPostList(res)
+
+    //     if (searchParams.get('from') === 'setting') {
+    //       setPostingModal(true)
+    //     }
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // }
+    db.ref('posts').on('value', snapshot => {
+      let data = []
+      snapshot.forEach(item => {
+        data.push(item.val())
+      })
+      for (let item in data) {
+        let post = data[item]
+        if (!post.hasOwnProperty('like')) {
+          post['like'] = []
+        } else {
+          let likeArr = []
+          for (let item in post.like) {
+            likeArr.push(post.like[item])
+          }
+          post.like = likeArr
+        }
+        if (!post.hasOwnProperty('reply')) {
+          post['reply'] = []
+        } else {
+          let replyArr = []
+          for (let item in post.reply) {
+            replyArr.push(post.reply[item])
+          }
+          post.reply = replyArr.reverse()
+        }
+      }
+      setPostList(data.reverse())
+    })
+  }
+  getPostsAsync()
+},[])
+
   // 確認token
   useEffect(() => {
     const checkTokenAsync = async () => {
@@ -107,7 +221,16 @@ const SettingPage = () => {
   
   return (
     <div className="mainContainer">
-      <LeftContainer setting={settingActive} account_id={personInfo.account_id} isClickAtSetting={true}></LeftContainer>
+      <LeftContainer 
+        setting={settingActive} 
+        account_id={personInfo.account_id} 
+        isClickAtSetting={true}
+        onClickPost={() => {
+          console.log(postingModal)
+          setPostingModal(true)
+        }}
+      >
+      </LeftContainer>
       <div className="settingContainer">
         <div className="setting-title">{t("normal.infoSetting")}</div>
         <div className="setting-form">
@@ -195,9 +318,19 @@ const SettingPage = () => {
               }),
               ]}
             />
-            <Button htmlType="submit" className='settingBtn'>{t("normal.save")}</Button>
+            <div className='setting-btns'>
+              <Button htmlType="submit" className='setting-btns-save'>{t("normal.save")}</Button>
+              <u className="setting-btns-logout" onClick={handleClick}>{t("normal.logout")}</u>
+            </div>
           </Form>
         </div>
+        <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='settingContainer-posting-modal' btnText={t("normal.post")} type='typeA'>
+          <div className="posting-modal-content">
+              <Photo src={ownPhoto} alt="ownPhoto" className="modal-content-img" />
+            <textarea rows='6' cols='100' className="modal-content-textarea" placeholder={t("normal.whatHappened")} value={postingContent} onChange={(postingModalTextareaValue) => setPostingContent(postingModalTextareaValue.target.value)}></textarea>
+          </div>
+          <Button className='posting-modal-btn' onClick={handleClickPost}>{t("normal.post")}</Button>
+        </Modal>
       </div>
     </div>
   )

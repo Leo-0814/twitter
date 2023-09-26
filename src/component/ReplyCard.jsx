@@ -73,6 +73,9 @@ const StyledReplyCard = styled.div`
       font-size: 16px;
       line-height: 26px;
       margin-top: 5px;
+      word-break: break-all;
+      max-height: 200px;
+      overflow-y: auto;
     }
   }
 
@@ -82,6 +85,10 @@ const StyledReplyCard = styled.div`
 const ReplyCard = ({type, className, replyData, personInfo, postData, onClickName, t}) => {
   
   const timeDif = timeDifferent(replyData.getTime, t)
+  let realNameRef = ''
+  if (postData.real_name.length >= 10) {
+    realNameRef = postData.real_name.slice(0,10) + "..."
+  }
 
   if (type === 'typeA') {
     return (
@@ -89,7 +96,7 @@ const ReplyCard = ({type, className, replyData, personInfo, postData, onClickNam
         <Photo src={replyData.account === personInfo.account? ownPhoto: userPhoto} alt="userPhoto" />
         <div className='reply-card-data' >
           <div className='card-data-header' >
-            <Link to={`/information/${replyData.account_id}`}><div className='data-header-username' onClick={() => onClickName?.()}>{replyData.real_name}</div></Link>
+            <Link to={`/information/${replyData.account_id}`}><div className='data-header-username' onClick={() => onClickName?.()}>{realNameRef? realNameRef: replyData.real_name}</div></Link>
             <div className='data-header-account' >@{replyData.account}</div>
             <span className='data-header-dot'>．</span>
             <div className='data-header-time'>{timeDif}</div>

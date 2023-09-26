@@ -37,7 +37,7 @@ const LoginPage = () => {
           timer: 1000,
           position: 'top'
         })
-        navigate('/promotion')
+        navigate('/home')
         return
       }
     } catch (error) {
@@ -62,7 +62,7 @@ const LoginPage = () => {
       const resGetInfo = await getInfo(token)
       const resGetUsers = await getUsers(adminToken2)
       if (resGetInfo && resGetUsers) {
-        navigate('/promotion')
+        navigate('/home')
       } else {
         localStorage.removeItem('token')
         localStorage.removeItem('adminToken2')
@@ -79,12 +79,13 @@ const LoginPage = () => {
   },[])
 
   return (
-    <AuthContainer>
+    <div className='loginContainer'>
       <LogoIcon></LogoIcon>
-      <AuthTitle>{t("normal.login")} Alphitter</AuthTitle>
+      <AuthTitle>{t("normal.login")} L.N. BooK</AuthTitle>
       <Language
         placement='bottom'
         className='lang-btn'
+        showText={false}
       ></Language>
       <Form
         form={form}
@@ -144,7 +145,7 @@ const LoginPage = () => {
         {/* <button onClick={() => changeLanguage('en')}>切換英文</button>
         <button onClick={() => changeLanguage('cn')}>切換中文</button> */}
       </AuthLinkContainer>
-    </AuthContainer>
+    </div>
   )
 }
 

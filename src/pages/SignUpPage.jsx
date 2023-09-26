@@ -43,7 +43,7 @@ const SignUpPage = () => {
         const res = await editInfo({area_code, mobile, user_level_id, adminToken2, account_id, email, real_name})
 
         if (res) {
-          navigate('/promotion')
+          navigate('/home')
           Swal.fire({
             icon: 'success',
             title: t("normal.signUp.success"),
@@ -75,7 +75,7 @@ const SignUpPage = () => {
       const resGetInfo = await getInfo(token)
       const resGetUsers = await getUsers(adminToken2)
       if (resGetInfo && resGetUsers) {
-        navigate('/promotion')
+        navigate('/home')
       } else {
         localStorage.removeItem('token')
         localStorage.removeItem('adminToken2')
@@ -91,12 +91,13 @@ const SignUpPage = () => {
   },[])
 
   return (
-    <AuthContainer>
+    <div className='loginContainer'>
       <LogoIcon></LogoIcon>
       <AuthTitle>{t("normal.createAccount")}</AuthTitle>
       <Language
         placement='bottom'
         className='lang-btn'
+        showText={false}
       ></Language>
       <Form
         form={form}
@@ -200,7 +201,7 @@ const SignUpPage = () => {
           <AuthLinkText >{t("normal.cancel")}</AuthLinkText>
         </Link>
       </AuthLinkContainer>
-    </AuthContainer>
+    </div>
   )
 }
 

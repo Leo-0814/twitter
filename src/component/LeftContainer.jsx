@@ -12,7 +12,7 @@ import { logout } from "../api/auth"
 import Language from './Language.jsx'
 import { useTranslation } from 'react-i18next';
 
-const LeftContainer = ({home, information, setting, promotion, onClickPost,  isClickAtSetting, onClickInfoTab}) => {
+const LeftContainer = ({home, information, setting, onClickPost,  isClickAtSetting, onClickInfoTab}) => {
   const navigate = useNavigate()
   const {t} = useTranslation()
 
@@ -35,7 +35,7 @@ const LeftContainer = ({home, information, setting, promotion, onClickPost,  isC
           <img src={home? home: baseHome} alt="home" className="leftContainer-list-icon" />
           <div className={clsx('leftContainer-list-text', { active: home })}>{t("normal.home")}</div>
         </Link>
-        <div className="leftContainer-list-item leftContainer-list-item-post">
+        <div className="leftContainer-list-item leftContainer-list-item-post" onClick={() => onClickPost?.()}>
           <img src={post} alt="post" className="leftContainer-list-icon" />
         </div>
         <Link to={`/information`} className="leftContainer-list-item" onClick={() => onClickInfoTab?.()}>
@@ -46,14 +46,8 @@ const LeftContainer = ({home, information, setting, promotion, onClickPost,  isC
           <img src={setting? setting: baseSetting} alt="setting" className="leftContainer-list-icon" />
           <div className={clsx('leftContainer-list-text', { active: setting })}>{t("normal.setting")}</div>
         </Link>
-        <Link to='/promotion' className="leftContainer-list-item">
-          <img src={promotion? promotion: basePromotion} alt="setting" className="leftContainer-list-icon" />
-          <div className={clsx('leftContainer-list-text', { active: promotion })}>{t("normal.carousel")}</div>
-        </Link>
         {isClickAtSetting? 
           <Link to={`/home?from=setting`}><Button className="leftContainer-list-postBtn" onClick={() => onClickPost?.()}>{t("normal.post")}</Button></Link>: 
-          promotion?
-            '':
             <Button className="leftContainer-list-postBtn" onClick={() => onClickPost?.()}>{t("normal.post")}</Button>
         }
 
@@ -61,6 +55,7 @@ const LeftContainer = ({home, information, setting, promotion, onClickPost,  isC
           <Language
             placement='top'
             className='lang-btn'
+            showText={true}
           ></Language>
           <div className='list-item-logout' onClick={handleClick}>
             <img src={logOut} alt="logOut" className="leftContainer-list-icon" />

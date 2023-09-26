@@ -81,27 +81,32 @@ const PromotionPage = () => {
 
         {/* PromotionContainer */}
         <div className='promotionContainer'>
-          <Swiper 
-            modules={[ Autoplay, Pagination, Navigation ]}
-            spaceBetween={0} // 圖片間距
-            slidesPerView={1} // 每頁圖片數
-            loop={bannerList.length > 1} //無限循環
-            autoplay={{ // 自動輪播
-              delay: 3000,
-              disableOnInteraction: false,
-            }}
-            navigation //左右箭頭導航 
-            pagination={{ clickable: true }}  //頁數 
-            // onSlideChange={() => console.log('slide change')} // 圖片更換時dosomething
-            // onSwiper={(swiper) => console.log(swiper)} 
-            className="swiper"
-          > 
-            {bannerList.map(banner => {
-              return (
-                <SwiperSlide key={banner.id} ><img src={banner.img? banner.img: banner.img_url} alt="banner" className='swiper-banner'/></SwiperSlide> 
-              )
-            })}
-          </Swiper> 
+          {bannerList.length > 0 && 
+            <Swiper 
+              modules={[ Autoplay, Pagination, Navigation ]}
+              spaceBetween={0} // 圖片間距
+              slidesPerView={1} // 每頁圖片數
+              loop={true} //無限循環
+              autoplay={{ // 自動輪播
+                delay: 3000,
+                // disableOnInteraction: true,
+                // stopOnLastSlide: false,
+              }}
+              navigation //左右箭頭導航 
+              // freeMode={true}
+              // speed={10000}
+              pagination={{ clickable: true }}  //頁數 
+              // onSlideChange={() => console.log('slide change')} // 圖片更換時dosomething
+              // onSwiper={(swiper) => console.log(swiper)} 
+              className="swiper"
+            > 
+              {bannerList.map(banner => {
+                return (
+                  <SwiperSlide key={banner.id} ><img src={banner.img? banner.img: banner.img_url} alt="banner" className='swiper-banner'/></SwiperSlide> 
+                )
+              })}
+            </Swiper> 
+          }
         </div>
       </div>
     </>

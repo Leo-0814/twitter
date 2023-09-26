@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom'
 
 const StyledPostCard = styled.div`
   width: 100%;
-  padding: 6px 5px 6px 19px;
+  padding: 6px 24px 6px 24px;
   border-bottom: 1px solid rgba(230, 236, 240, 1);
   display: flex;
   overflow-x: hidden;
@@ -18,6 +18,7 @@ const StyledPostCard = styled.div`
   .post-card-data {
     margin-left: 5px;
     margin-top: 5px;
+    width: 100%;
 
     .card-data-header {
       display: flex;
@@ -62,6 +63,8 @@ const StyledPostCard = styled.div`
       font-size: 16px;
       line-height: 26px;
       margin: 5px 0;
+      width: 100%;
+      word-break: break-all;
     }
     .card-data-footer {
       display: flex;
@@ -94,6 +97,10 @@ const StyledPostCard = styled.div`
 const PostCard = ({ onClickReply, postData, onClickLike, personInfo, userData, onClickName, className, t}) => {
   const timeDif = timeDifferent(postData.getTime, t)
   const isLike = postData.like.includes(personInfo.account_id)
+  let realNameRef = ''
+  if (postData.real_name.length >= 10) {
+    realNameRef = postData.real_name.slice(0,10) + "..."
+  }
 
   return (
     <StyledPostCard className={className}>
@@ -104,7 +111,7 @@ const PostCard = ({ onClickReply, postData, onClickLike, personInfo, userData, o
       }
       <div className='post-card-data' >
         <div className='card-data-header' >
-          <Link to={`/information/${postData.account_id}`}><div className='data-header-username' onClick={() => onClickName?.()}>{postData.real_name}</div></Link>
+          <Link to={`/information/${postData.account_id}`}><div className='data-header-username' onClick={() => onClickName?.()}>{realNameRef? realNameRef: postData.real_name}</div></Link>
           <div className='data-header-account' >@{postData.account}</div>
           <span className='data-header-dot'>．</span>
           <div className='data-header-time'>{timeDif}</div>

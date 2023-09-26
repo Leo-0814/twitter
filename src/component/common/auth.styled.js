@@ -9,6 +9,7 @@ const StyledContainer = styled.div`
   margin: 65px auto;
   width: 356px;
   position: relative;
+
   .lang-btn {
     align-self: flex-end;
   }
@@ -36,6 +37,7 @@ const StyledAuthButton = styled.button`
 const StyledLinkContainer = styled.div`
   display: flex;
   margin-top: 20px;
+  padding-bottom: 65px;
 `
 
 const StyledLinkText = styled.div`
