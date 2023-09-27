@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/twitter/static/css/main.8ac124a7.css",
-    "main.js": "/twitter/static/js/main.93d3ad55.js",
+    "main.css": "/twitter/static/css/main.b7bb275d.css",
+    "main.js": "/twitter/static/js/main.a5318c72.js",
     "static/js/787.f649083d.chunk.js": "/twitter/static/js/787.f649083d.chunk.js",
     "static/media/NotoSansTC-VariableFont_wght.ttf": "/twitter/static/media/NotoSansTC-VariableFont_wght.f443852b9b1462e8df27.ttf",
     "static/media/userBackground.png": "/twitter/static/media/userBackground.cc67b1d349b61e06178e.png",
@@ -9,12 +9,12 @@
     "static/media/ownPhoto.png": "/twitter/static/media/ownPhoto.98076e5995923dca53f7.png",
     "static/media/userPhoto.png": "/twitter/static/media/userPhoto.398e70df8939d8edd676.png",
     "index.html": "/twitter/index.html",
-    "main.8ac124a7.css.map": "/twitter/static/css/main.8ac124a7.css.map",
-    "main.93d3ad55.js.map": "/twitter/static/js/main.93d3ad55.js.map",
+    "main.b7bb275d.css.map": "/twitter/static/css/main.b7bb275d.css.map",
+    "main.a5318c72.js.map": "/twitter/static/js/main.a5318c72.js.map",
     "787.f649083d.chunk.js.map": "/twitter/static/js/787.f649083d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.8ac124a7.css",
-    "static/js/main.93d3ad55.js"
+    "static/css/main.b7bb275d.css",
+    "static/js/main.a5318c72.js"
   ]
 }
