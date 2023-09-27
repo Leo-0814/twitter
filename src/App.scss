@@ -1116,28 +1116,56 @@ a:visited {
     }
     .setting-form {
       padding: 24px;
-    }
 
-    .setting-btns {
-      position: absolute;
-      right: 24px;
+      .ant-form {
+        display: flex;
+        flex-direction: column;
 
-      .setting-btns-save {
-        width: 88px;
-        height: 46px;
-        margin-top: 36px;
-        font-weight: 400;
-        font-size: 20px;
-        line-height: 30px;
+        .setting-form-btns {
+          // position: absolute;
+          // right: 24px;
+          align-self: flex-end;
+    
+          .form-btns-save {
+            width: 88px;
+            height: 46px;
+            // margin-top: 48px;
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 30px;
+            padding: 0;
+          }
+    
+          
+          .form-btns-logout {
+            display: none;
+          }
+        }
       }
 
-      .setting-btns-logout {
-        display: none;
+      .setting-form-addIP {
+        display: flex;
+        margin-top: 10px;
+        justify-content: flex-end;
+        
+        .form-addIP-btn {
+          width: 88px;
+          height: 46px;
+          font-weight: 400;
+          font-size: 20px;
+          line-height: 30px;
+          padding: 0;
+        }
+        
+        .form-addIP-input {
+          margin-right: 10px;
+          width: 200px;
+        }
       }
     }
 
     
-    .centerContainer-posting-modal {
+    .settingContainer-posting-modal {
       width: 100%;
       height: 300px;
 
@@ -1378,7 +1406,7 @@ a:visited {
         height: 90%;
         flex-direction: column;
         margin-top: 90px;
-        padding-bottom: 60px;
+        padding-bottom: 150px;
         overflow-y: auto;
         
         //卷軸底部
@@ -1659,9 +1687,9 @@ a:visited {
       overflow-y: hidden;
       .overflowWrapper {
         overflow-y: auto;
+        padding-bottom: 150px;
         .informationContainer-post {
           display: none;
-          padding-bottom: 50px;
       
           &.active {
             display: inline;
@@ -1670,7 +1698,6 @@ a:visited {
       
         .informationContainer-reply {
           display: none;
-          padding-bottom: 50px;
       
           &.active {
             display: inline;
@@ -1679,8 +1706,7 @@ a:visited {
       
         .informationContainer-like {
           display: none;
-          padding-bottom: 50px;
-      
+
           &.active {
             display: inline;
           }
@@ -1946,32 +1972,37 @@ a:visited {
         padding: 24px;
         border-bottom: 1px solid rgba(230, 236, 240, 1);
       }
-
       .setting-form {
         padding: 24px;
 
-        .setting-btns {
-          position: unset;
+        .ant-form {
           display: flex;
           flex-direction: column;
-          align-items: flex-end;
-          margin-top: 0px;
-          height: 150px;
-  
-          .setting-btns-save {
-            width: 88px;
-            height: 46px;
-            margin-top: 0px;
-            font-weight: 400;
-            font-size: 18px;
-            line-height: 30px;
+
+          .setting-form-btns {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+    
+            .form-btns-save {
+              width: 88px;
+              height: 46px;
+              font-weight: 400;
+              font-size: 18px;
+              line-height: 30px;
+              padding: 0;
+            }
+    
+            .form-btns-logout {
+              display: unset;
+              margin-top: 16px;
+              color: #0062FF;
+            }
           }
-  
-          .setting-btns-logout {
-            display: block;
-            margin-top: 16px;
-            color: #0062FF;
-          }
+        }
+
+        .setting-form-addIP {
+          padding-bottom: 150px;
         }
       }
 

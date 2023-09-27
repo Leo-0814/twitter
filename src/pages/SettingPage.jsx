@@ -2,12 +2,12 @@ import { useEffect, useState } from "react"
 import Button from "../component/Button"
 import LeftContainer from "../component/LeftContainer"
 import settingActive from '../images/_base/settingActive.png'
-import { editInfo, getInfo, getUsers } from "../api/info"
+import { getInfo } from "../api/info"
 import Swal from "sweetalert2"
 import { useNavigate } from "react-router-dom"
 import BasicInput from "../component/BasicInput"
 import PassWordInput from "../component/PassWordInput"
-import { Form } from "antd"
+import { Form, Input, Popconfirm, message } from "antd"
 import { useTranslation } from "react-i18next"
 import { changeLanguage } from "i18next"
 import { logout } from "../api/auth"
@@ -15,12 +15,15 @@ import { Photo } from "../component/common/photo.styled"
 import ownPhoto from '../images/ownPhoto.png'
 import db from "../configs/config"
 import { Modal } from "../component/Modal"
+import { addIP, editInfo, getUsers } from "../api/admin"
 
 const SettingPage = () => {
   const navigate = useNavigate()
   const [form] = Form.useForm()
   const {t} = useTranslation()
   const [ postingModal, setPostingModal ] = useState(false)
+  const [ ipInput, setIpInput ] = useState(false)
+  const [ ip, setIp ] = useState('')
   const [ postingContent, setPostingContent ] = useState('')
   const [ postList, setPostList ] = useState([])
   const [ personInfo, setPersonInfo ] = useState({
@@ -36,6 +39,21 @@ const SettingPage = () => {
   
   const area_code = ''
   const user_level_id = 22
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const success = (ip) => {
+    messageApi.open({
+      type: 'success',
+      content: `${ip} has been added`,
+    });
+  };
+
+  const error = (ip) => {
+    messageApi.open({
+      type: 'error',
+      content: `${ip} format wrong`,
+    });
+  };
 
   // 點擊儲存更改個人資料
   const handleFinish = async () => {
@@ -70,6 +88,7 @@ const SettingPage = () => {
     console.log('finishFailed', e)
   }
 
+  // 登出
   const handleClick = async () => {
     const token = localStorage.getItem('token')
     try {
@@ -82,7 +101,7 @@ const SettingPage = () => {
     }
   }  
 
-    // 發文
+  // 發文
   const handleClickPost = async () => {
     // if (postingContent.length === 0) {
     //   return
@@ -128,6 +147,23 @@ const SettingPage = () => {
     db.ref('/posts').update({[id]: fields})
     setPostingContent('')
     setPostingModal(false)
+  }
+
+  // 添加IP
+  const handleClickAddIP = async () => {
+    let adminToken2 = localStorage.getItem('adminToken2')
+    setIpInput(true)
+    if (ip) {
+      const res = await addIP({ip, adminToken2})
+
+      if (res) {
+        setIpInput(false)
+        setIp('')
+        success(ip)
+      } else {
+        error(ip)
+      }
+    }
   }
 
     // 初始拿推文
@@ -318,11 +354,22 @@ const SettingPage = () => {
               }),
               ]}
             />
-            <div className='setting-btns'>
-              <Button htmlType="submit" className='setting-btns-save'>{t("normal.save")}</Button>
-              <u className="setting-btns-logout" onClick={handleClick}>{t("normal.logout")}</u>
+            <div className='setting-form-btns'>
+              <Button htmlType="submit" className='form-btns-save'>{t("normal.save")}</Button>
+              <u className="form-btns-logout" onClick={handleClick}>{t("normal.logout")}</u>
             </div>
           </Form>
+          {personInfo.account === 'welottery2'? (
+            <div className="setting-form-addIP">
+              {
+                ipInput? (
+                  <Input className="form-addIP-input" placeholder={t("normal.inputIP")} onChange={(e) => setIp(e.target.value)}></Input>
+                ) : ''
+              }
+              {contextHolder}
+              <Button className='form-addIP-btn' onClick={handleClickAddIP}>{t("setting.addIP")}</Button>
+            </div>
+          ) : ''}
         </div>
         <Modal active={postingModal} onClickModalCancel={() => setPostingModal(false)} className='settingContainer-posting-modal' btnText={t("normal.post")} type='typeA'>
           <div className="posting-modal-content">

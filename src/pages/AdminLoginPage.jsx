@@ -5,7 +5,7 @@ import LogoIcon from '../component/LogoIcon'
 import Button from '../component/Button'
 import { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
-import { getUsers } from '../api/info'
+import { getUsers } from '../api/admin'
 import { adminLogin } from '../api/admin'
 
 

@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react"
 import { ModalBackground } from "../component/Modal"
 import clsx from "clsx"
 import FollowCard from "../component/FollowCard"
-import { editInfo, followUser, getInfo, getUsers } from "../api/info"
+import { getInfo } from "../api/info"
 import Swal from "sweetalert2"
 import { ReplyListContainer } from "../component/ReplyListContainer"
 import { InformationContainer } from "../component/InformationContainer"
@@ -14,6 +14,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import db from "../configs/config"
 import { useTranslation } from "react-i18next"
 import { changeLanguage } from "i18next"
+import { editInfo, followUser, getUsers } from "../api/admin"
 
 const InformationPage = () => {
   const [ postingModal, setPostingModal ] = useState(false)

@@ -1,7 +1,7 @@
 import LeftContainer from '../component/LeftContainer'
 import settingActive from '../images/_base/settingActive.png'
 import React, { useEffect, useState } from 'react'
-import { getInfo, getUsers } from '../api/info'
+import { getInfo } from '../api/info'
 import { useNavigate } from 'react-router-dom'
 import { getBanner, getBannerOfPromotion } from '../api/banner'
 import { Swiper, SwiperSlide } from 'swiper/react'; 
@@ -10,6 +10,7 @@ import 'swiper/css';
 import 'swiper/css/pagination'; 
 import 'swiper/css/navigation';
 import { changeLanguage } from 'i18next'
+import { getUsers } from '../api/admin'
 
 const PromotionPage = () => {
   const [ personInfo, setPersonInfo ] = useState({

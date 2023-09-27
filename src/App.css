@@ -1009,49 +1009,69 @@ a:visited {
 .mainContainer .settingContainer .setting-form {
   padding: 24px;
 }
-.mainContainer .settingContainer .setting-btns {
-  position: absolute;
-  right: 24px;
+.mainContainer .settingContainer .setting-form .ant-form {
+  display: flex;
+  flex-direction: column;
 }
-.mainContainer .settingContainer .setting-btns .setting-btns-save {
+.mainContainer .settingContainer .setting-form .ant-form .setting-form-btns {
+  align-self: flex-end;
+}
+.mainContainer .settingContainer .setting-form .ant-form .setting-form-btns .form-btns-save {
   width: 88px;
   height: 46px;
-  margin-top: 36px;
   font-weight: 400;
   font-size: 20px;
   line-height: 30px;
+  padding: 0;
 }
-.mainContainer .settingContainer .setting-btns .setting-btns-logout {
+.mainContainer .settingContainer .setting-form .ant-form .setting-form-btns .form-btns-logout {
   display: none;
 }
-.mainContainer .settingContainer .centerContainer-posting-modal {
+.mainContainer .settingContainer .setting-form .setting-form-addIP {
+  display: flex;
+  margin-top: 10px;
+  justify-content: flex-end;
+}
+.mainContainer .settingContainer .setting-form .setting-form-addIP .form-addIP-btn {
+  width: 88px;
+  height: 46px;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  padding: 0;
+}
+.mainContainer .settingContainer .setting-form .setting-form-addIP .form-addIP-input {
+  margin-right: 10px;
+  width: 200px;
+}
+.mainContainer .settingContainer .settingContainer-posting-modal {
   width: 100%;
   height: 300px;
 }
-.mainContainer .settingContainer .centerContainer-posting-modal .posting-modal-content {
+.mainContainer .settingContainer .settingContainer-posting-modal .posting-modal-content {
   padding: 6px 6px;
   display: flex;
   align-items: flex-start;
 }
-.mainContainer .settingContainer .centerContainer-posting-modal .posting-modal-content .modal-content-textarea {
+.mainContainer .settingContainer .settingContainer-posting-modal .posting-modal-content .modal-content-textarea {
   margin-top: 10px;
   font-size: 16px;
   font-weight: 400;
   line-height: 26px;
 }
-.mainContainer .settingContainer .centerContainer-posting-modal .posting-modal-content .modal-content-textarea::-moz-placeholder {
+.mainContainer .settingContainer .settingContainer-posting-modal .posting-modal-content .modal-content-textarea::-moz-placeholder {
   font-size: 16px;
   font-weight: 400;
   line-height: 26px;
   color: rgb(108, 117, 125);
 }
-.mainContainer .settingContainer .centerContainer-posting-modal .posting-modal-content .modal-content-textarea::placeholder {
+.mainContainer .settingContainer .settingContainer-posting-modal .posting-modal-content .modal-content-textarea::placeholder {
   font-size: 16px;
   font-weight: 400;
   line-height: 26px;
   color: rgb(108, 117, 125);
 }
-.mainContainer .settingContainer .centerContainer-posting-modal .posting-modal-btn {
+.mainContainer .settingContainer .settingContainer-posting-modal .posting-modal-btn {
   position: absolute;
   bottom: 16px;
   right: 16px;
@@ -1224,7 +1244,7 @@ a:visited {
     height: 90%;
     flex-direction: column;
     margin-top: 90px;
-    padding-bottom: 60px;
+    padding-bottom: 150px;
     overflow-y: auto;
   }
   .mainContainer .centerContainer .centerContainer-post::-webkit-scrollbar-track {
@@ -1462,24 +1482,22 @@ a:visited {
   }
   .mainContainer .informationContainer .overflowWrapper {
     overflow-y: auto;
+    padding-bottom: 150px;
   }
   .mainContainer .informationContainer .overflowWrapper .informationContainer-post {
     display: none;
-    padding-bottom: 50px;
   }
   .mainContainer .informationContainer .overflowWrapper .informationContainer-post.active {
     display: inline;
   }
   .mainContainer .informationContainer .overflowWrapper .informationContainer-reply {
     display: none;
-    padding-bottom: 50px;
   }
   .mainContainer .informationContainer .overflowWrapper .informationContainer-reply.active {
     display: inline;
   }
   .mainContainer .informationContainer .overflowWrapper .informationContainer-like {
     display: none;
-    padding-bottom: 50px;
   }
   .mainContainer .informationContainer .overflowWrapper .informationContainer-like.active {
     display: inline;
@@ -1717,26 +1735,30 @@ a:visited {
   .mainContainer .settingContainer .setting-form {
     padding: 24px;
   }
-  .mainContainer .settingContainer .setting-form .setting-btns {
-    position: unset;
+  .mainContainer .settingContainer .setting-form .ant-form {
+    display: flex;
+    flex-direction: column;
+  }
+  .mainContainer .settingContainer .setting-form .ant-form .setting-form-btns {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    margin-top: 0px;
-    height: 150px;
   }
-  .mainContainer .settingContainer .setting-form .setting-btns .setting-btns-save {
+  .mainContainer .settingContainer .setting-form .ant-form .setting-form-btns .form-btns-save {
     width: 88px;
     height: 46px;
-    margin-top: 0px;
     font-weight: 400;
     font-size: 18px;
     line-height: 30px;
+    padding: 0;
   }
-  .mainContainer .settingContainer .setting-form .setting-btns .setting-btns-logout {
-    display: block;
+  .mainContainer .settingContainer .setting-form .ant-form .setting-form-btns .form-btns-logout {
+    display: unset;
     margin-top: 16px;
     color: #0062FF;
+  }
+  .mainContainer .settingContainer .setting-form .setting-form-addIP {
+    padding-bottom: 150px;
   }
   .mainContainer .settingContainer .settingContainer-posting-modal {
     width: 100%;

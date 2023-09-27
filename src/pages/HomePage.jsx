@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react'
 import { Modal, ModalBackground } from '../component/Modal'
 import clsx from 'clsx'
 import { Photo } from '../component/common/photo.styled'
-import { followUser, getInfo, getUsers } from '../api/info'
+import { getInfo } from '../api/info'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ReplyListContainer } from '../component/ReplyListContainer'
 import db from "../configs/config"
@@ -21,6 +21,7 @@ import 'swiper/css';
 import 'swiper/css/pagination'; 
 import 'swiper/css/navigation';
 import { getBanner, getBannerOfPromotion } from '../api/banner'
+import { followUser, getUsers } from '../api/admin'
 
 const HomePage = () => {
   const [ postingModal, setPostingModal ] = useState(false)
